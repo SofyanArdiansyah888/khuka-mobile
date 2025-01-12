@@ -1,0 +1,24 @@
+/* Force light theme globally */
+
+  * {
+    font-family: 'Metropolis', sans-serif;
+    color:#2D2D2E
+  }
+
+.layout-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.main-content {
+  flex: 1;
+  overflow: auto; 
+}
+.ion-page{
+  bottom:40px
+}
+
+
+  
+  

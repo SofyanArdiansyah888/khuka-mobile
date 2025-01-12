@@ -1,0 +1,28 @@
+/* footer.css */
+
+
+.footer {
+    margin-top: auto; 
+    z-index: 999;
+    height:80px
+  }
+  
+  .footer .tab-button img {
+    width: 20px;
+    height: 20px;
+    display: flex;
+    margin:6px auto
+  }
+  
+  .footer .tab-button .label {
+    margin-top: 4px;
+  }
+  
+  .footer .tab-button .active-label {
+    color: #D19F23;
+  }
+  
+  .footer .tab-button .inactive-label {
+    color: #9D9D9D;
+  }
+  

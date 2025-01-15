@@ -4,15 +4,15 @@ import { IonReactRouter } from '@ionic/react-router';
 
 import React, { useState, useEffect } from 'react';
 import PrivateRoute from './components/PrivateRoute';
-import useAuth from './hooks/useAuth';
+import useAuth from './common/hooks/useAuth';
 
-import Home from './pages/Home';
-import Login from './pages/Login';
-import Produk from './pages/Produk';
-import ProdukBundling from './pages/ProdukBundling';
-import Keranjang from './pages/Keranjang';
-import Riwayat from './pages/Riwayat';
-import Akun from './pages/Akun';
+import HomeScreen from './pages/home/HomeScreen';
+import LoginScreen from './pages/login/LoginScreen';
+import ProdukScreen from './pages/produk/ProdukScreen';
+import ProdukBundlingScreen from './pages/produk-bundling/ProdukBundlingScreen';
+import KeranjangScreen from './pages/keranjang/KeranjangScreen';
+import RiwayatScreen from './pages/riwayat/RiwayatScreen';
+import AkunScreen from './pages/akun/AkunScreen';
 import Layout from './components/Layout';
 
 import '@ionic/react/css/core.css';
@@ -49,7 +49,7 @@ const App: React.FC = () => {
         <IonRouterOutlet>
           {/* Public Route: Login */}
           <Route exact path="/login">
-            <Login onLogin={handleLogin} />
+            <LoginScreen onLogin={handleLogin} />
           </Route>
 
           {/* Layout wraps the protected routes */}
@@ -58,37 +58,37 @@ const App: React.FC = () => {
               isAuthenticated={isAuthenticated}
               exact
               path="/home"
-              component={Home}
+              component={HomeScreen}
             />
             <PrivateRoute
               isAuthenticated={isAuthenticated}
               exact
               path="/produk"
-              component={Produk}
+              component={ProdukScreen}
             />
             <PrivateRoute
               isAuthenticated={isAuthenticated}
               exact
               path="/produk-bundling"
-              component={ProdukBundling}
+              component={ProdukBundlingScreen}
             />
             <PrivateRoute
               isAuthenticated={isAuthenticated}
               exact
               path="/keranjang"
-              component={Keranjang}
+              component={KeranjangScreen}
             />
             <PrivateRoute
               isAuthenticated={isAuthenticated}
               exact
               path="/riwayat"
-              component={Riwayat}
+              component={RiwayatScreen}
             />
             <PrivateRoute
               isAuthenticated={isAuthenticated}
               exact
               path="/akun"
-              component={Akun}
+              component={AkunScreen}
             />
           </Layout>
 

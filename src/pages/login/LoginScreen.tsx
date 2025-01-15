@@ -6,14 +6,14 @@ import {
   IonItem,
 } from '@ionic/react';
 import { useHistory } from 'react-router-dom'; // Import useHistory
-import logo from '../assets/logo-khukha.png'; // Import logo image
+import logo from '../../assets/logo-khukha.png'; // Import logo image
 import './Login.css';
 
 interface LoginProps {
   onLogin: () => void;
 }
 
-const Login: React.FC<LoginProps> = ({ onLogin }) => {
+const LoginScreen: React.FC<LoginProps> = ({ onLogin }) => {
   const history = useHistory(); // Initialize useHistory hook
 
   const handleLogin = () => {
@@ -65,4 +65,4 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
   );
 };
 
-export default Login;
+export default LoginScreen;

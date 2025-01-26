@@ -1,6 +1,6 @@
 import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonText, IonButton } from '@ionic/react';
 
-const ProdukBundling: React.FC = () => {
+const ProdukBundlingScreen: React.FC = () => {
   return (
     <IonPage>
       <IonHeader>
@@ -27,5 +27,5 @@ const ProdukBundling: React.FC = () => {
   );
 };
 
-export default ProdukBundling;
+export default ProdukBundlingScreen;
 

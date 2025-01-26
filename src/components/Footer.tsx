@@ -29,9 +29,9 @@ const Footer: React.FC = () => {
         <IonRouterLink routerLink="/home">
           <img
             src={isActive('/home') ? homeActiveImage : homeImage}
-            alt="Home"
+            alt="HomeScreen"
           />
-          <IonLabel className={isActive('/home') ? 'active-label' : 'inactive-label'}>Home</IonLabel>
+          <IonLabel className={isActive('/home') ? 'active-label' : 'inactive-label'}>HomeScreen</IonLabel>
         </IonRouterLink>
       </IonTabButton>
 
@@ -39,9 +39,9 @@ const Footer: React.FC = () => {
         <IonRouterLink routerLink="/produk">
           <img
             src={isActive('/produk') ? produkActiveImage : produkImage}
-            alt="Produk"
+            alt="ProdukScreen"
           />
-          <IonLabel className={isActive('/produk') ? 'active-label' : 'inactive-label'}>Produk</IonLabel>
+          <IonLabel className={isActive('/produk') ? 'active-label' : 'inactive-label'}>ProdukScreen</IonLabel>
         </IonRouterLink>
       </IonTabButton>
 
@@ -49,9 +49,9 @@ const Footer: React.FC = () => {
         <IonRouterLink routerLink="/keranjang">
           <img
             src={isActive('/keranjang') ? keranjangActiveImage : keranjangImage}
-            alt="Keranjang"
+            alt="KeranjangScreen"
           />
-          <IonLabel className={isActive('/keranjang') ? 'active-label' : 'inactive-label'}>Keranjang</IonLabel>
+          <IonLabel className={isActive('/keranjang') ? 'active-label' : 'inactive-label'}>KeranjangScreen</IonLabel>
         </IonRouterLink>
       </IonTabButton>
 
@@ -59,9 +59,9 @@ const Footer: React.FC = () => {
         <IonRouterLink routerLink="/riwayat">
           <img
             src={isActive('/riwayat') ? riwayatActiveImage : riwayatImage}
-            alt="Riwayat"
+            alt="RiwayatScreen"
           />
-          <IonLabel className={isActive('/riwayat') ? 'active-label' : 'inactive-label'}>Riwayat</IonLabel>
+          <IonLabel className={isActive('/riwayat') ? 'active-label' : 'inactive-label'}>RiwayatScreen</IonLabel>
         </IonRouterLink>
       </IonTabButton>
 
@@ -69,9 +69,9 @@ const Footer: React.FC = () => {
         <IonRouterLink routerLink="/akun">
           <img
             src={isActive('/akun') ? akunActiveImage : akunImage}
-            alt="Akun"
+            alt="AkunScreen"
           />
-          <IonLabel className={isActive('/akun') ? 'active-label' : 'inactive-label'}>Akun</IonLabel>
+          <IonLabel className={isActive('/akun') ? 'active-label' : 'inactive-label'}>AkunScreen</IonLabel>
         </IonRouterLink>
       </IonTabButton>
     </IonTabBar>

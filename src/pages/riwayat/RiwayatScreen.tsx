@@ -1,7 +1,7 @@
 import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from '@ionic/react';
-import ExploreContainer from '../components/ExploreContainer';
+import ExploreContainer from '../../components/ExploreContainer';
 
-const ForgotPassword: React.FC = () => {
+const RiwayatScreen: React.FC = () => {
   return (
     <IonPage>
       <IonHeader>
@@ -21,4 +21,4 @@ const ForgotPassword: React.FC = () => {
   );
 };
 
-export default ForgotPassword;
+export default RiwayatScreen;

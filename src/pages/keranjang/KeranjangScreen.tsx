@@ -1,7 +1,7 @@
 import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from '@ionic/react';
-import ExploreContainer from '../components/ExploreContainer';
+import ExploreContainer from '../../components/ExploreContainer';
 
-const Keranjang: React.FC = () => {
+const KeranjangScreen: React.FC = () => {
   return (
     <IonPage>
       <IonHeader>
@@ -21,4 +21,4 @@ const Keranjang: React.FC = () => {
   );
 };
 
-export default Keranjang;
+export default KeranjangScreen;

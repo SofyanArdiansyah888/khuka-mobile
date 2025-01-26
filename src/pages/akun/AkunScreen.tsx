@@ -1,7 +1,7 @@
 import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from '@ionic/react';
-import ExploreContainer from '../components/ExploreContainer';
+import ExploreContainer from '../../components/ExploreContainer';
 
-const Riwayat: React.FC = () => {
+const AkunScreen: React.FC = () => {
   return (
     <IonPage>
       <IonHeader>
@@ -21,4 +21,4 @@ const Riwayat: React.FC = () => {
   );
 };
 
-export default Riwayat;
+export default AkunScreen;

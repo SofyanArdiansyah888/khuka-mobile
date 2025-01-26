@@ -1,59 +1,58 @@
 .login-content {
-    overflow: hidden;
-    height: 100%;
-    background: #f2e1b8;
-  }
-.login-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 90vh;
-  }
-  .login_form {
-    width: 80%;
-  }
-  .logo {
-    width: 75px;
-    margin-bottom: 20px;
-  }
-  
-  .login_title {
-    font-size: 20px;
-    font-weight: bold;
-    text-align: center;
-    margin-bottom: 42px;
-  }
- .form-item{
-  position:relative
- }
-.lupa-link{
-  position: absolute;
-  right: 0;
-  background: #c2bfbf;
-  padding: 17px;
-  border-radius: 0 20px 20px 0;
-  color: #fff;
-  font-size: 12px;
+  overflow: hidden;
+  height: 100%;
+  background: #f2e1b8;
 }
- 
- .loginbtn {
-  background: #D19F23;
-  color: #fff;
-  border-radius: 20px;
-  height: 48px;
-  font-size: 14px;
+.login-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 90vh;
+}
+.login_form {
+  width: 80%;
+}
+.logo {
+  width: 75px;
+  margin-bottom: 20px;
+}
+
+.login_title {
+  font-size: 20px;
   font-weight: bold;
-  letter-spacing: 2.1px;
-  margin-top: 42px;
+  text-align: center;
+  margin-bottom: 42px;
+}
+.form-item{
+position:relative
+}
+.lupa-link{
+position: absolute;
+right: 0;
+background: #c2bfbf;
+padding: 17px;
+border-radius: 0 20px 20px 0;
+color: #fff;
+font-size: 12px;
+}
+
+.loginbtn {
+background: #D19F23;
+color: #fff;
+border-radius: 20px;
+height: 48px;
+font-size: 14px;
+font-weight: bold;
+letter-spacing: 2.1px;
+margin-top: 42px;
+width: 100%;
+
+}
+
+form {
   width: 100%;
-
-  }
-  
-  form {
-    width: 100%;
-    max-width: 400px;
-  }
+  max-width: 400px;
+}
 
 
-  

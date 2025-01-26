@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   IonContent,
   IonHeader,
@@ -34,9 +34,56 @@ import arrowIcon from '../assets/arrow-right.svg';
 import biodama from '../assets/mybiodama.png';
 import shopicon from '../assets/shopping-bag-solid.svg';
 import guntea from '../assets/gun-tea.png';
+import { fetchPromo } from '../utils/api';
+import { baseImgURL } from '../utils/axios';
 
 const Home: React.FC = () => {
   const history = useHistory();
+  const [user, setUser] = useState<any>(null); 
+  const [promoData, setPromoData] = useState<any[]>([]);
+  const [memberDuration, setMemberDuration] = useState<string>(''); 
+
+  const calculateMemberDuration = (tgl_member: string) => {
+    const currentDate = new Date();
+    const memberDate = new Date(tgl_member);
+    const diffTime = currentDate.getTime() - memberDate.getTime();
+    const diffDays = Math.floor(diffTime / (1000 * 3600 * 24));
+    
+    const diffMonths = Math.floor(diffDays / 30);
+    const diffYears = Math.floor(diffMonths / 12);
+    
+    if (diffYears >= 1) {
+      return `${diffYears} tahun lalu`;
+    } else if (diffMonths >= 1) {
+      return `${diffMonths} bulan lalu`;
+    } else {
+      return `${diffDays} hari lalu`;
+    }
+  };
+
+   useEffect(() => {
+    // Get the user from localStorage
+    const storedUser = JSON.parse(localStorage.getItem('user') || '{}');
+    setUser(storedUser);
+
+    if (storedUser?.tgl_member) {
+      // Calculate the member duration based on tgl_member
+      const durationText = calculateMemberDuration(storedUser.tgl_member);
+      setMemberDuration(durationText);
+    }
+
+    const fetchData = async () => {
+      try {
+        const promos = await fetchPromo('home');
+        setPromoData(promos.data); 
+        
+      } catch (error) {
+        console.error('Error fetching promo:', error);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   const navigateToProduk = () => {
     history.push('/produk');
@@ -63,8 +110,8 @@ const Home: React.FC = () => {
                 <img src={whitelogo} alt="User Logo" />
               </div>
               <div className="user-data">
-                <h2>Shafwan</h2>
-                <p>Member selama 60 hari</p>
+                <h2>{user?.nama}</h2>
+                <p>Member sejak {memberDuration}</p>
               </div>
             </div>
             <div className="points-balance">
@@ -92,21 +139,21 @@ const Home: React.FC = () => {
           scrollbar={true}
           zoom={true}
         >
-          <SwiperSlide>
-            <div className="promo-banner">
-              <img src={slide} alt="Slide" />
-            </div>
-          </SwiperSlide>
-          <SwiperSlide>
-            <div className="promo-banner">
-              <img src={slide} alt="Slide" />
-            </div>
-          </SwiperSlide>
-          <SwiperSlide>
-            <div className="promo-banner">
-              <img src={slide} alt="Slide" />
-            </div>
-          </SwiperSlide>
+          {promoData.length > 0 ? (
+            promoData.map((promo, index) => (
+              <SwiperSlide key={index}>
+                <div className="promo-banner">
+                  <img src={baseImgURL+'promo/'+promo.link_gambar || slide} alt={promo.judul} />
+                </div>
+              </SwiperSlide>
+            ))
+          ) : (
+            <SwiperSlide>
+              <div className="promo-banner">
+               
+              </div>
+            </SwiperSlide>
+          )}
         </Swiper>
 
         <div className="produk-section">

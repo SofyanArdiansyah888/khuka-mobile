@@ -1,7 +1,7 @@
 .login-content {
-    --overflow: hidden;
+    overflow: hidden;
     height: 100%;
-    --background: #f2e1b8;
+    background: #f2e1b8;
   }
 .login-container {
     display: flex;
@@ -10,7 +10,9 @@
     justify-content: center;
     height: 90vh;
   }
-  
+  .login_form {
+    width: 80%;
+  }
   .logo {
     width: 75px;
     margin-bottom: 20px;
@@ -22,60 +24,36 @@
     text-align: center;
     margin-bottom: 42px;
   }
-  
-  ion-item {
-    --background: #F6F6F6;
-    --border-radius: 20px;
-    --inner-padding-end:0px;
-    margin-bottom: 16px;
-  }
-  ion-input.sc-ion-input-md-h {
-    --placeholder-color: #A5A5A5 !important;
-    font-size: 14px !important;
-  }
+ .form-item{
+  position:relative
+ }
+.lupa-link{
+  position: absolute;
+  right: 0;
+  background: #c2bfbf;
+  padding: 17px;
+  border-radius: 0 20px 20px 0;
+  color: #fff;
+  font-size: 12px;
+}
  
-  .label-floating.sc-ion-label-md-h{
-    color:#A5A5A5;
-    font-size:12px;
-    font-weight:500
-  }
-  ion-item ion-button {
-    font-size: 14px;
-    color: #fff;
-    font-weight: bold;
-  }
-  
  .loginbtn {
-    --background: #D19F23;
-    color: #fff;
-    --border-radius: 20px;
-    height: 48px;
-    font-size: 14px;
-    font-weight: bold;
-    letter-spacing:2.1px;
-    --box-shadow:unset;
-    margin-top:42px
+  background: #D19F23;
+  color: #fff;
+  border-radius: 20px;
+  height: 48px;
+  font-size: 14px;
+  font-weight: bold;
+  letter-spacing: 2.1px;
+  margin-top: 42px;
+  width: 100%;
 
   }
-  .lupa{
-    --background: #E6E6E6;
-    text-transform: capitalize;
-    margin: 0;
-    min-height: 46px;
-    width: 85px;
-    font-size:12px;
-    --border-radius:0px 20px 20px 0px
-  }
- 
   
   form {
     width: 100%;
     max-width: 400px;
   }
-  .login-container ion-item {
-    --border-color: transparent; /* Removes the border color */
-    --ion-border-width: 0px; /* Ensures no border width */
-    --inner-box-shadow: none; /* Removes any shadow effect */
-  }
+
 
   

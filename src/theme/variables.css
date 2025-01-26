@@ -15,9 +15,26 @@
   flex: 1;
   overflow: auto; 
 }
-.ion-page{
-  bottom:40px
+input{
+  margin-bottom: 16px !important;
+  border-radius: 20px;
+  width: 100%;
+  background: #F6F6F6;
+  padding: 15px 25px;
+  border: unset;
+  color: #A5A5A5 !important;
+  font-size: 14px !important;
+  font-weight: 500 !important;
 }
+input::placeholder {
+  color: #A5A5A5;
+  font-size: 14px;
+  font-family: 'Metropolis', sans-serif;
+  font-weight: 500; 
+}
+/* .ion-page{
+  bottom:40px
+} */
 
 
   

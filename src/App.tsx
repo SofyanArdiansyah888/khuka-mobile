@@ -40,7 +40,7 @@ const App: React.FC = () => {
   }, []);
 
   if (loading) {
-    return <div>Loading...</div>; // Show loading until auth check is complete
+    return <div></div>;
   }
 
   return (

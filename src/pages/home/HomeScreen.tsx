@@ -1,22 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import {
-  IonContent,
-  IonHeader,
-  IonPage,
-  IonTitle,
-  IonToolbar,
-  IonButton,
-  IonRouterLink,
-} from '@ionic/react';
+import { IonContent,IonHeader, IonPage,IonTitle,IonToolbar,IonRouterLink,} from '@ionic/react';
 import { useHistory } from 'react-router-dom';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import {
-  Autoplay,
-  Keyboard,
-  Pagination,
-  Scrollbar,
-  Zoom,
-} from 'swiper/modules';
+import {Autoplay,Keyboard,Pagination, Scrollbar,Zoom,} from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/autoplay';
 import 'swiper/css/keyboard';
@@ -29,7 +15,6 @@ import logo from '../../assets/logo-khukha.png';
 import whitelogo from '../../assets/khukha-white.svg';
 import cashback from '../../assets/cashback.png';
 import point from '../../assets/diamond.png';
-import slide from '../../assets/slide.png';
 import arrowIcon from '../../assets/arrow-right.svg';
 import biodama from '../../assets/mybiodama.png';
 import shopicon from '../../assets/shopping-bag-solid.svg';
@@ -143,7 +128,7 @@ const Home: React.FC = () => {
             promoData.map((promo, index) => (
               <SwiperSlide key={index}>
                 <div className="promo-banner">
-                  <img src={baseImgURL+'promo/'+promo.link_gambar || slide} alt={promo.judul} />
+                  <img src={baseImgURL+'promo/'+promo.link_gambar} alt={promo.judul} />
                 </div>
               </SwiperSlide>
             ))

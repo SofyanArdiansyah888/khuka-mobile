@@ -1,69 +1,97 @@
 import React, { useEffect, useState } from 'react';
-import {
-  IonContent,
-  IonHeader,
-  IonPage,
-  IonTitle,
-  IonToolbar,
-} from '@ionic/react';
+import {IonContent,IonPage} from '@ionic/react';
+import { useHistory } from 'react-router-dom';
 import { useLocation, useParams } from 'react-router-dom';
+import { baseImgURL } from '../../utils/axios';
+import { Produk } from '../../entity/ProdukEntity';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import 'swiper/css';
+import 'swiper/css/autoplay';
+import 'swiper/css/keyboard';
+import 'swiper/css/pagination';
+import 'swiper/css/scrollbar';
+import 'swiper/css/zoom';
+import '@ionic/react/css/ionic-swiper.css';
+import './ProdukDetail.css';
 import logo from '../../assets/logo-khukha.png';
 import point from '../../assets/diamond.png';
 import cashback from '../../assets/cashback.png';
-import { baseImgURL } from '../../utils/axios';
-import './ProdukDetail.css';
-// Define the type for product data
-interface Product {
-  id: string;
-  judul: string;
-  deskripsi_singkat: string;
-  harga: number;
-  ao_cashback: number;
-  agen_cashback: number;
-  konsumen_cashback: number;
-  ao_poin: number;
-  agen_poin: number;
-  konsumen_poin: number;
-  total_isi: number;
-  satuan: { nama: string };
-  link_gambar: string;
-}
-// Define the type for location state
-interface LocationState {
-  produk: Product;
-}
+import arrowIcon from '../../assets/arrow-right.svg';
+import shopicon from '../../assets/shopping-bag-solid.svg';
+
 const ProdukDetail: React.FC = () => {
-  const location = useLocation<LocationState>(); // Get location state
-  const { id } = useParams<{ id: string }>(); // Get dynamic id from the URL
+  const history = useHistory();
+  const location = useLocation<{ produk: Produk }>();
+  //   const { id } = useParams<{ id: string }>();
   const produk = location.state?.produk;
   const [user, setUser] = useState<any>(null);
+  const [produkLainnya, setProdukLainnya] = useState<Produk[]>([]);
 
   useEffect(() => {
     const storedUser = JSON.parse(localStorage.getItem('user') || '{}');
     setUser(storedUser);
   }, []);
 
+  // get produk lainnya except current id from localstorage
+  useEffect(() => {
+    if (produk) {
+      const kategoriKey =
+        produk.kategori === 'paket'
+          ? 'produkBundling'
+          : produk.kategori === 'pilihan'
+          ? 'produkDataPilihan'
+          : null;
+
+      if (kategoriKey) {
+        const storedData = JSON.parse(
+          localStorage.getItem(kategoriKey) || '[]'
+        );
+        const filteredData = storedData.filter(
+          (item: Produk) => item.id !== produk.id
+        );
+        setProdukLainnya(filteredData);
+      }
+    }
+  }, [produk]);
+  const navigateToProdukDetail = (produk: any) => {
+    history.push(`/produk-detail/${produk.id}`, { produk });
+  };
+  const navigateToProduk = () => {
+    history.push('/produk');
+  };
+
+  const historyBack = () => {
+    history.goBack();
+  };
+
   if (!produk) {
     return (
-      <IonPage>
-        <IonHeader>
-          <IonToolbar>
-            <IonTitle>Produk Detail</IonTitle>
-          </IonToolbar>
-        </IonHeader>
-        <IonContent>
-          <div className="no-produk">No produk data available for ID: {id}</div>
-        </IonContent>
-      </IonPage>
+      <div>
+        <h1>Produk tidak ditemukan</h1>
+      </div>
     );
   }
 
   return (
     <IonPage>
-     
       <IonContent>
+        <div className="history-back" onClick={historyBack}></div>
         <div className="produk-detail produk-card">
-          <div className="produk-list-header">
+          <div
+            className={`produk-list-header ${
+              produk.kategori === 'paket'
+                ? produk.judul.includes('MyColon')
+                  ? 'mycolon'
+                  : produk.judul.includes('Fit Zim')
+                  ? 'fitzim'
+                  : produk.judul.includes('Gun Tea')
+                  ? 'biogun'
+                  : produk.judul.includes('Mybiodima')
+                  ? 'biodima'
+                  : ''
+                : '' // No class if kategori !== 'paket'
+            }`}
+          >
             <div className="produk-logo">
               <img src={logo} alt="" />
               <span>
@@ -97,40 +125,152 @@ const ProdukDetail: React.FC = () => {
             <h3> Rp. {new Intl.NumberFormat('id-ID').format(produk.harga)}</h3>
             <h2>{produk.judul}</h2>
           </div>
-          <div className='produk-cash-poin'>
-            <div className='cash-poin-img'>
-            <img src={point} alt="Points" />
+          <div className="produk-cash-poin">
+            <div className="cash-poin-img">
+              <img src={point} alt="Points" />
             </div>
-            <div className='cash-poin-text'>
-            <p>Dapatkan poin sebesar {' '}<b>
-                {
-                  user?.member_level === 'AO'
+            <div className="cash-poin-text">
+              <p>
+                Dapatkan poin sebesar{' '}
+                <b>
+                  {user?.member_level === 'AO'
                     ? produk.ao_poin
                     : user?.member_level === 'Agent'
                     ? produk.agen_poin
-                    : produk.konsumen_poin
-                } poin </b>
-                </p> 
-            </div>           
-          </div>
-          <div className='produk-cash-poin'>
-            <div className='cash-poin-img'>
-            <img src={cashback} alt="Cashback" />
-            </div>            
-            <div className='cash-poin-text'>
-            <p>Dapatkan cashback sebesar Rp {' '}<b>
-                {new Intl.NumberFormat('id-ID').format(
-                  user?.member_level === 'AO'
-                    ? produk.ao_cashback
-                    : user?.member_level === 'Agent'
-                    ? produk.agen_cashback
-                    : produk.konsumen_cashback
-                )}</b>
-                </p> 
+                    : produk.konsumen_poin}{' '}
+                  poin
+                </b>
+              </p>
             </div>
           </div>
-          
+          <div className="produk-cash-poin">
+            <div className="cash-poin-img">
+              <img src={cashback} alt="Cashback" />
+            </div>
+            <div className="cash-poin-text">
+              <p>
+                Dapatkan cashback sebesar Rp{' '}
+                <b>
+                  {new Intl.NumberFormat('id-ID').format(
+                    user?.member_level === 'AO'
+                      ? produk.ao_cashback
+                      : user?.member_level === 'Agent'
+                      ? produk.agen_cashback
+                      : produk.konsumen_cashback
+                  )}
+                </b>
+              </p>
+            </div>
+          </div>
+          <div className="bn-divider"></div>
+          <div className="produk-full-desc padding-lr-20">
+            <h4>Deskripsi Produk</h4>
+            <div
+              className="produk-full-desc-content"
+              dangerouslySetInnerHTML={{
+                __html: produk.masterproduk.deskripsi,
+              }}
+            />
+          </div>
+          <div className="bn-divider"></div>
+          <div className="produk-header">
+            <div className="section-header">
+              <h4>Produk Lainnya</h4>
+              <div className="arrow-icon" onClick={navigateToProduk}>
+                <img src={arrowIcon} alt="Go to Produk Page" />
+              </div>
+            </div>
+            <p className="produk_subtitle">
+              Belanja sekarang dan dapatkan cashbacknya
+            </p>
+          </div>
         </div>
+        <Swiper className="produk-swiper" slidesPerView={2.4} spaceBetween={20}>
+          {produkLainnya.map((item, index) => (
+            <SwiperSlide key={index}>
+              <div
+                className="produk-card"
+                onClick={() => navigateToProdukDetail(item)}
+              >
+                <div className={`produk-list-header ${
+              item.kategori === 'paket'
+                ? item.judul.includes('MyColon')
+                  ? 'mycolon'
+                  : item.judul.includes('Fit Zim')
+                  ? 'fitzim'
+                  : item.judul.includes('Gun Tea')
+                  ? 'biogun'
+                  : item.judul.includes('Mybiodima')
+                  ? 'biodima'
+                  : ''
+                : '' // No class if kategori !== 'paket'
+            }`}>
+                  <div className="produk-logo">
+                    <img src={logo} alt="" />
+                    <span>
+                      OFFICIAL
+                      <br />
+                      STORE
+                    </span>
+                  </div>
+                  <div className="produk-desc">{item.deskripsi_singkat}</div>
+                  <div
+                    className={`produk-satuan ${
+                      item.judul.includes('MyColon')
+                        ? 'mycolon'
+                        : item.judul.includes('Fit Zim')
+                        ? 'fitzim'
+                        : item.judul.includes('Gun Tea')
+                        ? 'biogun'
+                        : item.judul.includes('Mybiodima')
+                        ? 'biodima'
+                        : ''
+                    }`}
+                  >
+                    {item.total_isi} {item.satuan.nama}
+                  </div>
+                  <div className="produk-image">
+                    <img
+                      src={baseImgURL + 'produk/' + item.link_gambar}
+                      alt=""
+                    />
+                  </div>
+                </div>
+                <div className="produk-info">
+                  <h2>{item.judul}</h2>
+                  <p>
+                    Harga:{' '}
+                    <span className="price">
+                      Rp. {new Intl.NumberFormat('id-ID').format(item.harga)}
+                    </span>
+                  </p>
+                  <p>
+                    Cashback:{' '}
+                    <span className="cashback">
+                      Rp.{' '}
+                      {new Intl.NumberFormat('id-ID').format(
+                        user?.member_level === 'AO'
+                          ? item.ao_cashback
+                          : user?.member_level === 'Agent'
+                          ? item.agen_cashback
+                          : item.konsumen_cashback
+                      )}
+                    </span>
+                  </p>
+                  <div className="shopicon">
+                    <div>
+                      <img src={shopicon} />
+                    </div>
+                    <div>5 terjual</div>
+                  </div>
+                  <div className="produk-link">
+                    <span>Lihat</span>
+                  </div>
+                </div>
+              </div>
+            </SwiperSlide>
+          ))}
+        </Swiper>
       </IonContent>
     </IonPage>
   );

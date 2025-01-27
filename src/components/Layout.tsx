@@ -1,5 +1,6 @@
 import React from 'react';
 import Footer from './Footer';
+import ProdukDetailFooter from './ProdukDetailFooter';
 import { useLocation } from 'react-router-dom';
 
 const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -7,12 +8,13 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 
   // Pages where footer should be hidden
   const excludedPaths = ['/login', '/forgotpassword'];
-  const showFooter = !excludedPaths.includes(location.pathname);
+  const isProdukDetail = location.pathname.startsWith('/produk-detail/'); 
+  const showFooter = !excludedPaths.includes(location.pathname) && !isProdukDetail;
 
   return (
     <div className="layout-container">
       <main className="main-content">{children}</main>
-      {showFooter && <Footer />}
+      {isProdukDetail ? <ProdukDetailFooter /> : showFooter && <Footer />}
     </div>
   );
 };

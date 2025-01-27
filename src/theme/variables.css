@@ -74,7 +74,7 @@ input::placeholder {
   background: #fac135;
 }
 .produk-satuan.fitzim {
-  background: #3c4564
+  background: #3c4564;
 }
 .produk-satuan.biogun {
   background: #29a03e;
@@ -82,41 +82,41 @@ input::placeholder {
 .produk-satuan.biodima {
   background: #e82a44;
 }
-.produk-list-header.biogun{
-  background:#cbeddd
+.produk-list-header.biogun {
+  background: #cbeddd;
 }
-.produk-list-header.biogun .produk-desc{
-  background:#0fbf6e
+.produk-list-header.biogun .produk-desc {
+  background: #0fbf6e;
 }
-.produk-list-header.biogun .produk-satuan{
-  background:#49773b
+.produk-list-header.biogun .produk-satuan {
+  background: #49773b;
 }
-.produk-list-header.biodima{
-  background:#ffd8c0
+.produk-list-header.biodima {
+  background: #ffd8c0;
 }
-.produk-list-header.biodima .produk-desc{
-  background:#f22a59
+.produk-list-header.biodima .produk-desc {
+  background: #f22a59;
 }
-.produk-list-header.biodima .produk-satuan{
-  background:#8e233c
+.produk-list-header.biodima .produk-satuan {
+  background: #8e233c;
 }
-.produk-list-header.fitzim{
-  background:#c0deff
+.produk-list-header.fitzim {
+  background: #c0deff;
 }
-.produk-list-header.fitzim .produk-desc{
-  background:#6a8ffb
+.produk-list-header.fitzim .produk-desc {
+  background: #6a8ffb;
 }
-.produk-list-header.fitzim .produk-satuan{
-  background:#3c4564
+.produk-list-header.fitzim .produk-satuan {
+  background: #3c4564;
 }
-.produk-list-header.mycolon{
-  background:#fae490
+.produk-list-header.mycolon {
+  background: #fae490;
 }
-.produk-list-header.mycolon .produk-desc{
-  background:#50d24e
+.produk-list-header.mycolon .produk-desc {
+  background: #50d24e;
 }
-.produk-list-header.mycolon .produk-satuan{
-  background:#0e7d0c
+.produk-list-header.mycolon .produk-satuan {
+  background: #0e7d0c;
 }
 .produk-logo img {
   width: 20px;
@@ -204,4 +204,33 @@ input::placeholder {
   padding: 8px;
   text-align: center;
   border-radius: 10px;
+}
+.bn-divider {
+  background: #eaeaea;
+  width: 100%;
+  height: 12px;
+  margin: 10px 0;
+}
+.padding-lr-20{
+  padding:0 20px;
+}
+.history-back{
+  background: #afafaf;
+    width: 30px;
+    height: 30px;
+    border-radius: 100%;
+    position: absolute;
+    left: 20px;
+    top: 20px;
+}
+.history-back:before{
+  content:"";
+  background:url('../assets/arrow-left.svg') no-repeat;
+  background-size:contain;
+  width: 15px;
+  height:15px;
+  position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }

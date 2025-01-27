@@ -47,36 +47,62 @@ const Home: React.FC = () => {
       return `${diffDays} hari lalu`;
     }
   };
-
   useEffect(() => {
-    // Simulate data fetching
-    const fetchData = async () => {
+    // Check if data is already present in localStorage (to avoid re-fetching)
+    const storedPromoData = JSON.parse(
+      localStorage.getItem('promoData') || '[]'
+    );
+    const storedProdukDataPilihan = JSON.parse(
+      localStorage.getItem('produkDataPilihan') || '[]'
+    );
+    const storedProdukBundling = JSON.parse(
+      localStorage.getItem('produkBundling') || '[]'
+    );
+
+    if (
+      storedPromoData.length &&
+      storedProdukDataPilihan.length &&
+      storedProdukBundling.length
+    ) {
+      setPromoData(storedPromoData);
+      setProdukDataPilihan(storedProdukDataPilihan);
+      setProdukBundling(storedProdukBundling);
+      setLoading(false);
+    } else {
       setLoading(true);
-      try {
-        const storedUser = JSON.parse(localStorage.getItem('user') || '{}');
-        setUser(storedUser);
+      const fetchData = async () => {
+        try {
+          const storedUser = JSON.parse(localStorage.getItem('user') || '{}');
+          setUser(storedUser);
 
-        if (storedUser?.tgl_member) {
-          const durationText = calculateMemberDuration(storedUser.tgl_member);
-          setMemberDuration(durationText);
+          if (storedUser?.tgl_member) {
+            const durationText = calculateMemberDuration(storedUser.tgl_member);
+            setMemberDuration(durationText);
+          }
+
+          const promos = await fetchPromo('home');
+          setPromoData(promos.data);
+          localStorage.setItem('promoData', JSON.stringify(promos.data));
+
+          const pilihan = await fetchProduk('5', 'pilihan');
+          setProdukDataPilihan(pilihan.data);
+          localStorage.setItem(
+            'produkDataPilihan',
+            JSON.stringify(pilihan.data)
+          );
+
+          const bundling = await fetchProduk('5', 'paket');
+          setProdukBundling(bundling.data);
+          localStorage.setItem('produkBundling', JSON.stringify(bundling.data));
+        } catch (error) {
+          console.error('Error fetching data:', error);
+        } finally {
+          setLoading(false);
         }
+      };
 
-        const promos = await fetchPromo('home');
-        setPromoData(promos.data);
-
-        const pilihan = await fetchProduk('5', 'pilihan');
-        setProdukDataPilihan(pilihan.data);
-
-        const bundling = await fetchProduk('5', 'paket');
-        setProdukBundling(bundling.data);
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchData();
+      fetchData();
+    }
   }, []);
   const navigateToProdukDetail = (produk: any) => {
     history.push(`/produk-detail/${produk.id}`, { produk });
@@ -100,37 +126,23 @@ const Home: React.FC = () => {
       <IonContent fullscreen>
         {loading ? (
           // Skeleton container
-          <div style={{ height: '150px', padding: '10px' }}>
-            <div className="user-info">
-              <div className="user-details">
-                <div>
-                  <Skeleton circle={true} height={30} width={30} />
-                </div>
-                <div className="user-data">
-                  <h2>
-                    <Skeleton width={100} />
-                  </h2>
-                  <p>
-                    <Skeleton width={110} />
-                  </p>
-                </div>
-              </div>
-              <div className="points-balance">
-                <div className="points">
-                  <Skeleton circle={true} height={10} width={10} />
-                  <p>
-                    <Skeleton width={50} />
-                  </p>
-                </div>
-                <div className="cashback">
-                  <Skeleton circle={true} height={10} width={10} />
-                  <p>
-                    <Skeleton width={50} />
-                  </p>
-                </div>
-              </div>
+          <>
+            <div style={{ padding: '20px' }}>
+              <Skeleton width={312} height={50} />
+              <Skeleton
+                width={312}
+                height={150}
+                style={{ marginTop: '20px' }}
+              />
+              <Skeleton width={135} height={10} style={{ marginTop: '47px' }} />
+              <Skeleton width={185} height={10} />
             </div>
-          </div>
+            <div style={{ padding: '20px',display:'flex',gap:'20px' }}>
+              <Skeleton width={141} height={287} />
+              <Skeleton width={141} height={287} />
+              <Skeleton width={141} height={287} />
+            </div>
+          </>
         ) : (
           <>
             <div className="user-info-wrap">
@@ -201,12 +213,14 @@ const Home: React.FC = () => {
               >
                 {ProdukDataPilihan.map((pilihan, index) => (
                   <SwiperSlide key={index}>
-                    <div className="produk-card" onClick={() => navigateToProdukDetail(pilihan)}>
+                    <div
+                      className="produk-card"
+                      onClick={() => navigateToProdukDetail(pilihan)}
+                    >
                       <div className="produk-list-header">
                         <div className="produk-logo">
                           <img src={logo} alt="" />
                           <span>
-                            {' '}
                             OFFICIAL
                             <br />
                             STORE
@@ -264,7 +278,7 @@ const Home: React.FC = () => {
                         <div className="shopicon">
                           <div>
                             <img src={shopicon} />
-                          </div>{' '}
+                          </div>
                           <div>5 terjual</div>
                         </div>
                         <div className="produk-link">
@@ -295,22 +309,26 @@ const Home: React.FC = () => {
               >
                 {ProdukBundling.map((paket, index) => (
                   <SwiperSlide key={index}>
-                    <div className="produk-card">
-                      <div className={`produk-list-header ${
-                            paket.judul.includes('MyColon')
-                              ? 'mycolon'
-                              : paket.judul.includes('Fit Zim')
-                              ? 'fitzim'
-                              : paket.judul.includes('Gun Tea')
-                              ? 'biogun'
-                              : paket.judul.includes('Mybiodima')
-                              ? 'biodima'
-                              : ''
-                          }`}>
+                    <div
+                      className="produk-card"
+                      onClick={() => navigateToProdukDetail(paket)}
+                    >
+                      <div
+                        className={`produk-list-header ${
+                          paket.judul.includes('MyColon')
+                            ? 'mycolon'
+                            : paket.judul.includes('Fit Zim')
+                            ? 'fitzim'
+                            : paket.judul.includes('Gun Tea')
+                            ? 'biogun'
+                            : paket.judul.includes('Mybiodima')
+                            ? 'biodima'
+                            : ''
+                        }`}
+                      >
                         <div className="produk-logo">
                           <img src={logo} alt="" />
                           <span>
-                            {' '}
                             OFFICIAL
                             <br />
                             STORE
@@ -319,8 +337,7 @@ const Home: React.FC = () => {
                         <div className="produk-desc">
                           {paket.deskripsi_singkat}
                         </div>
-                        <div
-                          className="produk-satuan">
+                        <div className="produk-satuan">
                           {paket.total_isi} {paket.satuan.nama}
                         </div>
                         <div className="produk-image">
@@ -355,15 +372,12 @@ const Home: React.FC = () => {
                         <div className="shopicon">
                           <div>
                             <img src={shopicon} />
-                          </div>{' '}
+                          </div>
                           <div>5 terjual</div>
                         </div>
-                        <IonRouterLink
-                          className="produk-link"
-                          routerLink="/produk"
-                        >
+                        <div className="produk-link">
                           <span>Lihat</span>
-                        </IonRouterLink>
+                        </div>
                       </div>
                     </div>
                   </SwiperSlide>

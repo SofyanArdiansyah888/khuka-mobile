@@ -164,127 +164,23 @@
 .produk-swiper.swiper .swiper-slide-active {
   margin-left: 20px;
 }
-.produk-card {
-  background: white;
-  border-radius: 10px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-}
-.produk-list-header {
-  background: #f4f4f4;
-  border-radius: 10px 10px 0 0;
-  padding-bottom: 5px;
-}
-.produk-logo {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  gap: 15px;
-  text-align: left;
-  padding: 10px 20px;
-}
-.produk-desc,
-.produk-satuan {
-  background: #c49e57;
-  padding: 10px 5px 10px 35px;
-  margin-right: 5px;
-  text-transform: uppercase;
-  text-align: right;
-  color: #fff;
-  font-size: 7px;
-  font-weight: bold;
-  border-radius: 0 10px 10px 0px;
-}
-.produk-satuan {
-  margin-top: 5px;
-}
 
-.swiper .swiper-slide .produk-logo img,
-.produk-logo img {
+
+.swiper .swiper-slide .produk-logo img {
   width: 20px;
 }
 .produk-image {
   padding-left: 2px;
   margin-top: -48px;
 }
-.swiper .swiper-slide .produk-image img,
-.produk-image img {
+.swiper .swiper-slide .produk-image img {
   height: 60px;
   object-fit: contain;
 }
-.produk-logo span {
-  color: #c49f59;
-  font-size: 7px;
-  text-transform: uppercase;
-  font-weight: bold;
-  position: relative;
-  margin-top: 4px;
-}
-.produk-logo span:before {
-  content: '';
-  position: absolute;
-  height: 20px;
-  width: 1.5px;
-  background: #c2c2c2;
-  left: -8px;
-  top: -2px;
-}
-.produk-image img {
-  width: 100%;
-  height: auto;
-  border-radius: 8px 8px 0 0;
-}
-.produk-info {
-  padding: 10px;
-  min-height:160px;
-  position:relative
-}
-.produk-info h2 {
-  font-size: 11px;
-  margin: 8px 0;
-  color: #000;
-  min-height:30px
-}
 
-.produk-info p,.shopicon {
-  font-size: 11px;
-  color: #707070;
-  margin: 2px 0;
-}
-
-.price {
-  font-weight: bold;
-  color: #d19f23;
-}
-
-.cashback {
-  font-weight: bold;
-  color: #707070;
-}
-.produk-info .shopicon {
-  display: flex;
-  gap: 5px;
-  align-items: center;
-  margin: 14px 0 12px;
-}
-.swiper .swiper-slide .shopicon img,
-.shopicon img {
+.swiper .swiper-slide .shopicon img {
   width: 9px;
   height: 10px;
   margin-top: 2px;
 }
-.produk-link{
-  position: absolute;
-  width: 85%;
-  bottom: 11px;
-}
-.produk-link span {
-  color: #fff;
-  font-size: 11px;
-  font-weight: bold;
-  background: #d19f23;
-  display: block;
-  padding: 8px;
-  text-align: center;
-  border-radius: 10px;
-}
+

@@ -1,0 +1,65 @@
+.produk-detail.produk-card {
+  border-radius: 0;
+  box-shadow: unset;
+}
+.produk-detail .produk-list-header {
+  padding-top: 30px;
+}
+.produk-detail .produk-logo {
+  padding-bottom: 25px;
+}
+.produk-detail .produk-logo img {
+  width: 45px;
+}
+.produk-detail .produk-logo span {
+  font-size: 14px;
+  margin-top: 8px;
+}
+.produk-detail .produk-logo span:before {
+  height: 37px;
+}
+.produk-detail .produk-desc,
+.produk-detail .produk-satuan {
+  font-size: 14px;
+  padding: 20px 10px 20px 200px;
+}
+.produk-detail .produk-satuan {
+  padding: 15px 10px 20px 250px;
+}
+.produk-detail .produk-image {
+  margin-top: -107px;
+}
+.produk-detail .produk-image img {
+  width: 65%;
+  height: 195px;
+}
+.produk-detail h3 {
+  font-weight: bold;
+  font-size:18px
+}
+.produk-detail .produk-info {
+  min-height: unset;
+  padding: 10px 20px;
+}
+.produk-detail .produk-info h2 {
+  font-size: 14px;
+  min-height:10px;
+}
+.produk-cash-poin {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border-top: 1px solid #e9e5e5;
+  padding: 10px 20px;
+}
+.cash-poin-img img{
+    width:12px
+}
+.cash-poin-text p{
+color: #707070;
+font-size: 12px;
+margin: 0;
+}
+.cash-poin-text b{
+    color:#707070
+}

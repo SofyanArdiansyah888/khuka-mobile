@@ -10,6 +10,7 @@ import HomeScreen from './pages/home/HomeScreen';
 import LoginScreen from './pages/login/LoginScreen';
 import ProdukScreen from './pages/produk/ProdukScreen';
 import ProdukBundlingScreen from './pages/produk-bundling/ProdukBundlingScreen';
+import ProdukDetail from './pages/produk-detail/ProdukDetailScreen';
 import KeranjangScreen from './pages/keranjang/KeranjangScreen';
 import RiwayatScreen from './pages/riwayat/RiwayatScreen';
 import AkunScreen from './pages/akun/AkunScreen';
@@ -65,6 +66,12 @@ const App: React.FC = () => {
               exact
               path="/produk"
               component={ProdukScreen}
+            />
+            <PrivateRoute
+              isAuthenticated={isAuthenticated}
+              exact
+              path="/produk-detail/:id"
+              component={ProdukDetail}
             />
             <PrivateRoute
               isAuthenticated={isAuthenticated}

@@ -3,7 +3,7 @@ import axios from 'axios';
 // Create an Axios instance
 const instance = axios.create({
   baseURL: 'https://khukha.banisadar.com/api', 
-  timeout: 10000,
+  // timeout: 10000,
   withCredentials: true,
   headers: {
     'Content-Type': 'application/json',

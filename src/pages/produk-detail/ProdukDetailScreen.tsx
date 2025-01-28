@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import {IonContent,IonPage} from '@ionic/react';
+import {IonContent,IonPage,IonToast} from '@ionic/react';
 import { useHistory } from 'react-router-dom';
 import { useLocation, useParams } from 'react-router-dom';
 import { baseImgURL } from '../../utils/axios';
 import { Produk } from '../../entity/ProdukEntity';
 import { Swiper, SwiperSlide } from 'swiper/react';
+import ProdukDetailFooter from '../../components/ProdukDetailFooter';
 import 'swiper/css';
 import 'swiper/css/autoplay';
 import 'swiper/css/keyboard';
@@ -26,6 +27,9 @@ const ProdukDetail: React.FC = () => {
   const produk = location.state?.produk;
   const [user, setUser] = useState<any>(null);
   const [produkLainnya, setProdukLainnya] = useState<Produk[]>([]);
+  const [toastMessage, setToastMessage] = useState<string>('');
+  const [showToast, setShowToast] = useState<boolean>(false);
+  const [isAddingToCart, setIsAddingToCart] = useState<boolean>(false);
 
   useEffect(() => {
     const storedUser = JSON.parse(localStorage.getItem('user') || '{}');
@@ -58,6 +62,36 @@ const ProdukDetail: React.FC = () => {
   };
   const navigateToProduk = () => {
     history.push('/produk');
+  };
+  const handleKeranjangClick = () => {
+    if (produk) {
+      // Prevent double-click for the same product
+      const existingKeranjang = JSON.parse(localStorage.getItem('keranjang') || '[]');
+      const isProductInCart = existingKeranjang.some((item: Produk) => item.id === produk.id);
+
+      if (isProductInCart) {
+        // Show alert if product already in the cart
+        setToastMessage('Produk sudah ada di keranjang belanja anda');
+        setShowToast(true);
+        return;
+      }
+
+      // Show loading toast
+      setToastMessage('Tunggu sebentar yah...');
+      setShowToast(true);
+      setIsAddingToCart(true);
+
+      // Simulate adding to cart after a delay
+      setTimeout(() => {
+        const updatedKeranjang = [...existingKeranjang, produk];
+        localStorage.setItem('keranjang', JSON.stringify(updatedKeranjang));
+
+        // Show success message after product is added to cart
+        setToastMessage('1 produk ditambahkan ke keranjang belanja anda');
+        setIsAddingToCart(false);
+        setShowToast(true);
+      }, 1000); // Simulated loading time of 2 seconds
+    }
   };
 
   const historyBack = () => {
@@ -271,8 +305,16 @@ const ProdukDetail: React.FC = () => {
             </SwiperSlide>
           ))}
         </Swiper>
+        <ProdukDetailFooter handleKeranjangClick={handleKeranjangClick} />
       </IonContent>
+      <IonToast
+        isOpen={showToast}
+        message={toastMessage}
+        duration={2000}
+        onDidDismiss={() => setShowToast(false)}
+      />
     </IonPage>
+    
   );
 };
 

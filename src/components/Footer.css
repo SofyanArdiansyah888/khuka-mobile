@@ -30,6 +30,10 @@
     align-items: center;
     justify-content: center;
     border-top:1px solid #e9e5e5;
+    background: #fff;
+    width: 100%;
+    bottom: -9%;
+    position:fixed;
   }
   .footer-detail .footer-detail-wrap,.footer-detail .call-center{
     display:flex;
@@ -43,15 +47,26 @@
     color:#000000
    
   }
-  .footer-detail .keranjang, .footer-detail .beli{
+  .footer-detail .keranjang, .bn-btn{
     background: #EAEAEA;
     border-radius: 5px;
     padding: 15px 31px;
     font-size: 14px;
     font-weight: 500;
   }
-  .footer-detail .beli{
+  .bn-btn{
     background:#D19F23;
     color:#fff
+  }
+  @media(max-width:400px){
+    .footer-detail{
+      bottom:-12%
+    }
+    .footer-detail .footer-detail-wrap{
+      gap:15px
+    }
+    .footer-detail .keranjang, .bn-btn{
+      padding:15px 25px;
+    }
   }
   

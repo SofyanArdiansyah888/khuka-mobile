@@ -1,6 +1,5 @@
 import React from 'react';
 import Footer from './Footer';
-import ProdukDetailFooter from './ProdukDetailFooter';
 import { useLocation } from 'react-router-dom';
 
 const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -14,7 +13,7 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   return (
     <div className="layout-container">
       <main className="main-content">{children}</main>
-      {isProdukDetail ? <ProdukDetailFooter /> : showFooter && <Footer />}
+      {showFooter && <Footer />}
     </div>
   );
 };

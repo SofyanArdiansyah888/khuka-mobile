@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { IonContent,IonHeader, IonPage,IonTitle,IonToolbar,IonRouterLink,} from '@ionic/react';
+import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from '@ionic/react';
 import { useHistory } from 'react-router-dom';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import {Autoplay,Keyboard,Pagination, Scrollbar,Zoom,} from 'swiper/modules';
+import {Autoplay,Keyboard,Pagination,Scrollbar,Zoom} from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/autoplay';
 import 'swiper/css/keyboard';
@@ -17,10 +17,10 @@ import cashback from '../../assets/cashback.png';
 import point from '../../assets/diamond.png';
 import arrowIcon from '../../assets/arrow-right.svg';
 import shopicon from '../../assets/shopping-bag-solid.svg';
-import { fetchPromo,fetchProduk } from '../../utils/api';
+import { fetchPromo, fetchProduk } from '../../utils/api';
 import { baseImgURL } from '../../utils/axios';
 import Skeleton from 'react-loading-skeleton';
-import 'react-loading-skeleton/dist/skeleton.css'; 
+import 'react-loading-skeleton/dist/skeleton.css';
 const Home: React.FC = () => {
   const history = useHistory();
   const [user, setUser] = useState<any>(null);
@@ -137,7 +137,7 @@ const Home: React.FC = () => {
               <Skeleton width={135} height={10} style={{ marginTop: '47px' }} />
               <Skeleton width={185} height={10} />
             </div>
-            <div style={{ padding: '20px',display:'flex',gap:'20px' }}>
+            <div style={{ padding: '20px', display: 'flex', gap: '20px' }}>
               <Skeleton width={141} height={287} />
               <Skeleton width={141} height={287} />
               <Skeleton width={141} height={287} />

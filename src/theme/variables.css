@@ -139,7 +139,7 @@ ion-toast{
   padding-left: 2px;
   margin-top: -48px;
 }
-.produk-image img {
+.swiper .swiper-slide .produk-image img,.all-produk .produk-image img,.produk-item .produk-image img {
   height: 60px;
   object-fit: contain;
 }
@@ -161,7 +161,7 @@ ion-toast{
   top: -2px;
 }
 .produk-image img {
-  width: 100%;
+  width: auto;
   height: auto;
   border-radius: 8px 8px 0 0;
 }

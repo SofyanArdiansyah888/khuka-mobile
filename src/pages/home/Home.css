@@ -145,10 +145,7 @@
   padding-left: 2px;
   margin-top: -48px;
 }
-.swiper .swiper-slide .produk-image img {
-  height: 60px;
-  object-fit: contain;
-}
+
 
 .swiper .swiper-slide .shopicon img {
   width: 9px;

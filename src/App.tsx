@@ -9,8 +9,8 @@ import useAuth from './common/hooks/useAuth';
 import HomeScreen from './pages/home/HomeScreen';
 import LoginScreen from './pages/login/LoginScreen';
 import ProdukScreen from './pages/produk/ProdukScreen';
-import ProdukBundlingScreen from './pages/produk-bundling/ProdukBundlingScreen';
 import ProdukDetail from './pages/produk-detail/ProdukDetailScreen';
+import PromoDetail from './pages/promo-detail/PromoDetailScreen';
 import KeranjangScreen from './pages/keranjang/KeranjangScreen';
 import RiwayatScreen from './pages/riwayat/RiwayatScreen';
 import AkunScreen from './pages/akun/AkunScreen';
@@ -76,9 +76,10 @@ const App: React.FC = () => {
             <PrivateRoute
               isAuthenticated={isAuthenticated}
               exact
-              path="/produk-bundling"
-              component={ProdukBundlingScreen}
+              path="/promo-detail/:id"
+              component={PromoDetail}
             />
+           
             <PrivateRoute
               isAuthenticated={isAuthenticated}
               exact

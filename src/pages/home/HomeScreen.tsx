@@ -33,12 +33,22 @@ const Home: React.FC = () => {
   const calculateMemberDuration = (tgl_member: string) => {
     const currentDate = new Date();
     const memberDate = new Date(tgl_member);
+  
+    // Check if the date is the same as today
+    const isToday =
+      currentDate.getFullYear() === memberDate.getFullYear() &&
+      currentDate.getMonth() === memberDate.getMonth() &&
+      currentDate.getDate() === memberDate.getDate();
+  
+    if (isToday) {
+      return "hari ini";
+    }
+  
     const diffTime = currentDate.getTime() - memberDate.getTime();
     const diffDays = Math.floor(diffTime / (1000 * 3600 * 24));
-
     const diffMonths = Math.floor(diffDays / 30);
     const diffYears = Math.floor(diffMonths / 12);
-
+  
     if (diffYears >= 1) {
       return `${diffYears} tahun lalu`;
     } else if (diffMonths >= 1) {
@@ -47,8 +57,12 @@ const Home: React.FC = () => {
       return `${diffDays} hari lalu`;
     }
   };
+  
   useEffect(() => {
     // Check if data is already present in localStorage (to avoid re-fetching)
+    const storedUser = JSON.parse(
+      localStorage.getItem('user') || '{}'
+    );
     const storedPromoData = JSON.parse(
       localStorage.getItem('promoData') || '[]'
     );
@@ -60,6 +74,7 @@ const Home: React.FC = () => {
     );
 
     if (
+      Object.keys(storedUser).length > 0 && 
       storedPromoData.length &&
       storedProdukDataPilihan.length &&
       storedProdukBundling.length
@@ -67,6 +82,12 @@ const Home: React.FC = () => {
       setPromoData(storedPromoData);
       setProdukDataPilihan(storedProdukDataPilihan);
       setProdukBundling(storedProdukBundling);
+      setUser(storedUser);
+
+      if (storedUser?.tgl_member) {
+        const durationText = calculateMemberDuration(storedUser.tgl_member);
+        setMemberDuration(durationText);
+      }
       setLoading(false);
     } else {
       setLoading(true);
@@ -107,13 +128,13 @@ const Home: React.FC = () => {
   const navigateToProdukDetail = (produk: any) => {
     history.push(`/produk-detail/${produk.id}`, { produk });
   };
+  const navigateToPromoDetail = (promo: any) => {
+    history.push(`/promo-detail/${promo.id}`, { promo });
+  };
   const navigateToProduk = () => {
     history.push('/produk');
   };
 
-  const navigateToBundling = () => {
-    history.push('/produk-bundling');
-  };
 
   return (
     <IonPage>
@@ -182,7 +203,7 @@ const Home: React.FC = () => {
               zoom={true}
             >
               {promoData.map((promo, index) => (
-                <SwiperSlide key={index}>
+                <SwiperSlide key={index}  onClick={() => navigateToPromoDetail(promo)}>
                   <div className="promo-banner">
                     <img
                       src={baseImgURL + 'promo/' + promo.link_gambar}
@@ -294,7 +315,7 @@ const Home: React.FC = () => {
               <div className="produk-header">
                 <div className="section-header">
                   <h4>Produk Bundling</h4>
-                  <div className="arrow-icon" onClick={navigateToBundling}>
+                  <div className="arrow-icon" onClick={navigateToProduk}>
                     <img src={arrowIcon} alt="" />
                   </div>
                 </div>

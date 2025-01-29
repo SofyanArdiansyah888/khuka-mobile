@@ -3,7 +3,7 @@ name: Build Ionic Android APK
 on:
   push:
     branches:
-      - master  # Change this to your desired branch
+      - master
   pull_request:
     branches:
       - master
@@ -24,14 +24,19 @@ jobs:
           cache: 'yarn'
 
       - name: Install dependencies
-        run: yarn install
+        run: yarn install 
+        
       - name: Install Ionic CLI & Capacitor
         run: yarn global add @ionic/cli @capacitor/cli
 
       - name: Build Ionic App
-        run: |
-          ionic build
-          npx cap sync android
+        run: ionic build
+
+      - name: Add Android Platform
+        run: npx cap add android
+
+      - name: Sync Capacitor with Android
+        run: npx cap sync android
 
       - name: Set up Java and Android SDK
         uses: android-actions/setup-android@v3

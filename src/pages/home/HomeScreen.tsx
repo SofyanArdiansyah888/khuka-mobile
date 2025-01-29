@@ -3,6 +3,9 @@ import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from '@ionic/rea
 import { useHistory } from 'react-router-dom';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import {Autoplay,Keyboard,Pagination,Scrollbar,Zoom} from 'swiper/modules';
+import { calculateMemberDuration } from '../../utils/calculateDuration';
+import { fetchPromo, fetchProduk } from '../../utils/api';
+import { baseImgURL } from '../../utils/axios';
 import 'swiper/css';
 import 'swiper/css/autoplay';
 import 'swiper/css/keyboard';
@@ -17,10 +20,9 @@ import cashback from '../../assets/cashback.png';
 import point from '../../assets/diamond.png';
 import arrowIcon from '../../assets/arrow-right.svg';
 import shopicon from '../../assets/shopping-bag-solid.svg';
-import { fetchPromo, fetchProduk } from '../../utils/api';
-import { baseImgURL } from '../../utils/axios';
 import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
+
 const Home: React.FC = () => {
   const history = useHistory();
   const [user, setUser] = useState<any>(null);
@@ -29,34 +31,6 @@ const Home: React.FC = () => {
   const [ProdukBundling, setProdukBundling] = useState<any[]>([]);
   const [memberDuration, setMemberDuration] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(true);
-
-  const calculateMemberDuration = (tgl_member: string) => {
-    const currentDate = new Date();
-    const memberDate = new Date(tgl_member);
-  
-    // Check if the date is the same as today
-    const isToday =
-      currentDate.getFullYear() === memberDate.getFullYear() &&
-      currentDate.getMonth() === memberDate.getMonth() &&
-      currentDate.getDate() === memberDate.getDate();
-  
-    if (isToday) {
-      return "hari ini";
-    }
-  
-    const diffTime = currentDate.getTime() - memberDate.getTime();
-    const diffDays = Math.floor(diffTime / (1000 * 3600 * 24));
-    const diffMonths = Math.floor(diffDays / 30);
-    const diffYears = Math.floor(diffMonths / 12);
-  
-    if (diffYears >= 1) {
-      return `${diffYears} tahun lalu`;
-    } else if (diffMonths >= 1) {
-      return `${diffMonths} bulan lalu`;
-    } else {
-      return `${diffDays} hari lalu`;
-    }
-  };
   
   useEffect(() => {
     // Check if data is already present in localStorage (to avoid re-fetching)

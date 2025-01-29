@@ -24,6 +24,7 @@
   
   .footer .tab-button .inactive-label {
     color: #9D9D9D;
+    font-size:10px;
   }
   .footer-detail{
     display: flex;

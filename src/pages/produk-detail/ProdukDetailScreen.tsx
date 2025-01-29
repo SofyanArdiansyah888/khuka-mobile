@@ -197,10 +197,10 @@ const ProdukDetail: React.FC = () => {
             </div>
           </div>
           <div className="bn-divider"></div>
-          <div className="produk-full-desc padding-lr-20">
+          <div className="full-desc padding-lr-20">
             <h4>Deskripsi Produk</h4>
             <div
-              className="produk-full-desc-content"
+              className="full-desc-content"
               dangerouslySetInnerHTML={{
                 __html: produk.masterproduk.deskripsi,
               }}

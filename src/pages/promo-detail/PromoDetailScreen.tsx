@@ -1,9 +1,18 @@
-import React, { useEffect, useState } from 'react';
-import { IonContent, IonPage, IonToast } from '@ionic/react';
-import { useHistory } from 'react-router-dom';
-import { useLocation, useParams } from 'react-router-dom';
-import { baseImgURL } from '../../utils/axios';
+import React from 'react';
+import {
+  IonContent,
+  IonHeader,
+  IonPage,
+  IonTitle,
+  IonToolbar,
+  IonButtons,
+  IonButton,
+} from '@ionic/react';
+import { useHistory, useLocation } from 'react-router-dom';
 import { Promo } from '../../entity/PromoEntity';
+import { baseImgURL } from '../../utils/axios';
+import back from '../../assets/arrow-left.svg';
+import './Promo.css'
 
 const PromoDetail: React.FC = () => {
   const history = useHistory();
@@ -24,10 +33,28 @@ const PromoDetail: React.FC = () => {
 
   return (
     <IonPage>
-      <IonContent>
-        <div className="history-back" onClick={historyBack}></div>
-        <div className="promodetail-img">
+      <IonHeader className="padding-lr-20">
+        <IonToolbar>
+          <IonButtons slot="start">
+            <IonButton onClick={historyBack} className="back-button">
+              <img src={back} alt="Back" />
+            </IonButton>
+          </IonButtons>
+          <IonTitle>Promo</IonTitle>
+        </IonToolbar>
+      </IonHeader>
+      <IonContent fullscreen>
+        <div className="promo-detail-img">
           <img src={baseImgURL + 'promo/' + promo.link_gambar} alt="" />
+        </div>
+        <div className="promo-detail-info full-desc padding-lr-20">
+          <h4>{promo.judul}</h4>
+          <div
+            className="full-desc-content"
+            dangerouslySetInnerHTML={{
+              __html: promo.deskripsi,
+            }}
+          />
         </div>
       </IonContent>
     </IonPage>

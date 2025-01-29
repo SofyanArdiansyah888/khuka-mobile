@@ -11,6 +11,8 @@ import riwayatImage from '../assets/riwayat.svg';
 import riwayatActiveImage from '../assets/riwayat-active.svg';
 import akunImage from '../assets/akun.svg';
 import akunActiveImage from '../assets/akun-active.svg';
+import rewardImage from '../assets/reward.svg';
+import rewardActiveImage from '../assets/reward-active.svg';
 
 // Import CSS for the footer
 import './Footer.css';
@@ -101,6 +103,23 @@ const Footer: React.FC = () => {
             className={isActive('/riwayat') ? 'active-label' : 'inactive-label'}
           >
             Riwayat
+          </IonLabel>
+        </IonRouterLink>
+      </IonTabButton>
+      <IonTabButton
+        className="tab-button"
+        tab="riwayat"
+        selected={isActive('/riwayat')}
+      >
+        <IonRouterLink routerLink="/reward">
+          <img
+            src={isActive('/reward') ? rewardActiveImage : rewardImage}
+            alt="Reward"
+          />
+          <IonLabel
+            className={isActive('/reward') ? 'active-label' : 'inactive-label'}
+          >
+            Rewards
           </IonLabel>
         </IonRouterLink>
       </IonTabButton>

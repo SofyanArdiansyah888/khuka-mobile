@@ -1,0 +1,29 @@
+.rewards-wrap .produk-info{
+    min-height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+.rewards-wrap .produk-image{
+    padding-left:6px;
+    margin-top:-42px
+}
+.rewards-wrap .produk-image img{
+    height:50px !important
+}
+.rewards-wrap .produk-desc, .rewards-wrap .produk-satuan{
+    font-size:9px
+}
+.rewards-wrap .produk-list-header{
+    background: #cbeddd;
+}
+.rewards-wrap .produk-desc{
+    background: #0fbf6e;
+}
+.rewards-wrap .produk-satuan{
+    background:'#49773b'
+}
+.rewards-wrap .full-desc-content, .rewards-wrap .produk-info p{
+    font-size:14px
+}

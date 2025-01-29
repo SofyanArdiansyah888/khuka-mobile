@@ -1,24 +1,36 @@
 import api from '../utils/axios';
-// Fetch promo data
+// ambil data promo
 export const fetchPromo = async (tipe: string) => {
-    try {
-        const response = await api.get('/promo', {
-            params: { tipe },  // Add tipe as a query parameter
-        });
-      return response.data;
-    } catch (error) {
-      console.error('Error fetching promo data:', error);
-      throw error;
-    }
-  };
-  export const fetchProduk = async (limit: string,kategori:string) => {
-    try {
-        const response = await api.get('/produk', {
-            params: { limit,kategori },  
-        });
-      return response.data;
-    } catch (error) {
-      console.error('Error fetching produk data:', error);
-      throw error;
-    }
-  };
+  try {
+    const response = await api.get('/promo', {
+      params: { tipe }, // Add tipe as a query parameter
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching promo data:', error);
+    throw error;
+  }
+};
+// ambil data produk
+export const fetchProduk = async (limit: string, kategori: string) => {
+  try {
+    const response = await api.get('/produk', {
+      params: { limit, kategori },
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching produk data:', error);
+    throw error;
+  }
+};
+
+// ambil data rewards
+export const fetchRewards = async () => {
+  try {
+    const response = await api.get('/rewards');
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching rewards data:', error);
+    throw error;
+  }
+};

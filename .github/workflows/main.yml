@@ -24,8 +24,7 @@ jobs:
           cache: 'yarn'
 
       - name: Install dependencies
-        run: yarn install --frozen-lockfile
-
+        run: yarn install
       - name: Install Ionic CLI & Capacitor
         run: yarn global add @ionic/cli @capacitor/cli
 

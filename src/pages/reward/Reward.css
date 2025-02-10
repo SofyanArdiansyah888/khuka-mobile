@@ -1,29 +1,64 @@
+.rewards-heading-text{
+    margin-top:35px;
+    margin-bottom:10px;
+}
+
+.rewards-heading-text h3, .rewards-heading-text p{
+    color:#fff;
+    margin:0
+}
+.rewards-heading-text h3{
+    font-weight:bold;
+    margin-bottom:10px
+}
+.rewards-wrap{
+    margin-top:25px;
+}
+.rewards-wrap .produk-card{
+    position:relative;
+}
 .rewards-wrap .produk-info{
-    min-height: 100px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
+    min-height: 95px;
+    padding-bottom:50px;
+    position:unset
 }
-.rewards-wrap .produk-image{
-    padding-left:6px;
-    margin-top:-42px
-}
-.rewards-wrap .produk-image img{
-    height:50px !important
-}
-.rewards-wrap .produk-desc, .rewards-wrap .produk-satuan{
-    font-size:9px
-}
+
 .rewards-wrap .produk-list-header{
-    background: #cbeddd;
+    padding:0;
+    background: transparent;
 }
-.rewards-wrap .produk-desc{
-    background: #0fbf6e;
+.rewards-wrap .produk-list-header img{
+   border-radius:10px 10px 0 0;
+   width:100%;
+   max-width:100%;
+   height:105px;
+   object-fit: cover;
 }
-.rewards-wrap .produk-satuan{
-    background:'#49773b'
+.rewards-wrap .produk-info p{
+    font-weight: 500;
+    font-size:14px;
+    line-height: 1.3em;
 }
-.rewards-wrap .full-desc-content, .rewards-wrap .produk-info p{
-    font-size:14px
+.rewards-wrap .poin-wrap{
+    position: absolute;
+    bottom: 10px;
+    width: 85%;
+}
+.rewards-wrap .poin-item{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+.rewards-wrap .poin{
+   color:#D19F23;
+   font-weight: 600;
+   font-size:18px
+}
+.rewards-wrap .poin-arrow{
+    width: 20px;
+    height: 20px;
+    background: #FFECBE;
+    text-align: center;
+    border-radius: 100%;
 }

@@ -11,8 +11,8 @@ import riwayatImage from '../assets/riwayat.svg';
 import riwayatActiveImage from '../assets/riwayat-active.svg';
 import akunImage from '../assets/akun.svg';
 import akunActiveImage from '../assets/akun-active.svg';
-import rewardImage from '../assets/reward.svg';
-import rewardActiveImage from '../assets/reward-active.svg';
+import rewardImage from '../assets/gift.svg';
+import rewardActiveImage from '../assets/gift-active.svg';
 
 // Import CSS for the footer
 import './Footer.css';

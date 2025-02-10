@@ -1,7 +1,7 @@
 .user-info-wrap {
   padding: 20px;
   background: #d19f23;
-  height: 150px;
+  min-height: 150px;
 }
 .user-info {
   display: flex;

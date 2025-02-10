@@ -1,0 +1,20 @@
+.reward-header {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  flex-direction: row;
+}
+.reward-header .header_title{
+    width: 90%;
+    text-align: center;
+}
+.reward-detail{
+  margin:20px 0
+}
+.reward-img{
+  width: 100%;
+  height:220px;
+  object-fit: cover;
+  border-radius:10px
+
+}

@@ -3,6 +3,9 @@ import { IonContent, IonPage } from '@ionic/react';
 import { fetchRewards } from '../../utils/api';
 import { baseImgURL } from '../../utils/axios';
 import { calculateMemberDuration } from '../../utils/calculateDuration';
+import { useHistory } from 'react-router-dom';
+import Skeleton from 'react-loading-skeleton';
+import 'react-loading-skeleton/dist/skeleton.css';
 import iconright from '../../assets/chevron-right.svg';
 import whitelogo from '../../assets/khukha-white.svg';
 import cashback from '../../assets/cashback.png';
@@ -10,6 +13,7 @@ import point from '../../assets/diamond.png';
 import './Reward.css';
 
 const RewardScreen: React.FC = () => {
+   const history = useHistory();
   const [rewards, setRewards] = useState<any[]>([]);
   const [user, setUser] = useState<any>(null);
   const [memberDuration, setMemberDuration] = useState<string>('');
@@ -54,6 +58,10 @@ const RewardScreen: React.FC = () => {
       fetchData();
     }
   }, []);
+  const navigateToRewardDetail = (reward: any) => {
+    console.log(reward.id)
+    history.push(`/reward-detail/${reward.id}`, { reward });
+  };
   return (
     <IonPage>
       <IonContent fullscreen>
@@ -84,9 +92,30 @@ const RewardScreen: React.FC = () => {
             <p>Semakin banyak poin semakin besar rewardnya</p>
           </div>
         </div>
+          {loading ? (
+                  // Skeleton container
+                  <>
+                    <div style={{ padding: '20px', display: 'flex', gap: '20px' }}>
+                      <Skeleton width={150} height={200} />
+                      <Skeleton width={150} height={200} />
+                    </div>
+                    <div
+                      style={{
+                        padding: '20px',
+                        display: 'flex',
+                        gap: '20px',
+                        paddingTop: '0',
+                      }}
+                    >
+                      <Skeleton width={150} height={200} />
+                      <Skeleton width={150} height={200} />
+                    </div>
+                  </>
+                ) : (
+                  <>
         <div className="all-produk padding-lr-20 rewards-wrap">
           {rewards.map((item, index) => (
-            <div className="produk-card">
+            <div key={item.id} className="produk-card"  onClick={() => navigateToRewardDetail(item)}>
               <div className="produk-list-header">
                 <img src={baseImgURL + 'reward/' + item.link_gambar} alt="" />
               </div>
@@ -108,6 +137,8 @@ const RewardScreen: React.FC = () => {
             </div>
           ))}
         </div>
+        </>
+                )}
       </IonContent>
     </IonPage>
   );

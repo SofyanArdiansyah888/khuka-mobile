@@ -4,13 +4,7 @@ import { fetchPromo, fetchProduk } from '../../utils/api';
 import { baseImgURL } from '../../utils/axios';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { useHistory } from 'react-router-dom';
-import {
-  Autoplay,
-  Keyboard,
-  Pagination,
-  Scrollbar,
-  Zoom,
-} from 'swiper/modules';
+import { Autoplay, Keyboard, Pagination, Scrollbar } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/autoplay';
 import 'swiper/css/keyboard';
@@ -34,9 +28,7 @@ const ProdukScreen: React.FC = () => {
 
   useEffect(() => {
     // Check if data is already present in localStorage (to avoid re-fetching)
-    const storedUser = JSON.parse(
-        localStorage.getItem('user') || '{}'
-      );
+    const storedUser = JSON.parse(localStorage.getItem('user') || '{}');
 
     const storedPromoVertical = JSON.parse(
       localStorage.getItem('promoVertical') || '[]'
@@ -45,7 +37,11 @@ const ProdukScreen: React.FC = () => {
       localStorage.getItem('allProduk') || '[]'
     );
 
-    if ( Object.keys(storedUser).length > 0 && storedPromoVertical.length && storedAllProduk.length) {
+    if (
+      Object.keys(storedUser).length > 0 &&
+      storedPromoVertical.length &&
+      storedAllProduk.length
+    ) {
       setPromoVertical(storedPromoVertical);
       setFeaturedProduk(storedAllProduk[0] || null);
       setRemainingProduk(storedAllProduk.slice(1));
@@ -137,6 +133,7 @@ const ProdukScreen: React.FC = () => {
               <div className="produk-wrap produk-item">
                 {featuredProduk && (
                   <div
+                    key={featuredProduk.id}
                     className="produk-card"
                     onClick={() => navigateToProdukDetail(featuredProduk)}
                   >
@@ -231,6 +228,7 @@ const ProdukScreen: React.FC = () => {
             <div className="all-produk padding-lr-20">
               {remainingProduk.map((item, index) => (
                 <div
+                  key={item.id}
                   className="produk-card"
                   onClick={() => navigateToProdukDetail(item)}
                 >

@@ -45,7 +45,7 @@ ion-toast{
 }
 .section-header h4,.header_title {
   margin: 0;
-  font-size: 1.2rem;
+  font-size: 18px;
   color: #0b0b10;
   font-weight: bold;
 }
@@ -257,6 +257,11 @@ ion-toast{
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+}
+.history-back.non-absolute{
+  position: relative;
+    left: unset;
+    top: unset;
 }
 .keranjang-count{
   position: absolute;

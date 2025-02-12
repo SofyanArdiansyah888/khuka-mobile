@@ -30,6 +30,7 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
       // Save the token to localStorage
       localStorage.setItem('auth_token', response.data.token);
       localStorage.setItem('user', JSON.stringify(response.data.user));
+      localStorage.setItem('kabupaten', JSON.stringify(response.data.kabupaten));
       onLogin();
       history.push('/home');
     } catch (err: any) {

@@ -16,6 +16,7 @@ import RiwayatScreen from './pages/riwayat/RiwayatScreen';
 import RewardScreen from './pages/reward/RewardScreen';
 import RewardDetail from './pages/reward/detail/RewardDetail';
 import AkunScreen from './pages/akun/AkunScreen';
+import DaftarMember from './pages/akun/daftar-member/Daftar';
 import Layout from './components/Layout';
 
 import '@ionic/react/css/core.css';
@@ -29,6 +30,7 @@ import '@ionic/react/css/text-transformation.css';
 import '@ionic/react/css/flex-utils.css';
 import '@ionic/react/css/display.css';
 import './theme/variables.css';
+
 
 
 setupIonicReact();
@@ -111,6 +113,12 @@ const App: React.FC = () => {
               exact
               path="/akun"
               component={AkunScreen}
+            />
+            <PrivateRoute
+              isAuthenticated={isAuthenticated}
+              exact
+              path="/akun/daftar-member"
+              component={DaftarMember}
             />
           </Layout>
 

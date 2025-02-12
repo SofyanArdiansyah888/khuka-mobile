@@ -32,6 +32,9 @@ const AkunScreen: React.FC = () => {
     localStorage.clear(); // Remove all localStorage items
     history.push('/login'); // Redirect to login page
   };
+  const daftarMember = () => {
+    history.push('/akun/daftar-member');
+  };
   const sections = [
     {
       title: 'Akun',
@@ -43,7 +46,7 @@ const AkunScreen: React.FC = () => {
     {
       title: 'Member',
       items: [
-        { icon: profilIcon, label: 'Daftar Member', onClick: null },
+        { icon: profilIcon, label: 'Daftarkan Member', onClick: daftarMember },
         { icon: passIcon, label: 'List Member Anda', onClick: null },
         { icon: passIcon, label: 'Request Redeem', onClick: null },
       ],

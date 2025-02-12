@@ -18,7 +18,7 @@
   flex: 1;
   overflow: auto;
 }
-input {
+input,textarea {
   margin-bottom: 16px !important;
   border-radius: 20px;
   width: 100%;

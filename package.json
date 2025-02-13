@@ -32,6 +32,7 @@
     "react-loading-skeleton": "^3.5.0",
     "react-router": "^5.3.4",
     "react-router-dom": "^5.3.4",
+    "sweetalert2": "^11.16.0",
     "swiper": "^11.1.15"
   },
   "devDependencies": {

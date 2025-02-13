@@ -1,41 +1,54 @@
 import React, { useEffect, useState } from 'react';
 import { IonContent, IonPage, IonSelect, IonSelectOption } from '@ionic/react';
 import { useHistory } from 'react-router-dom';
+import api from '../../../utils/axios';
+import Swal from 'sweetalert2';
 import './Daftar.css';
 
 const DaftarMember: React.FC = () => {
+  const [user, setUser] = useState<any>(null);
   const [datakab, setDataKab] = useState<any[]>([]);
   const history = useHistory();
-  const [kodeRef, setKodeRef] = useState('');
+  const [sponsor_ref, setKodeRef] = useState('');
   const [nama, setNama] = useState('');
+  const [member_level, setLevel] = useState('Konsumen');
   const [email, setEmail] = useState('');
-  const [noKtp, setNoKtp] = useState('');
+  const [nik, setNoKtp] = useState('');
   const [noKtpError, setNoKtpError] = useState(false);
-  const [noHp, setNoHp] = useState('');
-  const [noHpLain, setNoHpLain] = useState('');
+  const [no_hp, setNoHp] = useState('');
+  const [no_hp_lain, setNoHpLain] = useState('');
   const [alamat, setAlamat] = useState('');
   const [id_kab, setKabupaten] = useState('');
   const [kabupatenError, setKabupatenError] = useState(false);
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [errors, setErrors] = useState<string[]>([]);
 
   const historyBack = () => {
     history.goBack();
   };
 
-  useEffect(() => {
+  
+   useEffect(() => {
+    // Load stored data when component mounts
+    const storedUser = JSON.parse(localStorage.getItem('user') || '{}');
+    setUser(storedUser);
+    setKodeRef(storedUser.kode_ref || '');
+
     const storedDataKab = JSON.parse(localStorage.getItem('kabupaten') || '{}');
     setDataKab(storedDataKab);
-  }, []);
 
-  const handleDaftar = (e: React.FormEvent) => {
+    setLevel('Konsumen');
+  }, []); // Runs only on component mount
+
+  const handleDaftar = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     setNoKtpError(false);
     setKabupatenError(false);
 
-    if (noKtp.length !== 16) {
+    if (nik.length !== 16) {
       setNoKtpError(true);
       setLoading(false);
       return;
@@ -45,27 +58,71 @@ const DaftarMember: React.FC = () => {
       setLoading(false);
       return;
     }
-
-    // Simulate API request
-    setTimeout(() => {
-      console.log({
-        kodeRef,
+    try {
+      const response = await api.post('/daftar-member', {
+        sponsor_ref,
         nama,
         email,
-        noKtp,
-        noHp,
-        noHpLain,
+        member_level,
+        nik,
+        no_hp,
+        no_hp_lain,
         alamat,
         id_kab,
         password,
       });
+      if(response.data.success){
+        Swal.fire({
+          icon: 'success',
+          title: 'Pendaftaran Berhasil!',
+          html: '<p>Selamat! Anda telah terdaftar sebagai Member.</p> <p>Segera melakukan pembayaran sebesar Rp. 250.000,- untuk mengaktifkan Akun Anda.</p>',
+          confirmButtonText: 'OK'
+        }).then(() => {
+          // Redirect to "info-pembayaran" page after clicking OK
+          history.push('/akun');
+        });
+      } else {
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: response.data.message,
+        });
+      }
+    
+    } catch (err: any) {
+      if (err.response && err.response.data.errors) {
+        const validationErrors = Object.values(err.response.data.errors).flat() as string[];
+    
+        // Display errors in SweetAlert2
+        Swal.fire({
+          icon: 'error',
+          html: `<ul style="text-align: left; ">${validationErrors
+            .map(error => `<li style="color:red">${error}</li>`)
+            .join('')}</ul>`,
+        });
+      } else if (err.response?.data?.message) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: err.response.data.message,
+        });
+      } else {
+        Swal.fire({
+          icon: 'error',
+          title: 'Unexpected Error',
+          text: 'An unexpected error occurred. Please try again.',
+        });
+      }
+    }
+     finally {
       setLoading(false);
-    }, 2000);
+    }
   };
 
   return (
     <IonPage>
-      <IonContent fullscreen>
+      <IonContent fullscreen className="daftar_page">
+   
         <div className="reward-header padding-lr-20 no-default-header">
           <div
             className="history-back non-absolute"
@@ -74,22 +131,30 @@ const DaftarMember: React.FC = () => {
           <h4 className="header_title">Pendaftaran Member Khukha</h4>
         </div>
         <div className="padding-lr-20">
+          {errors.length > 0 && (
+            <ul className="text-red-500 list-disc pl-5">
+              {errors.map((error, index) => (
+                <li key={index}>{error}</li>
+              ))}
+            </ul>
+          )}
+
           <form
             className="daftar_form"
             onSubmit={handleDaftar}
             autoComplete="off"
           >
             <div className="form-item">
-              <label>Kode Referall</label>
+              <label>Kode Referall Anda</label>
               <input
                 type="text"
-                value={kodeRef}
+                value={sponsor_ref}
                 onChange={(e) => setKodeRef(e.target.value)}
-                required
+                readOnly
               />
             </div>
             <div className="form-item">
-              <label>Nama</label>
+              <label>Nama Member</label>
               <input
                 type="text"
                 value={nama}
@@ -107,22 +172,22 @@ const DaftarMember: React.FC = () => {
               />
             </div>
             <div className="form-item">
-              <label>No KTP</label>
-              <input
-                type="tel"
-                value={noKtp}
-                onChange={(e) => setNoKtp(e.target.value)}
-                required
-              />
+              <label>No KTP (16 Digits)</label>
               {noKtpError && (
                 <p className="error-text">No KTP harus 16 digit!</p>
               )}
-            </div>
-            <div className="form-item">
-              <label>No HP</label>
               <input
                 type="tel"
-                value={noHp}
+                value={nik}
+                onChange={(e) => setNoKtp(e.target.value)}
+                required
+              />
+            </div>
+            <div className="form-item">
+              <label>No HP (Min 10 Digit)</label>
+              <input
+                type="tel"
+                value={no_hp}
                 onChange={(e) => setNoHp(e.target.value)}
                 required
               />
@@ -131,7 +196,7 @@ const DaftarMember: React.FC = () => {
               <label>No HP Lain (Optional)</label>
               <input
                 type="tel"
-                value={noHpLain}
+                value={no_hp_lain}
                 onChange={(e) => setNoHpLain(e.target.value)}
               />
             </div>
@@ -145,6 +210,9 @@ const DaftarMember: React.FC = () => {
             </div>
             <div className="form-item" style={{ marginBottom: '16px' }}>
               <label>Kabupaten</label>
+              {kabupatenError && (
+                <p className="error-text">Kabupaten wajib dipilih!</p>
+              )}
               <IonSelect
                 value={id_kab}
                 onIonChange={(e) => setKabupaten(e.detail.value)}
@@ -156,9 +224,6 @@ const DaftarMember: React.FC = () => {
                   </IonSelectOption>
                 ))}
               </IonSelect>
-              {kabupatenError && (
-                <p className="error-text">Kabupaten wajib dipilih!</p>
-              )}
             </div>
             <div className="form-item">
               <label>Password</label>

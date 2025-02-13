@@ -1,11 +1,27 @@
+.daftar_page{
+    --background:#f2e1b8
+}
 .daftar_form{
     margin-top:50px;
     padding-bottom:50px
 }
 .daftar_form label{
     font-size:14px;
-    color:#a5a5a5
+    /* color:#a5a5a5 */
 }
 .daftar_form input{
     margin-top:5px
+}
+.password-input input{
+    position:relative
+}
+.toggle-password{
+    position: absolute;
+    right: 15px;
+    top: 50%;
+}
+.daftar_page .error-text{
+    margin: 0;
+    color: red;
+    font-size: 14px;
 }

@@ -35,11 +35,14 @@ const AkunScreen: React.FC = () => {
   const daftarMember = () => {
     history.push('/akun/daftar-member');
   };
+  const profil = () => {
+    history.push('/akun/profil');
+  };
   const sections = [
     {
       title: 'Akun',
       items: [
-        { icon: profilIcon, label: 'Profil', onClick: null },
+        { icon: profilIcon, label: 'Profil', onClick: profil },
         { icon: passIcon, label: 'Ubah Password', onClick: null },
       ],
     },

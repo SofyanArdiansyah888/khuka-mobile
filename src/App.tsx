@@ -17,6 +17,7 @@ import RewardScreen from './pages/reward/RewardScreen';
 import RewardDetail from './pages/reward/detail/RewardDetail';
 import AkunScreen from './pages/akun/AkunScreen';
 import DaftarMember from './pages/akun/daftar-member/Daftar';
+import Profil from './pages/akun/profil/Profil';
 import Layout from './components/Layout';
 
 import '@ionic/react/css/core.css';
@@ -119,6 +120,12 @@ const App: React.FC = () => {
               exact
               path="/akun/daftar-member"
               component={DaftarMember}
+            />
+            <PrivateRoute
+              isAuthenticated={isAuthenticated}
+              exact
+              path="/akun/profil"
+              component={Profil}
             />
           </Layout>
 

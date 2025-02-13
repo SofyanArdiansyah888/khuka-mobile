@@ -34,7 +34,7 @@ const DaftarMember: React.FC = () => {
     // Load stored data when component mounts
     const storedUser = JSON.parse(localStorage.getItem('user') || '{}');
     setUser(storedUser);
-    setKodeRef(storedUser.kode_ref || '');
+    setKodeRef(storedUser.kode_ref);
 
     const storedDataKab = JSON.parse(localStorage.getItem('kabupaten') || '{}');
     setDataKab(storedDataKab);
@@ -79,7 +79,7 @@ const DaftarMember: React.FC = () => {
           confirmButtonText: 'OK'
         }).then(() => {
           // Redirect to "info-pembayaran" page after clicking OK
-          history.push('/akun');
+          // history.push('/akun');
         });
       } else {
         Swal.fire({
@@ -144,17 +144,9 @@ const DaftarMember: React.FC = () => {
             onSubmit={handleDaftar}
             autoComplete="off"
           >
+            
             <div className="form-item">
-              <label>Kode Referall Anda</label>
-              <input
-                type="text"
-                value={sponsor_ref}
-                onChange={(e) => setKodeRef(e.target.value)}
-                readOnly
-              />
-            </div>
-            <div className="form-item">
-              <label>Nama Member</label>
+              <label>Nama Lengkap</label>
               <input
                 type="text"
                 value={nama}
@@ -193,7 +185,7 @@ const DaftarMember: React.FC = () => {
               />
             </div>
             <div className="form-item">
-              <label>No HP Lain (Optional)</label>
+              <label>No HP Lain (Opsional)</label>
               <input
                 type="tel"
                 value={no_hp_lain}

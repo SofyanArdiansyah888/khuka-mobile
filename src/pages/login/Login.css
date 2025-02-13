@@ -29,7 +29,7 @@ position:relative
 }
 .lupa-link{
 position: absolute;
-top:0;
+top:10px;
 right: 0;
 background: #c2bfbf;
 padding: 17px;

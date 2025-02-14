@@ -16,6 +16,7 @@ import RiwayatScreen from './pages/riwayat/RiwayatScreen';
 import RewardScreen from './pages/reward/RewardScreen';
 import RewardDetail from './pages/reward/detail/RewardDetail';
 import AkunScreen from './pages/akun/AkunScreen';
+import Checkout from './pages/checkout/Checkout';
 import DaftarMember from './pages/akun/daftar-member/Daftar';
 import Profil from './pages/akun/profil/Profil';
 import Layout from './components/Layout';
@@ -90,6 +91,12 @@ const App: React.FC = () => {
               exact
               path="/keranjang"
               component={KeranjangScreen}
+            />
+            <PrivateRoute
+              isAuthenticated={isAuthenticated}
+              exact
+              path="/checkout"
+              component={Checkout}
             />
             <PrivateRoute
               isAuthenticated={isAuthenticated}

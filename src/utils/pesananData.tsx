@@ -9,7 +9,7 @@ export interface PesananProduk {
     id_user: string;
     metode_pembayaran: string;
     cashback_discount: string;
-    ambil_barang: string;
+    id_ambil_barang: string;
     total_pembayaran: number;
     pesananproduk: PesananProduk[];
   }
@@ -21,7 +21,7 @@ export interface PesananProduk {
     id_user: user.id || '', // Set from localStorage
     metode_pembayaran: '',
     cashback_discount: '',
-    ambil_barang: '',
+    id_ambil_barang: '',
     total_pembayaran: 0,
     pesananproduk: [],
   };

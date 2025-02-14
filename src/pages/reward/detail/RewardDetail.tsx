@@ -16,7 +16,7 @@ const RewardDetail: React.FC = () => {
   return (
     <IonPage>
       <IonContent fullscreen>
-        <div className="reward-header padding-lr-20 no-default-header">
+        <div className="header-with-back padding-lr-20 no-default-header">
           <div
             className="history-back non-absolute"
             onClick={historyBack}

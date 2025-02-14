@@ -84,7 +84,16 @@ input[type="checkbox"]:checked + .checkbox-custom::after {
   border-width: 0 2px 2px 0;
   transform: rotate(45deg);
 }
-
+.header-with-back {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  flex-direction: row;
+}
+.header-with-back .header_title{
+    width: 90%;
+    text-align: center;
+}
 
 
 .ion-page {
@@ -383,4 +392,57 @@ div:where(.swal2-icon).swal2-success .swal2-success-ring{
 }
 .with_bottom_border{
   border-bottom:1px solid #e9e5e5;
+}
+.btn_khu{
+  background:#D19F23;
+  color:#fff;
+  border-radius:5px;
+  padding:15px 25px;
+}
+.radio-container {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  position: relative;
+  padding-left: 30px; /* Adjust spacing */
+}
+
+.radio-container input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.radio-custom {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 19px;
+  width: 19px;
+  background-color: white;
+  border: 1px solid #CA9922;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.radio-container input:checked + .radio-custom {
+  border-color: #CA9922;
+}
+
+.radio-custom::after {
+  content: "";
+  position: absolute;
+  display: none;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 10px;
+  height: 10px;
+  background: #CA9922;
+  border-radius: 50%;
+}
+
+.radio-container input:checked + .radio-custom::after {
+  display: block;
 }

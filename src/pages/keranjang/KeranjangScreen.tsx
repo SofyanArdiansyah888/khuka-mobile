@@ -100,7 +100,7 @@ const KeranjangScreen: React.FC = () => {
       console.log('Updated Pesanan Data:', JSON.stringify(pesananData, null, 2));
     
       // Proceed to checkout
-      // history.push('/checkout');
+      history.push('/checkout');
     };
     
 

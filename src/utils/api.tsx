@@ -34,3 +34,33 @@ export const fetchRewards = async () => {
     throw error;
   }
 };
+// ambil data bank
+export const dataBank = async () => {
+  try {
+    const response = await api.get('/bank');
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching bank data:', error);
+    throw error;
+  }
+};
+// ambil data metode pembayaran
+export const dataMetode = async () => {
+  try {
+    const response = await api.get('/metode');
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching metode pembayaran data:', error);
+    throw error;
+  }
+};
+// ambil data pengambilan barang
+export const dataTempat = async () => {
+  try {
+    const response = await api.get('/pengambilan-barang');
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching tempat data:', error);
+    throw error;
+  }
+};

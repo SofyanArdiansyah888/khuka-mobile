@@ -1,0 +1,71 @@
+.checkout_header_wrap{
+    margin-bottom:37px
+}
+.checkout_header{
+    display:flex;
+    align-items: center;
+    gap:10px;
+    margin-bottom:27px;
+}
+.checkout_title,.nama_tempat{
+    color:#0B0B10;
+    font-size:14px;
+    font-weight:600
+}
+.checkout_icon img{
+    width:14px;
+    height:auto;
+    object-fit: contain;
+}
+.checkout_tempat{
+    display:flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top:15px;
+}
+.checkout_alamat{
+    margin-top:15px;
+    margin-bottom:15px;
+    color:#707070;
+    font-size:14px;
+    max-width:80%;
+    line-height: 1.5em;
+}
+.items_wraps .item:last-child{
+    border:0
+}
+.checkout_metode,.ringkasan_item{
+    display:flex;
+    gap:45px;
+    margin:15px 0;
+    align-items: center;
+    justify-content: space-between;
+
+}
+.bank_img{
+    flex: 0 0 10%;
+}
+.bank_img img{
+    width:100%;
+    height:auto;
+}
+.nama_bank{
+    color:#000000;
+    font-size:14px;
+    flex:0 0 50%
+}
+.bank_radio{
+    flex:0 0 10%;
+}
+.ringkasan_item{
+    color:#707070;
+    font-size:12px
+}
+.ringkasan_item .total_pembayaran{
+    color:#D19F23;
+    font-size:14px;
+    font-weight: 700;
+}
+.checkout_btn{
+   width:89%
+}

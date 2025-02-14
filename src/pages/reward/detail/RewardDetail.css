@@ -1,13 +1,4 @@
-.reward-header {
-  display: flex;
-  justify-content: start;
-  align-items: center;
-  flex-direction: row;
-}
-.reward-header .header_title{
-    width: 90%;
-    text-align: center;
-}
+
 .reward-detail{
   margin:20px 0
 }

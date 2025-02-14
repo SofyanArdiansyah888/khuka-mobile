@@ -40,3 +40,104 @@
   padding:12px;
   margin-top:30px
 }
+.keranjang-item{
+  display:flex;
+  gap:15px;
+  align-items: flex-start;
+}
+
+
+
+
+.isi_keranjang{
+  box-shadow: 0px 3px 6px #0000001A;
+  border-radius:10px;
+  margin-bottom:20px;
+  display:flex;
+  flex:1
+}
+.keranjang_img_produk{
+  width:130px;
+  height:auto;
+}
+.keranjang_produk_desc{
+  padding:15px;
+  position:relative;
+  flex:1
+}
+.keranjang_produk_desc h4{
+  font-size:12px;
+  color:#000;
+  margin:0
+}
+.keranjang_produk_desc p{
+  margin:0 0 5px 0;
+  color:#707070;
+  font-size:11px
+}
+.produk_info_desc{
+  margin-top:12px
+}
+.produk_info_desc p span{
+  font-weight: bold;
+  color:#707070
+}
+.produk_info_desc .hargax{
+  color:#D19F23;
+}
+.produk_info_desc .produk_qty_control{
+  position:absolute;
+  bottom:7px;
+  right:15px
+}
+.checkout_footer{
+  box-shadow:unset
+}
+.checkout_footer .checkout_box{
+  margin:5px 20px;
+  background:#F7F7F7;
+  padding:20px;
+  border-radius:10px;
+  display:flex;
+  align-items: center;
+}
+.checkout_footer .checkout_box div{
+  flex:1
+}
+.checkout_footer .checkout_box p{
+  margin:0
+}
+.checkout_footer .checkout_btn{
+  text-align:center
+}
+.checkout_text p{
+  color:#A3A3A3;
+  font-size:12px
+}
+.checkout_text .total_biaya{
+  color:#000000;
+  font-size:20px;
+  font-weight:600
+}
+.checkout_footer .checkout_btn button{
+  background:#D19F23;
+  padding:10px 38px;
+  border-radius:5px;
+  color:#fff
+}
+.hapus_keranjang{
+  margin-bottom:10px;
+  display: flex;
+      justify-content: space-between;
+}
+.hapus_keranjang div{
+  padding-bottom:10px
+}
+.hapus_keranjang .hapus_text{
+  font-size:12px
+}
+.hapus_keranjang .hapus_aksi{
+  color: #d19f23;
+    font-size: 14px;
+    font-weight: bold;
+}

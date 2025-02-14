@@ -39,6 +39,54 @@ input::placeholder {
   font-family: 'Metropolis', sans-serif;
   font-weight: 500;
 }
+/* Custom checkbox styling */
+/* Container to align checkbox and label */
+.checkbox-container {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+/* Hide the default checkbox */
+input[type="checkbox"] {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* Custom checkbox style */
+.checkbox-custom {
+  width: 20px;
+  height: 20px;
+  border: 1px solid #707070;
+  border-radius: 5px;
+  background-color: white;
+  display: inline-block;
+  position: relative;
+}
+
+/* Custom checkmark when checked */
+input[type="checkbox"]:checked + .checkbox-custom {
+  background-color: #CA9922;
+  border-color: #CA9922;
+}
+
+/* Checkmark icon */
+input[type="checkbox"]:checked + .checkbox-custom::after {
+  content: "";
+  position: absolute;
+  left: 5px;
+  top: 0px;
+  width: 6px;
+  height: 12px;
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+
+
 .ion-page {
   bottom: 40px;
   max-width:500px;
@@ -329,4 +377,10 @@ div:where(.swal2-icon).swal2-success .swal2-success-ring{
 }
 .swal2-success-line-long{
   background-color:#D19F23 !important
+}
+.with_top_border{
+  border-top:1px solid #e9e5e5;
+}
+.with_bottom_border{
+  border-bottom:1px solid #e9e5e5;
 }

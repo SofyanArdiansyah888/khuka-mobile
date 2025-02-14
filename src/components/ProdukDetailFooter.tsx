@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { IonToast } from '@ionic/react';
 import callcenter from '../assets/chat-bubble-typing.svg';
 import closeBtn from '../assets/close.svg';
 import { Produk } from '../entity/ProdukEntity';
@@ -7,26 +8,77 @@ import logo from '../assets/logo-khukha.png';
 import './Footer.css';
 
 interface ProdukDetailFooterProps {
-  handleKeranjangClick: () => void;
-  handleBeliClick: () => void;
   isKeranjang: () => void;
   isBeli: () => void;
   actionType: 'keranjang' | 'beli' | null;
   showHiddenDiv: boolean;
   setShowHiddenDiv: (value: boolean) => void;
   produk: Produk;
+  userPoints: number; 
+  userCashback: number;
 }
 
 const ProdukDetailFooter: React.FC<ProdukDetailFooterProps> = ({
-  handleKeranjangClick,
-  handleBeliClick,
   isKeranjang,
   isBeli,
-  actionType,
-  showHiddenDiv,
   setShowHiddenDiv,
+  showHiddenDiv,
+  actionType,
   produk,
+  userPoints,
+  userCashback
 }) => {
+  const [toastMessage, setToastMessage] = useState<string>('');
+  const [showToast, setShowToast] = useState<boolean>(false);
+  const [isAddingToCart, setIsAddingToCart] = useState<boolean>(false);
+
+  const handleBeliClick = () => {
+    console.log('beli clicked');
+  };
+  const handleKeranjangClick = () => {
+    if (produk) {
+      const existingKeranjang = JSON.parse(localStorage.getItem('keranjang') || '[]');
+  
+      const isProductInCart = existingKeranjang.some(
+        (item: any) => item.id === produk.id
+      );
+  
+      if (isProductInCart) {
+        setToastMessage(
+          'Produk ini sudah ada di keranjang belanja anda sebelumnya. Pilih produk lainnya.'
+        );
+        setShowToast(true);
+        setShowHiddenDiv(false);
+        return;
+      }
+  
+      setToastMessage('Tunggu sebentar yah...');
+      setShowToast(true);
+      setIsAddingToCart(true);
+  
+      setTimeout(() => {
+        const newItem = {
+          id: produk.id,
+          link_gambar: produk.link_gambar,
+          harga: produk.harga,
+          total_harga: produk.harga * quantity,
+          quantity: quantity,
+          poin: userPoints,
+          cashback: userCashback,
+          judul:produk.judul
+        };
+  
+        const updatedKeranjang = [...existingKeranjang, newItem];
+        localStorage.setItem('keranjang', JSON.stringify(updatedKeranjang));
+  
+        setToastMessage('Produk berhasil ditambahkan ke keranjang belanja.');
+        setIsAddingToCart(false);
+        setShowToast(true);
+        setShowHiddenDiv(false);
+      }, 1000);
+    }
+  };
+  
   const [quantity, setQuantity] = useState(1);
 
   const increaseQuantity = () => {
@@ -72,7 +124,7 @@ const ProdukDetailFooter: React.FC<ProdukDetailFooterProps> = ({
               <img src={`${baseImgURL}produk/${produk.link_gambar}`} alt="" />
             </div>
             <div className="produk_data">
-              <h3>Rp. {new Intl.NumberFormat('id-ID').format(produk.harga)}</h3>
+              <h3>Rp. {new Intl.NumberFormat('id-ID').format(produk.harga * quantity)}</h3>
               <span>Stok: 20</span>
             </div>
           </div>
@@ -111,6 +163,12 @@ const ProdukDetailFooter: React.FC<ProdukDetailFooterProps> = ({
           </div>
         </div>
       )}
+      <IonToast
+        isOpen={showToast}
+        message={toastMessage}
+        duration={2000}
+        onDidDismiss={() => setShowToast(false)}
+      />
     </div>
   );
 };

@@ -20,10 +20,9 @@ const ProdukDetail: React.FC = () => {
   const [user, setUser] = useState<any>(null);
   const [produkLainnya, setProdukLainnya] = useState<Produk[]>([]);
   const [showHiddenDiv, setShowHiddenDiv] = useState<boolean>(false);
-  const [toastMessage, setToastMessage] = useState<string>('');
-  const [showToast, setShowToast] = useState<boolean>(false);
-  const [isAddingToCart, setIsAddingToCart] = useState<boolean>(false);
-  const [actionType, setActionType] = useState<"keranjang" | "beli" | null>(null);
+  const [actionType, setActionType] = useState<'keranjang' | 'beli' | null>(
+    null
+  );
 
   useEffect(() => {
     const storedUser = JSON.parse(localStorage.getItem('user') || '{}');
@@ -58,59 +57,30 @@ const ProdukDetail: React.FC = () => {
     history.push('/produk');
   };
   const keranjangClick = () => {
-    setActionType("keranjang");
+    setActionType('keranjang');
     setShowHiddenDiv(true);
   };
   const beliClick = () => {
-    setActionType("beli");
+    setActionType('beli');
     setShowHiddenDiv(true);
   };
-  const handleKeranjangClick = () => {
-    if (produk) {
-      // Prevent double-click for the same product
-      const existingKeranjang = JSON.parse(
-        localStorage.getItem('keranjang') || '[]'
-      );
-      const isProductInCart = existingKeranjang.some(
-        (item: Produk) => item.id === produk.id
-      );
-
-      if (isProductInCart) {
-        // Show alert if product already in the cart
-        setToastMessage('Produk ini suda ada di keranjang belanja anda sebelumnya. Pilih produk lainnya.');
-        setShowToast(true);
-        setShowHiddenDiv(false);
-        return;
-      }
-
-      // Show loading toast
-      setToastMessage('Tunggu sebentar yah...');
-      setShowToast(true);
-      setIsAddingToCart(true);
-
-      // adding to cart after a delay
-      setTimeout(() => {
-        const updatedKeranjang = [...existingKeranjang, produk];
-        localStorage.setItem('keranjang', JSON.stringify(updatedKeranjang));
-
-        // Show success message after product is added to cart
-        setToastMessage('1 produk ditambahkan ke keranjang belanja anda');
-        setIsAddingToCart(false);
-        setShowToast(true);
-        setShowHiddenDiv(false);
-      }, 1000);
-
-      
-    }
-  };
-
-  const handleBeliClick = () => {
-    console.log('beli clicked');
-  }
-
   const historyBack = () => {
     history.goBack();
   };
+
+  const userPoints =
+    user?.member_level === 'AO'
+      ? produk.ao_poin
+      : user?.member_level === 'Agent'
+      ? produk.agen_poin
+      : produk.konsumen_poin;
+
+  const userCashback =
+    user?.member_level === 'AO'
+      ? produk.ao_cashback
+      : user?.member_level === 'Agent'
+      ? produk.agen_cashback
+      : produk.konsumen_cashback;
 
   if (!produk) {
     return (
@@ -123,7 +93,7 @@ const ProdukDetail: React.FC = () => {
   return (
     <IonPage>
       <IonContent>
-      <div className={`produk_detail_wrap ${showHiddenDiv ? 'active' : ''}`}>
+        <div className={`produk_detail_wrap ${showHiddenDiv ? 'active' : ''}`}>
           <div className="history-back" onClick={historyBack}></div>
           <div className="produk-detail produk-card">
             <div
@@ -177,40 +147,24 @@ const ProdukDetail: React.FC = () => {
               </h3>
               <h2>{produk.judul}</h2>
             </div>
-            <div className="produk-cash-poin">
+            <div className="produk-cash-poin with_top_border">
               <div className="cash-poin-img">
                 <img src={point} alt="Points" />
               </div>
               <div className="cash-poin-text">
                 <p>
-                  Dapatkan poin sebesar{' '}
-                  <b>
-                    {user?.member_level === 'AO'
-                      ? produk.ao_poin
-                      : user?.member_level === 'Agent'
-                      ? produk.agen_poin
-                      : produk.konsumen_poin}{' '}
-                    poin
-                  </b>
+                  Dapatkan poin sebesar <b>{userPoints} poin</b>
                 </p>
               </div>
             </div>
-            <div className="produk-cash-poin">
+            <div className="produk-cash-poin with_top_border">
               <div className="cash-poin-img">
                 <img src={cashback} alt="Cashback" />
               </div>
               <div className="cash-poin-text">
                 <p>
                   Dapatkan cashback sebesar Rp{' '}
-                  <b>
-                    {new Intl.NumberFormat('id-ID').format(
-                      user?.member_level === 'AO'
-                        ? produk.ao_cashback
-                        : user?.member_level === 'Agent'
-                        ? produk.agen_cashback
-                        : produk.konsumen_cashback
-                    )}
-                  </b>
+                  <b>{new Intl.NumberFormat('id-ID').format(userCashback)}</b>
                 </p>
               </div>
             </div>
@@ -331,22 +285,16 @@ const ProdukDetail: React.FC = () => {
           </Swiper>
         </div>
         <ProdukDetailFooter
-          handleKeranjangClick={handleKeranjangClick}
-          handleBeliClick={handleBeliClick}
           actionType={actionType}
           isKeranjang={keranjangClick}
           isBeli={beliClick}
           showHiddenDiv={showHiddenDiv}
           setShowHiddenDiv={setShowHiddenDiv}
           produk={produk}
+          userPoints={userPoints}
+          userCashback={userCashback}
         />
       </IonContent>
-      <IonToast
-        isOpen={showToast}
-        message={toastMessage}
-        duration={2000}
-        onDidDismiss={() => setShowToast(false)}
-      />
     </IonPage>
   );
 };

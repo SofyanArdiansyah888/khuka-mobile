@@ -20,6 +20,7 @@
 }
 .produk-detail .produk-list-header {
   padding-top: 30px;
+  border-radius: 0;
 }
 .produk-detail .produk-logo {
   padding-bottom: 25px;
@@ -66,7 +67,6 @@
   display: flex;
   align-items: center;
   gap: 10px;
-  border-top: 1px solid #e9e5e5;
   padding: 10px 20px;
 }
 .cash-poin-img img {

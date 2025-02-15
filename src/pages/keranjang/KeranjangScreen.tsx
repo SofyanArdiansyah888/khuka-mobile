@@ -47,6 +47,7 @@ const KeranjangScreen: React.FC = () => {
         ? prevSelected.filter((item) => item !== id)
         : [...prevSelected, id]
     );
+    
   };
 
   const handleDelete = () => {
@@ -87,12 +88,15 @@ const KeranjangScreen: React.FC = () => {
         .map((item) => ({
           id_produk: item.id,
           quantity: item.quantity,
+          poin: item.poin,
+          cashback: item.cashback,
           harga: item.harga,
           total_harga: item.total_harga,
         }));
     
       // Update pesananData with total pembayaran and selected products
       updatePesananData({
+        total_harga: totalBiaya,
         total_pembayaran: totalBiaya,
         pesananproduk: selectedProduk, // Add selected products
       });

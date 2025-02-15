@@ -116,7 +116,6 @@ const Home: React.FC = () => {
     history.push('/produk');
   };
 
-console.log(poinCashback)
   return (
     <IonPage>
       <IonHeader collapse="condense">

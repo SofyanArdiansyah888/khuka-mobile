@@ -297,6 +297,10 @@ ion-toast{
 .no-default-header{
   margin-top:40px
 }
+button:disabled{
+  opacity: 0.5;
+  pointer-events: none;
+}
 .history-back,.back-button{
   background: #afafaf;
     border-radius: 100%;   
@@ -384,7 +388,7 @@ background:#d19f23
 div:where(.swal2-icon).swal2-success .swal2-success-ring{
   border:5px solid #D19F23 !important
 }
-.swal2-success-line-long{
+.swal2-success-line-long,.swal2-success-line-tip{
   background-color:#D19F23 !important
 }
 .with_top_border{

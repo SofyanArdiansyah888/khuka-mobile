@@ -69,3 +69,8 @@
 .checkout_btn{
    width:89%
 }
+.gunakan_cashback{
+    display:flex;
+    gap:20px
+
+}

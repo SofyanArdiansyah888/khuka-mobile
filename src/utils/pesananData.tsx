@@ -3,13 +3,16 @@ export interface PesananProduk {
     quantity: number;
     harga: number;
     total_harga: number;
+    poin: number;
+    cashback: number;
   }
   
   export interface PesananData {
     id_member: string;
-    metode_pembayaran: string;
-    cashback_discount: string;
-    id_ambil_barang: string;
+    id_metode: string;
+    cashback_diskon: number;
+    id_ambil: string;
+    total_harga: number;
     total_pembayaran: number;
     pesananproduk: PesananProduk[];
   }
@@ -19,9 +22,10 @@ export interface PesananProduk {
   
   export let pesananData: PesananData = {
     id_member: user.id || '', // Set from localStorage
-    metode_pembayaran: '',
-    cashback_discount: '',
-    id_ambil_barang: '',
+    id_metode: '',
+    cashback_diskon:0,
+    id_ambil: '',
+    total_harga: 0,
     total_pembayaran: 0,
     pesananproduk: [],
   };

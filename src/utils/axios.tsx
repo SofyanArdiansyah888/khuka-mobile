@@ -2,7 +2,7 @@ import axios from 'axios';
 
 // Create an Axios instance
 const instance = axios.create({
-  baseURL: 'https://khukha.banisadar.com/api', 
+  baseURL: 'https://panel.khukhaberkah.com/api', 
   // timeout: 10000,
   withCredentials: true,
   headers: {
@@ -10,7 +10,7 @@ const instance = axios.create({
       "Content-Type": "application/json",
   },
 });
-export const baseImgURL = 'https://khukha.banisadar.com/img/';
+export const baseImgURL = 'https://panel.khukhaberkah.com/img/';
 
 // Check if there's a token in localStorage
 const token = localStorage.getItem('auth_token');

@@ -17,38 +17,45 @@ import './Akun.css';
 const AkunScreen: React.FC = () => {
   const [user, setUser] = useState<any>(null);
   const [memberDuration, setMemberDuration] = useState<string>('');
-    const [poinCashback, setPoinCashback] = useState<any>(null);
+  const [poinCashback, setPoinCashback] = useState<any>({ total_poin: 0, total_cashback: 0 });
   const history = useHistory();
 
- 
   useEffect(() => {
     const storedUser = JSON.parse(localStorage.getItem('user') || '{}');
     setUser(storedUser);
+
     if (storedUser?.tgl_member) {
       const durationText = calculateMemberDuration(storedUser.tgl_member);
       setMemberDuration(durationText);
     }
-    const storedPoinCashback = JSON.parse(localStorage.getItem('poincashback') || '{}');
-    setPoinCashback(storedPoinCashback);
-  }, []);
-  const handleLogout = () => {
-    const keranjang = localStorage.getItem('keranjang'); // Save keranjang data
-    
-    localStorage.clear(); // Clear all localStorage items
-  
-    if (keranjang) {
-      localStorage.setItem('keranjang', keranjang); // Restore keranjang
+
+    const storedPoinCashback = localStorage.getItem('poincashback');
+    if (storedPoinCashback) {
+      try {
+        const parsedPoinCashback = JSON.parse(storedPoinCashback);
+        setPoinCashback(parsedPoinCashback);
+      } catch (error) {
+        console.error('Error parsing poincashback:', error);
+      }
     }
-  
-    history.push('/login'); // Redirect to login page
+  }, []);
+
+  const handleLogout = () => {
+    const keranjang = localStorage.getItem('keranjang');
+    localStorage.clear();
+    if (keranjang) {
+      localStorage.setItem('keranjang', keranjang);
+    }
+    history.push('/login');
   };
-  
+
   const daftarMember = () => {
     history.push('/akun/daftar-member');
   };
   const profil = () => {
     history.push('/akun/profil');
   };
+  
   const sections = [
     {
       title: 'Akun',
@@ -93,15 +100,12 @@ const AkunScreen: React.FC = () => {
             <div className="points-balance">
               <div className="points">
                 <img src={point} alt="Points" />
-                <p>{poinCashback.total_poin} poin</p>
+                <p>{poinCashback?.total_poin ?? 0} poin</p>
               </div>
               <div className="cashback">
                 <img src={cashback} alt="Cashback" />
                 <p>
-                  Rp.
-                  {new Intl.NumberFormat('id-ID').format(
-                    poinCashback.total_cashback
-                  )}
+                  Rp.{new Intl.NumberFormat('id-ID').format(poinCashback?.total_cashback ?? 0)}
                 </p>
               </div>
             </div>

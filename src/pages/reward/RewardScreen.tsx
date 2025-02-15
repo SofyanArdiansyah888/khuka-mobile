@@ -13,9 +13,10 @@ import point from '../../assets/diamond.png';
 import './Reward.css';
 
 const RewardScreen: React.FC = () => {
-   const history = useHistory();
+  const history = useHistory();
   const [rewards, setRewards] = useState<any[]>([]);
   const [user, setUser] = useState<any>(null);
+  const [poinCashback, setPoinCashback] = useState<any>(null);
   const [memberDuration, setMemberDuration] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(true);
 
@@ -25,6 +26,8 @@ const RewardScreen: React.FC = () => {
       localStorage.getItem('allRewards') || '[]'
     );
     const storedUser = JSON.parse(localStorage.getItem('user') || '{}');
+    
+
     if (Object.keys(storedUser).length > 0 && storedRewards.length) {
       setRewards(storedRewards);
       setUser(storedUser);
@@ -33,6 +36,9 @@ const RewardScreen: React.FC = () => {
         const durationText = calculateMemberDuration(storedUser.tgl_member);
         setMemberDuration(durationText);
       }
+      const storedPoinCashback = JSON.parse(localStorage.getItem('poincashback') || '{}');
+      setPoinCashback(storedPoinCashback);
+
       setLoading(false);
     } else {
       setLoading(true);
@@ -41,10 +47,14 @@ const RewardScreen: React.FC = () => {
           const storedUser = JSON.parse(localStorage.getItem('user') || '{}');
           setUser(storedUser);
 
+          const storedPoinCashback = JSON.parse(localStorage.getItem('poincashback') || '{}');
+          setPoinCashback(storedPoinCashback);
+
           if (storedUser?.tgl_member) {
             const durationText = calculateMemberDuration(storedUser.tgl_member);
             setMemberDuration(durationText);
           }
+
           const dataReward = await fetchRewards();
           setRewards(dataReward.data);
           localStorage.setItem('allRewards', JSON.stringify(dataReward.data));
@@ -59,12 +69,33 @@ const RewardScreen: React.FC = () => {
     }
   }, []);
   const navigateToRewardDetail = (reward: any) => {
-    console.log(reward.id)
+    console.log(reward.id);
     history.push(`/reward-detail/${reward.id}`, { reward });
   };
   return (
     <IonPage>
       <IonContent fullscreen>
+      {loading ? (
+          // Skeleton container
+          <>
+            <div style={{ padding: '20px', display: 'flex', gap: '20px' }}>
+              <Skeleton width={150} height={200} />
+              <Skeleton width={150} height={200} />
+            </div>
+            <div
+              style={{
+                padding: '20px',
+                display: 'flex',
+                gap: '20px',
+                paddingTop: '0',
+              }}
+            >
+              <Skeleton width={150} height={200} />
+              <Skeleton width={150} height={200} />
+            </div>
+          </>
+        ) : (
+          <>
         <div className="user-info-wrap">
           <div className="user-info">
             <div className="user-details">
@@ -79,11 +110,16 @@ const RewardScreen: React.FC = () => {
             <div className="points-balance">
               <div className="points">
                 <img src={point} alt="Points" />
-                <p>25 poin</p>
+                <p>{poinCashback.total_poin} poin</p>
               </div>
               <div className="cashback">
                 <img src={cashback} alt="Cashback" />
-                <p>Rp 125.000</p>
+                <p>
+                  Rp.
+                  {new Intl.NumberFormat('id-ID').format(
+                    poinCashback.total_cashback
+                  )}
+                </p>
               </div>
             </div>
           </div>
@@ -92,53 +128,38 @@ const RewardScreen: React.FC = () => {
             <p>Semakin banyak poin semakin besar rewardnya</p>
           </div>
         </div>
-          {loading ? (
-                  // Skeleton container
-                  <>
-                    <div style={{ padding: '20px', display: 'flex', gap: '20px' }}>
-                      <Skeleton width={150} height={200} />
-                      <Skeleton width={150} height={200} />
-                    </div>
-                    <div
-                      style={{
-                        padding: '20px',
-                        display: 'flex',
-                        gap: '20px',
-                        paddingTop: '0',
-                      }}
-                    >
-                      <Skeleton width={150} height={200} />
-                      <Skeleton width={150} height={200} />
-                    </div>
-                  </>
-                ) : (
-                  <>
-        <div className="all-produk padding-lr-20 rewards-wrap">
-          {rewards.map((item, index) => (
-            <div key={item.id} className="produk-card"  onClick={() => navigateToRewardDetail(item)}>
-              <div className="produk-list-header">
-                <img src={baseImgURL + 'reward/' + item.link_gambar} alt="" />
-              </div>
-              <div className="produk-info">
-                <p>
-                  {item.reward}
-                </p>
-                <div className="poin-wrap">
-                  <div className="poin-item">
-                    <div className='poin'>
-                      {new Intl.NumberFormat('id-ID').format(item.poin)}
-                    </div>
-                    <div className='poin-arrow'>
-                      <img src={iconright} alt="arrow right" />
+       
+            <div className="all-produk padding-lr-20 rewards-wrap">
+              {rewards.map((item, index) => (
+                <div
+                  key={item.id}
+                  className="produk-card"
+                  onClick={() => navigateToRewardDetail(item)}
+                >
+                  <div className="produk-list-header">
+                    <img
+                      src={baseImgURL + 'reward/' + item.link_gambar}
+                      alt=""
+                    />
+                  </div>
+                  <div className="produk-info">
+                    <p>{item.reward}</p>
+                    <div className="poin-wrap">
+                      <div className="poin-item">
+                        <div className="poin">
+                          {new Intl.NumberFormat('id-ID').format(item.poin)}
+                        </div>
+                        <div className="poin-arrow">
+                          <img src={iconright} alt="arrow right" />
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
+              ))}
             </div>
-          ))}
-        </div>
-        </>
-                )}
+          </>
+        )}
       </IonContent>
     </IonPage>
   );

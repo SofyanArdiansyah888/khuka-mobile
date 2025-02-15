@@ -17,6 +17,7 @@ import './Akun.css';
 const AkunScreen: React.FC = () => {
   const [user, setUser] = useState<any>(null);
   const [memberDuration, setMemberDuration] = useState<string>('');
+    const [poinCashback, setPoinCashback] = useState<any>(null);
   const history = useHistory();
 
  
@@ -27,11 +28,21 @@ const AkunScreen: React.FC = () => {
       const durationText = calculateMemberDuration(storedUser.tgl_member);
       setMemberDuration(durationText);
     }
+    const storedPoinCashback = JSON.parse(localStorage.getItem('poincashback') || '{}');
+    setPoinCashback(storedPoinCashback);
   }, []);
   const handleLogout = () => {
-    localStorage.clear(); // Remove all localStorage items
+    const keranjang = localStorage.getItem('keranjang'); // Save keranjang data
+    
+    localStorage.clear(); // Clear all localStorage items
+  
+    if (keranjang) {
+      localStorage.setItem('keranjang', keranjang); // Restore keranjang
+    }
+  
     history.push('/login'); // Redirect to login page
   };
+  
   const daftarMember = () => {
     history.push('/akun/daftar-member');
   };
@@ -82,11 +93,16 @@ const AkunScreen: React.FC = () => {
             <div className="points-balance">
               <div className="points">
                 <img src={point} alt="Points" />
-                <p>25 poin</p>
+                <p>{poinCashback.total_poin} poin</p>
               </div>
               <div className="cashback">
                 <img src={cashback} alt="Cashback" />
-                <p>Rp 125.000</p>
+                <p>
+                  Rp.
+                  {new Intl.NumberFormat('id-ID').format(
+                    poinCashback.total_cashback
+                  )}
+                </p>
               </div>
             </div>
           </div>

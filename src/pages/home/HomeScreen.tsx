@@ -26,6 +26,7 @@ import 'react-loading-skeleton/dist/skeleton.css';
 const Home: React.FC = () => {
   const history = useHistory();
   const [user, setUser] = useState<any>(null);
+  const [poinCashback, setPoinCashback] = useState<any>(null);
   const [promoData, setPromoData] = useState<any[]>([]);
   const [ProdukDataPilihan, setProdukDataPilihan] = useState<any[]>([]);
   const [ProdukBundling, setProdukBundling] = useState<any[]>([]);
@@ -62,6 +63,9 @@ const Home: React.FC = () => {
         const durationText = calculateMemberDuration(storedUser.tgl_member);
         setMemberDuration(durationText);
       }
+      const storedPoinCashback = JSON.parse(localStorage.getItem('poincashback') || '{}');
+      setPoinCashback(storedPoinCashback);
+      
       setLoading(false);
     } else {
       setLoading(true);
@@ -69,6 +73,9 @@ const Home: React.FC = () => {
         try {
           const storedUser = JSON.parse(localStorage.getItem('user') || '{}');
           setUser(storedUser);
+
+          const storedPoinCashback = JSON.parse(localStorage.getItem('poincashback') || '{}');
+          setPoinCashback(storedPoinCashback);
 
           if (storedUser?.tgl_member) {
             const durationText = calculateMemberDuration(storedUser.tgl_member);
@@ -109,7 +116,7 @@ const Home: React.FC = () => {
     history.push('/produk');
   };
 
-
+console.log(poinCashback)
   return (
     <IonPage>
       <IonHeader collapse="condense">
@@ -154,11 +161,11 @@ const Home: React.FC = () => {
                 <div className="points-balance">
                   <div className="points">
                     <img src={point} alt="Points" />
-                    <p>25 poin</p>
+                    <p>{poinCashback.total_poin} poin</p>
                   </div>
                   <div className="cashback">
                     <img src={cashback} alt="Cashback" />
-                    <p>Rp 125.000</p>
+                    <p>Rp.{new Intl.NumberFormat('id-ID').format(poinCashback.total_cashback)}</p>
                   </div>
                 </div>
               </div>

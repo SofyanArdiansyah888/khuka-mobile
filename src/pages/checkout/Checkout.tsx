@@ -20,25 +20,32 @@ const Checkout: React.FC = () => {
   const [tempat, setTempat] = useState<any[]>([]);
   const [metode, setMetode] = useState<any[]>([]);
   const totalPembayaran = pesananData.total_pembayaran || 0;
+  const [selectedTempat, setSelectedTempat] = useState<string | null>(
+    pesananData.id_ambil_barang || null
+  );
+  const [selectedBank, setSelectedBank] = useState<string | null>(
+    pesananData.metode_pembayaran || null
+  );
+
+  useEffect(() => {
+    const databank = JSON.parse(localStorage.getItem('bank') || '{}');
+    setBank(databank);
+    const datatempat = JSON.parse(localStorage.getItem('pengambilan') || '{}');
+    setTempat(datatempat);
+    const datametode = JSON.parse(localStorage.getItem('metode') || '{}');
+    setMetode(datametode);
+  }, []);
   const historyBack = () => {
     history.goBack();
   };
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const databank = await dataBank();
-        setBank(databank.data);
-        const datatempat = await dataTempat();
-        setTempat(datatempat.data);
-        const datametode = await dataMetode();
-        setMetode(datametode.data);
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      }
-    };
-
-    fetchData();
-  }, []);
+  const handleTempatChange = (id: string) => {
+    setSelectedTempat(id);
+    updatePesananData({ id_ambil_barang: id });
+  };
+  const handleBankChange = (id: string) => {
+    setSelectedBank(id);
+    updatePesananData({ metode_pembayaran: id });
+  };
   console.log('Updated Pesanan Data:', JSON.stringify(pesananData, null, 2));
   return (
     <IonPage>
@@ -66,7 +73,12 @@ const Checkout: React.FC = () => {
                   <div className="nama_tempat">{item.nama_tempat}</div>
                   <div className="tempat_radio">
                     <label className="radio-container">
-                      <input type="radio" name="custom-radio" />
+                      <input
+                        type="radio"
+                        name="tempat-radio"
+                        checked={selectedTempat === item.id}
+                        onChange={() => handleTempatChange(item.id)}
+                      />
                       <span className="radio-custom"></span>
                     </label>
                   </div>
@@ -106,16 +118,43 @@ const Checkout: React.FC = () => {
                     </div>
                     <div className="nama_bank">{item.judul}</div>
                     <div className="bank_radio">
-                    <label className="radio-container">
-                      <input type="radio" name="custom-radio" />
-                      <span className="radio-custom"></span>
-                    </label>
+                      <label className="radio-container">
+                        <input
+                          type="radio"
+                          name="bank-radio"
+                          checked={selectedBank === item.id}
+                          onChange={() => handleBankChange(item.id)}
+                        />
+                        <span className="radio-custom"></span>
+                      </label>
                     </div>
                   </div>
                 </div>
               </div>
             );
           })}
+        </div>
+        <div className="bn-divider"></div>
+        <div className="padding-lr-20">
+          <div className="checkout_header">
+            <div className="checkout_icon">
+              <img src={fileIcon} alt="file-icon" />
+            </div>
+            <div className="checkout_title">Cashback</div>
+          </div>
+          <div className="ringkasan_item">
+            <div>Gunakan Cashback Anda?</div>
+            <div className="gunakan_cashback">
+              <label className="radio-container">Ya
+                <input type="radio" name="cashback-radio" />
+                <span className="radio-custom"></span>
+              </label>
+              <label className="radio-container"> Tidak
+                <input type="radio" name="cashback-radio" />
+                <span className="radio-custom"></span>
+              </label>
+            </div>
+          </div>
         </div>
         <div className="bn-divider"></div>
         <div className="padding-lr-20">
@@ -132,7 +171,7 @@ const Checkout: React.FC = () => {
             </div>
           </div>
           <div className="ringkasan_item">
-            <div>Gunakan Cashback?</div>
+            <div>Diskon Cashback</div>
             <div className="total_harga">
               -Rp.{new Intl.NumberFormat('id-ID').format(totalPembayaran)}
             </div>

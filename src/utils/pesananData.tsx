@@ -6,7 +6,7 @@ export interface PesananProduk {
   }
   
   export interface PesananData {
-    id_user: string;
+    id_member: string;
     metode_pembayaran: string;
     cashback_discount: string;
     id_ambil_barang: string;
@@ -18,7 +18,7 @@ export interface PesananProduk {
   const user = JSON.parse(localStorage.getItem('user') || '{}');
   
   export let pesananData: PesananData = {
-    id_user: user.id || '', // Set from localStorage
+    id_member: user.id || '', // Set from localStorage
     metode_pembayaran: '',
     cashback_discount: '',
     id_ambil_barang: '',

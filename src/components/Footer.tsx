@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { IonTabBar, IonTabButton, IonLabel, IonRouterLink } from '@ionic/react';
+import { IonTabBar, IonTabButton, IonLabel, IonRouterLink, IonFooter } from '@ionic/react';
 import { useLocation } from 'react-router-dom';
 import { useCart } from './CartContext'; 
 import homeImage from '../assets/home.svg';
@@ -27,6 +27,7 @@ const Footer: React.FC = () => {
   const isActive = (path: string) => location.pathname === path;
 
   return (
+    <IonFooter>
     <IonTabBar className="footer" slot="bottom">
       <IonTabButton
         className="tab-button"
@@ -138,6 +139,7 @@ const Footer: React.FC = () => {
         </IonRouterLink>
       </IonTabButton>
     </IonTabBar>
+    </IonFooter>
   );
 };
 

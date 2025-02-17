@@ -3,6 +3,7 @@ import { IonContent, IonToast, IonPage } from '@ionic/react';
 import { useHistory } from 'react-router-dom';
 import { baseImgURL } from '../../utils/axios';
 import { pesananData, updatePesananData } from '../../utils/pesananData';
+import { useCart } from '../../components/CartContext';
 import api from '../../utils/axios';
 import Swal from 'sweetalert2';
 import shoppingIcon from '../../assets/shopping-bag.svg';
@@ -12,6 +13,7 @@ import './Checkout.css';
 
 const Checkout: React.FC = () => {
   const history = useHistory();
+    const { keranjangCount, setKeranjangCount } = useCart(); 
   const [bank, setBank] = useState<any[]>([]);
   const [tempat, setTempat] = useState<any[]>([]);
   const [metode, setMetode] = useState<any[]>([]);
@@ -169,8 +171,25 @@ const Checkout: React.FC = () => {
         text: 'Pesanan Anda telah dikonfirmasi. Segera lakukan pembayaran',
         confirmButtonText: 'Lanjut ke Pembayaran',
       }).then(() => {
-        // Redirect to pembayaran page
-        history.push('/pembayaran');
+      // Retrieve the current cart (keranjang) from localStorage
+      const storedKeranjang = JSON.parse(localStorage.getItem('keranjang') || '[]');
+
+      // Create a Set of product IDs from pesananData to remove
+      const productsToRemove = new Set(pesananData.pesananproduk.map((item: { id_produk: number }) => item.id_produk));
+
+      // Filter out the products that are in the order
+      const updatedKeranjang = storedKeranjang.filter(
+        (item: { id: number }) => !productsToRemove.has(item.id)
+      );
+      console.log(updatedKeranjang)
+      // Update localStorage with the new keranjang data
+      localStorage.setItem('keranjang', JSON.stringify(updatedKeranjang));
+
+      // Update the cart count in the context
+      setKeranjangCount(updatedKeranjang.length);
+
+      // Redirect to pembayaran page
+      // history.push('/pembayaran');
       });
     } catch (error) {
       console.error('Error submitting order:', error);

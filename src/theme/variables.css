@@ -463,6 +463,7 @@ div:where(.swal2-icon).swal2-success .swal2-success-ring{
     transform: translateX(-50%);
   }
   .ion-page{
-    max-width:430px
+    max-width:430px;
+    padding-bottom:80px
   }
 }

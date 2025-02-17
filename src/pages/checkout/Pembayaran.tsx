@@ -44,13 +44,19 @@ const Pembayaran: React.FC = () => {
     <IonPage>
       <IonContent>
         <div className="checkout_header_wrap header-with-back padding-lr-20 no-default-header">
-          <div className="history-back non-absolute" onClick={historyBack}></div>
+          <div
+            className="history-back non-absolute"
+            onClick={historyBack}
+          ></div>
           <h4 className="header_title">Pembayaran</h4>
         </div>
         <div className="padding-lr-20">
           <p className="transfer_title">Transfer sesuai nominal dibawah ini:</p>
           <h3 className="transfer_harga">
-            Rp. {new Intl.NumberFormat('id-ID').format(pesananData.total_pembayaran)}
+            Rp.{' '}
+            {new Intl.NumberFormat('id-ID').format(
+              pesananData.total_pembayaran
+            )}
           </h3>
         </div>
         <div className="item with_bottom_border bayar_page">
@@ -61,26 +67,26 @@ const Pembayaran: React.FC = () => {
             </div>
             <div className="checkout_tempat">
               <div className="batas_akhir">Batas Waktu</div>
-              <div className="batas_tgl">03:59:33</div>
+              <div className="batas_tgl bts_jam">03:59:33</div>
             </div>
           </div>
         </div>
         <div className="padding-lr-20">
-        <p className="transfer_title">
-                      Pembayaran dilakukan ke rekening a/n
-                     
-                    </p>
+          <p className="transfer_title">Pembayaran dilakukan ke rekening a/n</p>
           {metode.length > 0 &&
             metode.map((item, index) => (
               <div key={index}>
                 {item.detailbank.map((bank: any, bankIndex: number) => (
                   <div key={bankIndex} className="bank_transfer_section">
-                    <p className="transfer_title">                     
-                      <span>{bank.nama_rekening}</span>
-                    </p>
+                    <p className="nama_rekening">{bank.nama_rekening}</p>
                     <div className="bank_transfer_copy">
-                      <img src={baseImgURL + 'bank/' + item.link_gambar} alt="Bank Logo" />
-                      <div className="nomor_rekening">{bank.nomor_rekening}</div>
+                      <img
+                        src={baseImgURL + 'bank/' + item.link_gambar}
+                        alt="Bank Logo"
+                      />
+                      <div className="nomor_rekening">
+                        {bank.nomor_rekening}
+                      </div>
                       <div className="copy_nomor">Copy</div>
                     </div>
                   </div>
@@ -89,13 +95,16 @@ const Pembayaran: React.FC = () => {
             ))}
           <div className="bank_transfer_copy info">
             <div className="copy_nomor">
-              Transfer sebelum <span>batas waktu</span> atau transaksi kamu otomatis dibatalkan oleh sistem.
+              Transfer sebelum <span>batas waktu</span> atau transaksi kamu
+              otomatis dibatalkan oleh sistem.
             </div>
           </div>
         </div>
 
         <div className="footer footer-detail">
-          <button className="checkout_btn btn_khu">Kirim Bukti Pembayaran</button>
+          <button className="checkout_btn btn_khu">
+            Kirim Bukti Pembayaran
+          </button>
         </div>
       </IonContent>
     </IonPage>

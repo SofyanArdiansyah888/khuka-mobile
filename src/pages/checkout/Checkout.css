@@ -34,7 +34,7 @@
   line-height: 1.5em;
 }
 .transfer_title,
-.transfer_harga {
+.transfer_harga,.nama_rekening {
   text-align: center;
   max-width: 100%;
 }
@@ -43,7 +43,23 @@
   font-size: 24px;
   font-weight: 700;
 }
-.transfer_title span {
+.transfer_title{
+  margin-bottom:0
+}
+.batas_akhir,.batas_tgl{
+  color:#0B0B10;
+  font-size:14px
+}
+.batas_tgl{
+  font-weight:600
+}
+.bts_jam{
+  color:#FF4000
+}
+.nama_rekening {
+  font-size:12px;
+  margin-top:5px;
+  margin-bottom:5px;
   color: #080808;
   font-weight: 600;
 }
@@ -91,7 +107,10 @@
 }
 .bayar_page{
     padding-bottom:25px;
-    padding-top:20px
+    padding-top:5px
+}
+.bank_transfer_section{
+  margin-bottom:15px;
 }
 .bank_transfer_copy {
   background: #efefef;

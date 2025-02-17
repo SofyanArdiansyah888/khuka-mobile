@@ -270,7 +270,9 @@ const ProdukDetail: React.FC = () => {
             ))}
           </Swiper>
         </div>
-        <ProdukDetailFooter
+        
+      </IonContent>
+      <ProdukDetailFooter
           actionType={actionType}
           isKeranjang={keranjangClick}
           isBeli={beliClick}
@@ -280,7 +282,6 @@ const ProdukDetail: React.FC = () => {
           userPoints={userPoints}
           userCashback={userCashback}
         />
-      </IonContent>
     </IonPage>
   );
 };

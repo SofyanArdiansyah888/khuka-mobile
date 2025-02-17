@@ -97,9 +97,15 @@ input[type="checkbox"]:checked + .checkbox-custom::after {
 
 
 .ion-page {
-  padding-bottom: 60px;
   max-width:500px;
   margin:0 auto
+}
+.main-content .ion-page{
+  height:90vh
+}
+.main-content.produk-detail-page .ion-page{
+  min-height: 100vh;
+  padding-bottom: 80px;
 }
 ion-toast{
   color:#fff

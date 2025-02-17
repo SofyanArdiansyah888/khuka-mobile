@@ -120,12 +120,7 @@ const Home: React.FC = () => {
    
 
   return (
-    <IonPage>
-      <IonHeader collapse="condense">
-        <IonToolbar>
-          <IonTitle size="large">Home</IonTitle>
-        </IonToolbar>
-      </IonHeader>
+    <IonPage>   
 
       <IonContent fullscreen>
         {loading ? (

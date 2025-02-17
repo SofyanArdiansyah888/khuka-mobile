@@ -13,10 +13,10 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 
   return (
     <div className="layout-container">
-      <main className="main-content">{children}
+     <main className={`main-content ${isProdukDetail ? 'produk-detail-page' : ''}`}>
+      {children}
       {showFooter && <Footer />}
-      </main>
-      
+    </main>
     </div>
   );
 };

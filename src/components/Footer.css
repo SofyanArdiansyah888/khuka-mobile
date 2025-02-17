@@ -3,7 +3,8 @@
 
 .footer {
     margin-top: auto; 
-    z-index: 999;
+    z-index: 999999;
+    position:relative;
     height:80px
   }
   

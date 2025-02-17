@@ -1,6 +1,8 @@
 /* footer.css */
 
-
+ion-footer{
+  z-index: 9999999;
+}
 .footer {
     margin-top: auto; 
     z-index: 999999;

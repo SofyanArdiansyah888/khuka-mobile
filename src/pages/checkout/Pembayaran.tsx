@@ -96,7 +96,7 @@ const Pembayaran: React.FC = () => {
   };
   const handleSendWhatsApp = () => {
     const message = `Halo Khukha, mau konfirmasi pembayaran pesanan #${nomorPesanan}`;
-    const phoneNumber = '+6292292878275'; // Replace with the recipient's phone number
+    const phoneNumber = '+6282292878275'; // Replace with the recipient's phone number
     const url = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
     window.open(url, '_blank');
   };

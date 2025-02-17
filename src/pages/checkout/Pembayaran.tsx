@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { IonContent, IonPage } from '@ionic/react';
+import { IonContent, IonPage, IonToast } from '@ionic/react';
 import { useHistory } from 'react-router-dom';
 import { pesananData, updatePesananData } from '../../utils/pesananData';
 import { baseImgURL } from '../../utils/axios'; // Ensure this import is correct
@@ -8,6 +8,7 @@ import './Checkout.css';
 const Pembayaran: React.FC = () => {
   const history = useHistory();
   const [metode, setMetode] = useState<any[]>([]);
+  const [showToast, setShowToast] = useState(false);
 
   useEffect(() => {
     // Retrieve the 'metodeList' from localStorage
@@ -38,6 +39,33 @@ const Pembayaran: React.FC = () => {
       total_pembayaran: 0,
     });
     history.push('/riwayat');
+  };
+
+  // Function to copy text to clipboard
+  const copyToClipboard = (text: string) => {
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(text).then(
+        () => {
+            setShowToast(true); 
+        },
+        (err) => {
+          console.error('Failed to copy: ', err);
+          // Optionally, show an error message to the user
+        }
+      );
+    } else {
+      // Fallback for browsers that do not support the Clipboard API
+      const textArea = document.createElement('textarea');
+      textArea.value = text;
+      textArea.setAttribute('readonly', '');
+      textArea.style.position = 'absolute';
+      textArea.style.left = '-9999px';
+      document.body.appendChild(textArea);
+      textArea.select();
+      document.execCommand('copy');
+      document.body.removeChild(textArea);
+      setShowToast(true); 
+    }
   };
 
   return (
@@ -87,7 +115,12 @@ const Pembayaran: React.FC = () => {
                       <div className="nomor_rekening">
                         {bank.nomor_rekening}
                       </div>
-                      <div className="copy_nomor">Copy</div>
+                      <div
+                        className="copy_nomor"
+                        onClick={() => copyToClipboard(bank.nomor_rekening)}
+                      >
+                        Copy
+                      </div>
                     </div>
                   </div>
                 ))}
@@ -107,6 +140,13 @@ const Pembayaran: React.FC = () => {
           </button>
         </div>
       </IonContent>
+      <IonToast
+        isOpen={showToast}
+        onDidDismiss={() => setShowToast(false)}
+        message="Nomor rekening tercopy"
+        duration={2000}
+        position='middle'
+      />
     </IonPage>
   );
 };

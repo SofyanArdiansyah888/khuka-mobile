@@ -1,76 +1,135 @@
-.checkout_header_wrap{
-    margin-bottom:37px
+.checkout_header_wrap {
+  margin-bottom: 37px;
 }
-.checkout_header{
-    display:flex;
-    align-items: center;
-    gap:10px;
-    margin-bottom:27px;
+.checkout_header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 27px;
 }
-.checkout_title,.nama_tempat{
-    color:#0B0B10;
-    font-size:14px;
-    font-weight:600
+.checkout_title,
+.nama_tempat {
+  color: #0b0b10;
+  font-size: 14px;
+  font-weight: 600;
 }
-.checkout_icon img{
-    width:14px;
-    height:auto;
-    object-fit: contain;
+.checkout_icon img {
+  width: 14px;
+  height: auto;
+  object-fit: contain;
 }
-.checkout_tempat{
-    display:flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top:15px;
+.checkout_tempat {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 15px;
 }
-.checkout_alamat{
-    margin-top:15px;
-    margin-bottom:15px;
-    color:#707070;
-    font-size:14px;
-    max-width:80%;
-    line-height: 1.5em;
+.checkout_alamat,
+.transfer_title {
+  margin-top: 15px;
+  margin-bottom: 15px;
+  color: #707070;
+  font-size: 14px;
+  max-width: 80%;
+  line-height: 1.5em;
 }
-.items_wraps .item:last-child{
-    border:0
+.transfer_title,
+.transfer_harga {
+  text-align: center;
+  max-width: 100%;
 }
-.checkout_metode,.ringkasan_item{
-    display:flex;
-    gap:45px;
-    margin:15px 0;
-    align-items: center;
-    justify-content: space-between;
-
+.transfer_harga {
+  color: #c79821;
+  font-size: 24px;
+  font-weight: 700;
 }
-.bank_img{
-    flex: 0 0 10%;
+.transfer_title span {
+  color: #080808;
+  font-weight: 600;
 }
-.bank_img img{
-    width:100%;
-    height:auto;
+.items_wraps .item:last-child {
+  border: 0;
 }
-.nama_bank{
-    color:#000000;
-    font-size:14px;
-    flex:0 0 50%
+.checkout_metode,
+.ringkasan_item {
+  display: flex;
+  gap: 45px;
+  margin: 15px 0;
+  align-items: center;
+  justify-content: space-between;
 }
-.bank_radio{
-    flex:0 0 10%;
+.bank_img {
+  flex: 0 0 10%;
 }
-.ringkasan_item{
-    color:#707070;
-    font-size:12px
+.bank_img img {
+  width: 100%;
+  height: auto;
 }
-.ringkasan_item .total_pembayaran{
-    color:#D19F23;
-    font-size:14px;
-    font-weight: 700;
+.nama_bank {
+  color: #000000;
+  font-size: 14px;
+  flex: 0 0 50%;
 }
-.checkout_btn{
-   width:89%
+.bank_radio {
+  flex: 0 0 10%;
 }
-.gunakan_cashback{
-    display:flex;
-    gap:20px
-
+.ringkasan_item {
+  color: #707070;
+  font-size: 12px;
+}
+.ringkasan_item .total_pembayaran {
+  color: #d19f23;
+  font-size: 14px;
+  font-weight: 700;
+}
+.checkout_btn {
+  width: 89%;
+}
+.gunakan_cashback {
+  display: flex;
+  gap: 20px;
+}
+.bayar_page{
+    padding-bottom:25px;
+    padding-top:20px
+}
+.bank_transfer_copy {
+  background: #efefef;
+  border-radius: 10px;
+  display: flex;
+  padding: 18px;
+  justify-content: space-between;
+  align-items: center;
+  gap:10px;
+  margin-bottom:10px
+}
+.bank_transfer_copy img{
+  background: #fff;
+    border-radius: 10px;
+    width: 15%;
+    padding: 2px;
+}
+.nomor_rekening {
+  color: #0b0b10;
+  font-size: 16px;
+  font-weight: 700;
+  flex: 1;
+    text-align: center;
+}
+.copy_nomor {
+  cursor: pointer;
+  color: #707070;
+  font-size: 12px;
+  font-weight: 700;
+}
+.bank_transfer_copy.info {
+  background: #fff;
+  border: 1px solid #e6e6e6;
+}
+.bank_transfer_copy.info .copy_nomor {
+  font-weight: 400;
+}
+.bank_transfer_copy.info .copy_nomor span {
+  color: #707070;
+  font-weight: 600;
 }

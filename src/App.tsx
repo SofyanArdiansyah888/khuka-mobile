@@ -18,6 +18,7 @@ import RewardScreen from './pages/reward/RewardScreen';
 import RewardDetail from './pages/reward/detail/RewardDetail';
 import AkunScreen from './pages/akun/AkunScreen';
 import Checkout from './pages/checkout/Checkout';
+import Pembayaran from './pages/checkout/Pembayaran';
 import DaftarMember from './pages/akun/daftar-member/Daftar';
 import Profil from './pages/akun/profil/Profil';
 import Layout from './components/Layout';
@@ -77,6 +78,9 @@ const App: React.FC = () => {
               </PrivateRoute>
               <PrivateRoute isAuthenticated={isAuthenticated} exact path="/checkout">
                 <Checkout />
+              </PrivateRoute>
+              <PrivateRoute isAuthenticated={isAuthenticated} exact path="/pembayaran">
+                <Pembayaran />
               </PrivateRoute>
               <PrivateRoute isAuthenticated={isAuthenticated} exact path="/riwayat">
                 <RiwayatScreen />

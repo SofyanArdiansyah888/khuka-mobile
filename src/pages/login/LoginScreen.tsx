@@ -32,7 +32,6 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
       localStorage.setItem('user', JSON.stringify(response.data.user));
       localStorage.setItem('kabupaten', JSON.stringify(response.data.kabupaten));
       localStorage.setItem('metode', JSON.stringify(response.data.metode));
-      localStorage.setItem('bank', JSON.stringify(response.data.bank));
       localStorage.setItem('pengambilan', JSON.stringify(response.data.pengambilan));
       localStorage.setItem('poincashback', JSON.stringify(response.data.poincashback));
       

@@ -91,7 +91,8 @@
   right:15px
 }
 .checkout_footer{
-  box-shadow:unset
+  box-shadow:unset;
+  bottom:0px
 }
 .checkout_footer .checkout_box{
   margin:5px 20px;

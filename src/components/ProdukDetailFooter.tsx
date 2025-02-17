@@ -166,11 +166,14 @@ const ProdukDetailFooter: React.FC<ProdukDetailFooterProps> = ({
         </div>
       )}
       <IonToast
-        isOpen={showToast}
-        message={toastMessage}
-        duration={2000}
-        onDidDismiss={() => setShowToast(false)}
-      />
+  isOpen={showToast}
+  message={toastMessage}
+  position="middle"
+  duration={2000}
+  onDidDismiss={() => setShowToast(false)}
+  style={{ '--background': 'black', '--color': 'white' }} // Sets background to black and text color to white
+/>
+
     </div>
   );
 };

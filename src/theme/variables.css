@@ -104,6 +104,7 @@ input[type="checkbox"]:checked + .checkbox-custom::after {
 ion-toast{
   color:#fff
 }
+
 .section-header h4,.header_title {
   margin: 0;
   font-size: 18px;

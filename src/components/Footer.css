@@ -3,7 +3,7 @@
 ion-footer{
   z-index: 9999999;
   position:fixed;
-  bottom:0;
+  bottom:-40px;
 }
 .footer {
     margin-top: auto; 
@@ -123,9 +123,7 @@ ion-footer{
     font-size:14px;
     font-weight:600
   }
-  .toast-content{
-    background:#000000
-  }
+
   .close_popup{
     position:absolute;
     top:20px;

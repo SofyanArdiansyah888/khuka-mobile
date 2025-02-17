@@ -8,9 +8,18 @@ import './Checkout.css';
 const Pembayaran: React.FC = () => {
   const history = useHistory();
   const [metode, setMetode] = useState<any[]>([]);
+  const [deadline, setDeadline] = useState<Date>(new Date());
+  const [timeLeft, setTimeLeft] = useState<string>('');
   const [showToast, setShowToast] = useState(false);
-
+  const [nomorPesanan, setNomorPesanan] = useState<string>('12345'); 
+  
   useEffect(() => {
+    // Calculate the payment deadline (4 hours from now)
+   
+    const paymentDeadline = new Date();
+    paymentDeadline.setHours(paymentDeadline.getHours() + 4);
+    setDeadline(paymentDeadline);
+
     // Retrieve the 'metodeList' from localStorage
     const storedMetodeList = localStorage.getItem('metode');
     if (storedMetodeList) {
@@ -31,6 +40,27 @@ const Pembayaran: React.FC = () => {
     }
   }, []);
 
+  useEffect(() => {
+    // Update the countdown timer every second
+    const timer = setInterval(() => {
+      const now = new Date().getTime();
+      const distance = deadline.getTime() - now;
+
+      if (distance < 0) {
+        clearInterval(timer);
+        setTimeLeft('Waktu pembayaran telah berakhir');
+      } else {
+        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+        setTimeLeft(`${hours} jam ${minutes} menit ${seconds} detik`);
+      }
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, [deadline]);
+
   const historyBack = () => {
     updatePesananData({
       cashback_diskon: 0,
@@ -40,21 +70,18 @@ const Pembayaran: React.FC = () => {
     });
     history.push('/riwayat');
   };
-
-  // Function to copy text to clipboard
   const copyToClipboard = (text: string) => {
     if (navigator.clipboard) {
       navigator.clipboard.writeText(text).then(
         () => {
-            setShowToast(true); 
+          setShowToast(true); // Show the toast on success
         },
         (err) => {
           console.error('Failed to copy: ', err);
-          // Optionally, show an error message to the user
+          // Optionally, show an error toast here
         }
       );
     } else {
-      // Fallback for browsers that do not support the Clipboard API
       const textArea = document.createElement('textarea');
       textArea.value = text;
       textArea.setAttribute('readonly', '');
@@ -64,10 +91,15 @@ const Pembayaran: React.FC = () => {
       textArea.select();
       document.execCommand('copy');
       document.body.removeChild(textArea);
-      setShowToast(true); 
+      setShowToast(true); // Show the toast on success
     }
   };
-
+  const handleSendWhatsApp = () => {
+    const message = `Halo Khukha, mau konfirmasi pembayaran pesanan #${nomorPesanan}`;
+    const phoneNumber = '+6292292878275'; // Replace with the recipient's phone number
+    const url = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+    window.open(url, '_blank');
+  };
   return (
     <IonPage>
       <IonContent>
@@ -91,11 +123,17 @@ const Pembayaran: React.FC = () => {
           <div className="padding-lr-20">
             <div className="checkout_tempat">
               <div className="batas_akhir">Batas Akhir Pembayaran</div>
-              <div className="batas_tgl">13 Februari 2025</div>
+              <div className="batas_tgl">
+                {deadline.toLocaleDateString('id-ID', {
+                  year: 'numeric',
+                  month: 'long',
+                  day: 'numeric',
+                })}
+              </div>
             </div>
             <div className="checkout_tempat">
               <div className="batas_akhir">Batas Waktu</div>
-              <div className="batas_tgl bts_jam">03:59:33</div>
+              <div className="batas_tgl bts_jam">{timeLeft}</div>
             </div>
           </div>
         </div>
@@ -115,12 +153,7 @@ const Pembayaran: React.FC = () => {
                       <div className="nomor_rekening">
                         {bank.nomor_rekening}
                       </div>
-                      <div
-                        className="copy_nomor"
-                        onClick={() => copyToClipboard(bank.nomor_rekening)}
-                      >
-                        Copy
-                      </div>
+                      <div className="copy_nomor" onClick={() => copyToClipboard(bank.nomor_rekening)}>Copy</div>
                     </div>
                   </div>
                 ))}
@@ -135,7 +168,7 @@ const Pembayaran: React.FC = () => {
         </div>
 
         <div className="footer footer-detail">
-          <button className="checkout_btn btn_khu">
+          <button className="checkout_btn btn_khu"  onClick={handleSendWhatsApp}>
             Kirim Bukti Pembayaran
           </button>
         </div>

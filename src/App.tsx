@@ -5,6 +5,7 @@ import { IonReactRouter } from '@ionic/react-router';
 import React, { useState, useEffect } from 'react';
 import PrivateRoute from './components/PrivateRoute';
 import useAuth from './common/hooks/useAuth';
+import { CartProvider } from './components/CartContext'; // Import CartProvider
 
 import HomeScreen from './pages/home/HomeScreen';
 import LoginScreen from './pages/login/LoginScreen';
@@ -33,16 +34,13 @@ import '@ionic/react/css/flex-utils.css';
 import '@ionic/react/css/display.css';
 import './theme/variables.css';
 
-
-
 setupIonicReact();
 
 const App: React.FC = () => {
   const { isAuthenticated, handleLogin } = useAuth();
-  const [loading, setLoading] = useState(true);  // Add loading state
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Simulate async loading (e.g., checking session or performing authentication checks)
     setLoading(false);
   }, []);
 
@@ -52,96 +50,61 @@ const App: React.FC = () => {
 
   return (
     <IonApp>
-      <IonReactRouter>
-        <IonRouterOutlet>
-          {/* Public Route: Login */}
-          <Route exact path="/login">
-            <LoginScreen onLogin={handleLogin} />
-          </Route>
+      <CartProvider> {/* Wrap the entire app with CartProvider */}
+        <IonReactRouter>
+          <IonRouterOutlet>
+            {/* Public Route: Login */}
+            <Route exact path="/login">
+              <LoginScreen onLogin={handleLogin} />
+            </Route>
 
-          {/* Layout wraps the protected routes */}
-          <Layout>
-            <PrivateRoute
-              isAuthenticated={isAuthenticated}
-              exact
-              path="/home"
-              component={HomeScreen}
-            />
-            <PrivateRoute
-              isAuthenticated={isAuthenticated}
-              exact
-              path="/produk"
-              component={ProdukScreen}
-            />
-            <PrivateRoute
-              isAuthenticated={isAuthenticated}
-              exact
-              path="/produk-detail/:id"
-              component={ProdukDetail}
-            />
-            <PrivateRoute
-              isAuthenticated={isAuthenticated}
-              exact
-              path="/promo-detail/:id"
-              component={PromoDetail}
-            />
-           
-            <PrivateRoute
-              isAuthenticated={isAuthenticated}
-              exact
-              path="/keranjang"
-              component={KeranjangScreen}
-            />
-            <PrivateRoute
-              isAuthenticated={isAuthenticated}
-              exact
-              path="/checkout"
-              component={Checkout}
-            />
-            <PrivateRoute
-              isAuthenticated={isAuthenticated}
-              exact
-              path="/riwayat"
-              component={RiwayatScreen}
-            />
-             <PrivateRoute
-              isAuthenticated={isAuthenticated}
-              exact
-              path="/reward"
-              component={RewardScreen}
-            />
-             <PrivateRoute
-              isAuthenticated={isAuthenticated}
-              exact
-              path="/reward-detail/:id"
-              component={RewardDetail}
-            />
-            <PrivateRoute
-              isAuthenticated={isAuthenticated}
-              exact
-              path="/akun"
-              component={AkunScreen}
-            />
-            <PrivateRoute
-              isAuthenticated={isAuthenticated}
-              exact
-              path="/akun/daftar-member"
-              component={DaftarMember}
-            />
-            <PrivateRoute
-              isAuthenticated={isAuthenticated}
-              exact
-              path="/akun/profil"
-              component={Profil}
-            />
-          </Layout>
+            {/* Layout wraps the protected routes */}
+            <Layout>
+              <PrivateRoute isAuthenticated={isAuthenticated} exact path="/home">
+                <HomeScreen />
+              </PrivateRoute>
+              <PrivateRoute isAuthenticated={isAuthenticated} exact path="/produk">
+                <ProdukScreen />
+              </PrivateRoute>
+              <PrivateRoute isAuthenticated={isAuthenticated} exact path="/produk-detail/:id">
+                <ProdukDetail />
+              </PrivateRoute>
+              <PrivateRoute isAuthenticated={isAuthenticated} exact path="/promo-detail/:id">
+                <PromoDetail />
+              </PrivateRoute>
+              <PrivateRoute isAuthenticated={isAuthenticated} exact path="/keranjang">
+                <KeranjangScreen />
+              </PrivateRoute>
+              <PrivateRoute isAuthenticated={isAuthenticated} exact path="/checkout">
+                <Checkout />
+              </PrivateRoute>
+              <PrivateRoute isAuthenticated={isAuthenticated} exact path="/riwayat">
+                <RiwayatScreen />
+              </PrivateRoute>
+              <PrivateRoute isAuthenticated={isAuthenticated} exact path="/reward">
+                <RewardScreen />
+              </PrivateRoute>
+              <PrivateRoute isAuthenticated={isAuthenticated} exact path="/reward-detail/:id">
+                <RewardDetail />
+              </PrivateRoute>
+              <PrivateRoute isAuthenticated={isAuthenticated} exact path="/akun">
+                <AkunScreen />
+              </PrivateRoute>
+              <PrivateRoute isAuthenticated={isAuthenticated} exact path="/akun/daftar-member">
+                <DaftarMember />
+              </PrivateRoute>
+              <PrivateRoute isAuthenticated={isAuthenticated} exact path="/akun/profil">
+                <Profil />
+              </PrivateRoute>
+            </Layout>
 
-          {/* Default redirect to /login or /home */}
-          <Route exact path="/">
-            <Redirect to={isAuthenticated ? '/home' : '/login'} />
-          </Route>
-        </IonRouterOutlet>
-      </IonReactRouter>
+            {/* Default redirect to /login or /home */}
+            <Route exact path="/">
+              <Redirect to={isAuthenticated ? '/home' : '/login'} />
+            </Route>
+          </IonRouterOutlet>
+        </IonReactRouter>
+      </CartProvider> {/* Close CartProvider */}
     </IonApp>
   );
 };

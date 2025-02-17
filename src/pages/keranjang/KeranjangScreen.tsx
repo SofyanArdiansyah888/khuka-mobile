@@ -3,6 +3,7 @@ import { IonContent, IonFooter, IonPage, IonToast } from '@ionic/react';
 import { useHistory } from 'react-router-dom';
 import { baseImgURL } from '../../utils/axios';
 import { pesananData,PesananProduk,updatePesananData } from '../../utils/pesananData';
+import { useCart } from '../../components/CartContext';
 import Swal from 'sweetalert2';
 import keranjangkosong from '../../assets/keranjang-kosong.svg';
 import logo from '../../assets/logo-khukha.png';
@@ -10,6 +11,7 @@ import './Keranjang.css';
 
 const KeranjangScreen: React.FC = () => {
   const [keranjangData, setKeranjangData] = useState<any[]>([]);
+  const { keranjangCount, setKeranjangCount } = useCart(); 
   const [selectedItems, setSelectedItems] = useState<number[]>([]);
   const [showToast, setShowToast] = useState(false);
   const history = useHistory();
@@ -66,6 +68,7 @@ const KeranjangScreen: React.FC = () => {
         setKeranjangData(updatedKeranjang);
         localStorage.setItem('keranjang', JSON.stringify(updatedKeranjang));
         setSelectedItems([]);
+        setKeranjangCount(updatedKeranjang.length); 
       }
     });
     

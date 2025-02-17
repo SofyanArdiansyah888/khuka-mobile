@@ -1,25 +1,19 @@
 import React from 'react';
-import { Redirect, Route, RouteProps } from 'react-router-dom';
+import { Route, Redirect } from 'react-router-dom';
 
-interface PrivateRouteProps extends RouteProps {
+interface PrivateRouteProps {
   isAuthenticated: boolean;
-  component: React.ComponentType<any>; // Ensure this is correctly typed
+  exact: boolean;
+  path: string;
+  children: React.ReactNode; // Ensure children prop is defined here
 }
 
-const PrivateRoute: React.FC<PrivateRouteProps> = ({
-  component: Component,
-  isAuthenticated,
-  ...rest
-}) => {
+const PrivateRoute: React.FC<PrivateRouteProps> = ({ isAuthenticated, children, ...rest }) => {
   return (
     <Route
       {...rest}
-      render={(props) =>
-        isAuthenticated ? (
-          <Component {...props} /> // Render the protected component
-        ) : (
-          <Redirect to="/login" /> // Redirect to login if not authenticated
-        )
+      render={() =>
+        isAuthenticated ? children : <Redirect to="/login" />
       }
     />
   );

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { IonTabBar, IonTabButton, IonLabel, IonRouterLink } from '@ionic/react';
 import { useLocation } from 'react-router-dom';
+import { useCart } from './CartContext'; 
 import homeImage from '../assets/home.svg';
 import homeActiveImage from '../assets/home-active.svg';
 import produkImage from '../assets/produk.svg';
@@ -19,14 +20,9 @@ import './Footer.css';
 
 const Footer: React.FC = () => {
   const location = useLocation();
-  const [keranjangCount, setKeranjangCount] = useState<number>(0);
+  const { keranjangCount } = useCart();
   // Function to calculate the number of items in the cart
-  useEffect(() => {
-    const storedKeranjang = JSON.parse(
-      localStorage.getItem('keranjang') || '[]'
-    );
-    setKeranjangCount(storedKeranjang.length);
-  }, []);
+
 
   const isActive = (path: string) => location.pathname === path;
 

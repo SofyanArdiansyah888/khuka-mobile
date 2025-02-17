@@ -455,6 +455,11 @@ div:where(.swal2-icon).swal2-success .swal2-success-ring{
     background: #5f5f5f;
     margin: 10px auto;
   }
+  body.swal2-shown{
+    max-width: 430px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
   .ion-page{
     max-width:430px
   }

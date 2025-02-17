@@ -4,6 +4,7 @@ import callcenter from '../assets/chat-bubble-typing.svg';
 import closeBtn from '../assets/close.svg';
 import { Produk } from '../entity/ProdukEntity';
 import { baseImgURL } from '../utils/axios';
+import { useCart } from './CartContext';
 import logo from '../assets/logo-khukha.png';
 import './Footer.css';
 
@@ -31,6 +32,7 @@ const ProdukDetailFooter: React.FC<ProdukDetailFooterProps> = ({
   const [toastMessage, setToastMessage] = useState<string>('');
   const [showToast, setShowToast] = useState<boolean>(false);
   const [isAddingToCart, setIsAddingToCart] = useState<boolean>(false);
+   const { keranjangCount, setKeranjangCount } = useCart(); 
 
   const handleBeliClick = () => {
     console.log('beli clicked');
@@ -70,7 +72,7 @@ const ProdukDetailFooter: React.FC<ProdukDetailFooterProps> = ({
   
         const updatedKeranjang = [...existingKeranjang, newItem];
         localStorage.setItem('keranjang', JSON.stringify(updatedKeranjang));
-  
+        setKeranjangCount(updatedKeranjang.length);
         setToastMessage('Produk berhasil ditambahkan ke keranjang belanja.');
         setIsAddingToCart(false);
         setShowToast(true);

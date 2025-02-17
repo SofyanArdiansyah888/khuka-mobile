@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { IonContent, IonPage, IonToast } from '@ionic/react';
+import { IonContent, IonFooter, IonPage, IonToast } from '@ionic/react';
 import { useHistory } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
 import { baseImgURL } from '../../utils/axios';
@@ -272,6 +272,7 @@ const ProdukDetail: React.FC = () => {
         </div>
         
       </IonContent>
+      <IonFooter>
       <ProdukDetailFooter
           actionType={actionType}
           isKeranjang={keranjangClick}
@@ -282,6 +283,7 @@ const ProdukDetail: React.FC = () => {
           userPoints={userPoints}
           userCashback={userCashback}
         />
+        </IonFooter>
     </IonPage>
   );
 };

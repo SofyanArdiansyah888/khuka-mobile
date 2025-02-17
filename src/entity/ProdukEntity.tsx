@@ -5,6 +5,7 @@ export interface Produk {
   judul: string;
   deskripsi_singkat: string;
   kategori: string;
+  penjualan_detail_count: string;
   harga: number;
   owner_cashback: number;
   ao_cashback: number;

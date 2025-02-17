@@ -5,6 +5,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import {Autoplay,Keyboard,Pagination,Scrollbar,Zoom} from 'swiper/modules';
 import { calculateMemberDuration } from '../../utils/calculateDuration';
 import { fetchPromo, fetchProduk } from '../../utils/api';
+import { getUserCashback } from "../../utils/poin";
 import { baseImgURL } from '../../utils/axios';
 import 'swiper/css';
 import 'swiper/css/autoplay';
@@ -106,6 +107,7 @@ const Home: React.FC = () => {
       fetchData();
     }
   }, []);
+  
   const navigateToProdukDetail = (produk: any) => {
     history.push(`/produk-detail/${produk.id}`, { produk });
   };
@@ -115,6 +117,7 @@ const Home: React.FC = () => {
   const navigateToProduk = () => {
     history.push('/produk');
   };
+   
 
   return (
     <IonPage>
@@ -268,11 +271,7 @@ const Home: React.FC = () => {
                           <span className="cashback">
                             Rp.{' '}
                             {new Intl.NumberFormat('id-ID').format(
-                              user?.member_level === 'AO'
-                                ? pilihan.ao_cashback
-                                : user?.member_level === 'Agent'
-                                ? pilihan.agen_cashback
-                                : pilihan.konsumen_cashback
+                             getUserCashback(user, pilihan)
                             )}
                           </span>
                         </p>
@@ -362,11 +361,7 @@ const Home: React.FC = () => {
                           <span className="cashback">
                             Rp.{' '}
                             {new Intl.NumberFormat('id-ID').format(
-                              user?.member_level === 'AO'
-                                ? paket.ao_cashback
-                                : user?.member_level === 'Agent'
-                                ? paket.agen_cashback
-                                : paket.konsumen_cashback
+                              getUserCashback(user, paket)
                             )}
                           </span>
                         </p>

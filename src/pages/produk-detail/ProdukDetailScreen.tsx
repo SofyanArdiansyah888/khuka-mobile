@@ -5,6 +5,7 @@ import { useLocation } from 'react-router-dom';
 import { baseImgURL } from '../../utils/axios';
 import { Produk } from '../../entity/ProdukEntity';
 import { Swiper, SwiperSlide } from 'swiper/react';
+import { getUserPoints, getUserCashback } from "../../utils/poin";
 import ProdukDetailFooter from '../../components/ProdukDetailFooter';
 import './ProdukDetail.css';
 import logo from '../../assets/logo-khukha.png';
@@ -68,19 +69,8 @@ const ProdukDetail: React.FC = () => {
     history.goBack();
   };
 
-  const userPoints =
-    user?.member_level === 'AO'
-      ? produk.ao_poin
-      : user?.member_level === 'Agent'
-      ? produk.agen_poin
-      : produk.konsumen_poin;
-
-  const userCashback =
-    user?.member_level === 'AO'
-      ? produk.ao_cashback
-      : user?.member_level === 'Agent'
-      ? produk.agen_cashback
-      : produk.konsumen_cashback;
+  const userPoints = getUserPoints(user, produk);
+  const userCashback = getUserCashback(user, produk);
 
   if (!produk) {
     return (
@@ -261,11 +251,7 @@ const ProdukDetail: React.FC = () => {
                       <span className="cashback">
                         Rp.{' '}
                         {new Intl.NumberFormat('id-ID').format(
-                          user?.member_level === 'AO'
-                            ? item.ao_cashback
-                            : user?.member_level === 'Agent'
-                            ? item.agen_cashback
-                            : item.konsumen_cashback
+                         getUserCashback(user, item)
                         )}
                       </span>
                     </p>

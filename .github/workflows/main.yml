@@ -1,53 +1,41 @@
-name: Build Ionic Android APK
+name: Deploy Ionic PWA
 
 on:
   push:
     branches:
       - master
-  pull_request:
-    branches:
-      - master
 
 jobs:
   build:
-    name: Build APK
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
+      # Checkout Repository
+      - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Set up Node.js
+      # Setup Node.js dan install dependencies
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: 'yarn'
 
-      - name: Install dependencies
-        run: yarn install 
-        
-      - name: Install Ionic CLI & Capacitor
-        run: yarn global add @ionic/cli @capacitor/cli
+      - name: Install Dependencies
+        run: npm install
 
-      - name: Build Ionic App
-        run: ionic build
-
-      - name: Add Android Platform
-        run: npx cap add android
-
-      - name: Sync Capacitor with Android
-        run: npx cap sync android
-
-      - name: Set up Java and Android SDK
-        uses: android-actions/setup-android@v3
-
-      - name: Build Android APK
+      # Build aplikasi Ionic PWA
+      - name: Build Ionic PWA
         run: |
-          cd android
-          ./gradlew assembleDebug
+          npm run build
+        env:
+          CI: true
 
-      - name: Upload APK Artifact
-        uses: actions/upload-artifact@v4
+      # Upload hasil build ke server dengan FTP
+      - name: 📂 Sync files
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.4
         with:
-          name: android-apk
-          path: android/app/build/outputs/apk/debug/app-debug.apk
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{secrets.FTP_USERNAME}}
+          password: ${{ secrets.FTP_PASSWORD }}
+          local-dir: ./dist/  # Folder hasil build Ionic
+          server-dir: /  # Sesuaikan dengan direktori server Anda

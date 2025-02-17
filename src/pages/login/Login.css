@@ -13,6 +13,9 @@
 .login_form {
   width: 80%;
 }
+.login_form input:focus{
+  outline:unset
+}
 .logo {
   width: 75px;
   margin-bottom: 20px;

@@ -14,9 +14,9 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   return (
     <div className="layout-container">
       <main className="main-content">{children}
-        
-      </main>
       {showFooter && <Footer />}
+      </main>
+      
     </div>
   );
 };

@@ -2,6 +2,8 @@
 
 ion-footer{
   z-index: 9999999;
+  position:fixed;
+  bottom:0;
 }
 .footer {
     margin-top: auto; 

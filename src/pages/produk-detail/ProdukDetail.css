@@ -80,4 +80,10 @@
 .cash-poin-text b {
   color: #707070;
 }
+@media(min-width:1024px){
+  .main-content.produk-detail-page .ion-page {
+    bottom:0;
+    padding-bottom:50px
+  }
+}
 

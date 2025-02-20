@@ -34,41 +34,7 @@ const Home: React.FC = () => {
   const [memberDuration, setMemberDuration] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(true);
   
-  useEffect(() => {
-    // Check if data is already present in localStorage (to avoid re-fetching)
-    const storedUser = JSON.parse(
-      localStorage.getItem('user') || '{}'
-    );
-    const storedPromoData = JSON.parse(
-      localStorage.getItem('promoData') || '[]'
-    );
-    const storedProdukDataPilihan = JSON.parse(
-      localStorage.getItem('produkDataPilihan') || '[]'
-    );
-    const storedProdukBundling = JSON.parse(
-      localStorage.getItem('produkBundling') || '[]'
-    );
-
-    if (
-      Object.keys(storedUser).length > 0 && 
-      storedPromoData.length &&
-      storedProdukDataPilihan.length &&
-      storedProdukBundling.length
-    ) {
-      setPromoData(storedPromoData);
-      setProdukDataPilihan(storedProdukDataPilihan);
-      setProdukBundling(storedProdukBundling);
-      setUser(storedUser);
-
-      if (storedUser?.tgl_member) {
-        const durationText = calculateMemberDuration(storedUser.tgl_member);
-        setMemberDuration(durationText);
-      }
-      const storedPoinCashback = JSON.parse(localStorage.getItem('poincashback') || '{}');
-      setPoinCashback(storedPoinCashback);
-      
-      setLoading(false);
-    } else {
+  useEffect(() => {    
       setLoading(true);
       const fetchData = async () => {
         try {
@@ -85,18 +51,15 @@ const Home: React.FC = () => {
 
           const promos = await fetchPromo('home');
           setPromoData(promos.data);
-          localStorage.setItem('promoData', JSON.stringify(promos.data));
+          // localStorage.setItem('promoData', JSON.stringify(promos.data));
 
           const pilihan = await fetchProduk('5', 'pilihan');
           setProdukDataPilihan(pilihan.data);
-          localStorage.setItem(
-            'produkDataPilihan',
-            JSON.stringify(pilihan.data)
-          );
+          // localStorage.setItem('produkDataPilihan',JSON.stringify(pilihan.data));
 
           const bundling = await fetchProduk('5', 'paket');
           setProdukBundling(bundling.data);
-          localStorage.setItem('produkBundling', JSON.stringify(bundling.data));
+          // localStorage.setItem('produkBundling', JSON.stringify(bundling.data));
         } catch (error) {
           console.error('Error fetching data:', error);
         } finally {
@@ -105,7 +68,7 @@ const Home: React.FC = () => {
       };
 
       fetchData();
-    }
+    
   }, []);
   
   const navigateToProdukDetail = (produk: any) => {

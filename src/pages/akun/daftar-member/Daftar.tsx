@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { IonContent, IonPage, IonSelect, IonSelectOption } from '@ionic/react';
 import { fetchKabupaten } from '../../../utils/api';
+import { getItem } from '../../../utils/khukhaDBTemp';
 import { useHistory } from 'react-router-dom';
 import api from '../../../utils/axios';
 import Swal from 'sweetalert2';
@@ -33,7 +34,7 @@ const DaftarMember: React.FC = () => {
    useEffect(() => {
       const fetchData = async () => {
               try {
-                const storedUser = JSON.parse(localStorage.getItem('user') || '{}');
+                const storedUser = JSON.parse(await getItem('user') || '{}');
                 setUser(storedUser);
       
                 const storedKabupaten = await fetchKabupaten();

@@ -4,6 +4,7 @@ import callcenter from '../assets/chat-bubble-typing.svg';
 import closeBtn from '../assets/close.svg';
 import { Produk } from '../entity/ProdukEntity';
 import { baseImgURL } from '../utils/axios';
+import { setItem,getItem } from '../utils/khukhaDBTemp';
 import { useCart } from './CartContext';
 import logo from '../assets/logo-khukha.png';
 import './Footer.css';
@@ -37,9 +38,9 @@ const ProdukDetailFooter: React.FC<ProdukDetailFooterProps> = ({
   const handleBeliClick = () => {
     console.log('beli clicked');
   };
-  const handleKeranjangClick = () => {
+  const handleKeranjangClick = async () => {
     if (produk) {
-      const existingKeranjang = JSON.parse(localStorage.getItem('keranjang') || '[]');
+      const existingKeranjang = JSON.parse(await getItem('keranjang') || '[]');
   
       const isProductInCart = existingKeranjang.some(
         (item: any) => item.id === produk.id
@@ -71,7 +72,7 @@ const ProdukDetailFooter: React.FC<ProdukDetailFooterProps> = ({
         };
   
         const updatedKeranjang = [...existingKeranjang, newItem];
-        localStorage.setItem('keranjang', JSON.stringify(updatedKeranjang));
+        setItem('keranjang', JSON.stringify(updatedKeranjang));
         setKeranjangCount(updatedKeranjang.length);
         setToastMessage('Produk berhasil ditambahkan ke keranjang belanja.');
         setIsAddingToCart(false);

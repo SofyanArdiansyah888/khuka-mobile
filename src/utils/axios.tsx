@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { getItem,removeItem } from './khukhaDBTemp';
 
 // Create an Axios instance
 const instance = axios.create({
@@ -13,7 +14,7 @@ const instance = axios.create({
 export const baseImgURL = 'https://panel.khukhaberkah.com/img/';
 
 // Check if there's a token in localStorage
-const token = localStorage.getItem('auth_token');
+const token = getItem('auth_token');
 
 // If token exists, set the Authorization header for all requests
 if (token) {
@@ -23,7 +24,7 @@ if (token) {
 // Add a request interceptor to handle token dynamically for every request
 instance.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem('auth_token');
+    const token = getItem('auth_token');
     if (token) {
       config.headers['Authorization'] = `Bearer ${token}`;
     }
@@ -41,7 +42,7 @@ instance.interceptors.response.use(
     // Handle unauthorized error (e.g., redirect to login or logout)
     if (error.response && error.response.status === 401) {
       // Optional: Clear token and redirect to login
-      localStorage.removeItem('auth_token');
+      removeItem('auth_token');
       window.location.href = '/login';  // Change this to your login page path
     }
     return Promise.reject(error);

@@ -5,6 +5,7 @@
   import eyeoff from '../../assets/eye-off.svg';
   import khukhaVideo from '../../assets/khukha-video.mp4';
   import api from '../../utils/axios'; // Import Axios instance
+  import { setItem } from '../../utils/khukhaDBTemp';
   import './Login.css';
 
   interface LoginProps {
@@ -30,9 +31,9 @@
           password,
         });
 
-        // Save the token to localStorage
-        localStorage.setItem('auth_token', response.data.token);
-        localStorage.setItem('user', JSON.stringify(response.data.user));
+        // Save the token to db temp
+        setItem('auth_token', response.data.token);
+        setItem('user', JSON.stringify(response.data.user))
        
 
         onLogin();

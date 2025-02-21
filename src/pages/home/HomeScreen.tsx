@@ -7,14 +7,7 @@ import { calculateMemberDuration } from '../../utils/calculateDuration';
 import { fetchPromo, fetchProduk, fetchPoin } from '../../utils/api';
 import { getUserCashback } from "../../utils/poin";
 import { baseImgURL } from '../../utils/axios';
-import 'swiper/css';
-import 'swiper/css/autoplay';
-import 'swiper/css/keyboard';
-import 'swiper/css/pagination';
-import 'swiper/css/scrollbar';
-import 'swiper/css/zoom';
-import '@ionic/react/css/ionic-swiper.css';
-import './Home.css';
+import { getItem } from '../../utils/khukhaDBTemp';
 import logo from '../../assets/logo-khukha.png';
 import whitelogo from '../../assets/khukha-white.svg';
 import cashback from '../../assets/cashback.png';
@@ -23,6 +16,7 @@ import arrowIcon from '../../assets/arrow-right.svg';
 import shopicon from '../../assets/shopping-bag-solid.svg';
 import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
+import './Home.css';
 
 const Home: React.FC = () => {
   const history = useHistory();
@@ -38,7 +32,7 @@ const Home: React.FC = () => {
       setLoading(true);
       const fetchData = async () => {
         try {
-          const storedUser = JSON.parse(localStorage.getItem('user') || '{}');
+          const storedUser = JSON.parse(await getItem('user') || '{}');
           setUser(storedUser);
 
           const storedPoinCashback = await fetchPoin(storedUser.id);

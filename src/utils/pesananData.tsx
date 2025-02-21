@@ -1,3 +1,5 @@
+import { getItem } from './khukhaDBTemp';
+
 export interface PesananProduk {
     id_produk: number;
     quantity: number;
@@ -18,7 +20,7 @@ export interface PesananProduk {
   }
   
   // Get user ID from localStorage
-  const user = JSON.parse(localStorage.getItem('user') || '{}');
+  const user =  JSON.parse(await getItem('user') || '{}');
   
   export let pesananData: PesananData = {
     id_member: user.id || '', // Set from localStorage

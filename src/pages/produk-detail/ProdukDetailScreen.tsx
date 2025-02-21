@@ -7,6 +7,7 @@ import { Produk } from '../../entity/ProdukEntity';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { getUserPoints, getUserCashback } from '../../utils/poin';
 import { fetchProduk } from '../../utils/api';
+import { getItem } from '../../utils/khukhaDBTemp';
 import { useCart } from '../../components/CartContext';
 import ProdukDetailFooter from '../../components/ProdukDetailFooter';
 import './ProdukDetail.css';
@@ -37,7 +38,7 @@ const ProdukDetail: React.FC = () => {
     setLoading(true);
     const fetchData = async () => {
       try {
-        const storedUser = JSON.parse(localStorage.getItem('user') || '{}');
+        const storedUser =JSON.parse(await getItem('user') || '{}');
         setUser(storedUser);
   
         const response = await fetchProduk('5', 'null');

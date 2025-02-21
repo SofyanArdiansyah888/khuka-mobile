@@ -1,15 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import {
-  IonContent,
-  IonToast,
-  IonPage,
-  IonSelect,
-  IonSelectOption,
-} from '@ionic/react';
+import { IonContent, IonToast, IonPage, IonSelect, IonSelectOption } from '@ionic/react';
 import { useHistory } from 'react-router-dom';
 import { baseImgURL } from '../../utils/axios';
 import { pesananData, updatePesananData } from '../../utils/pesananData';
 import { fetchMetode, fetchPengambilan, fetchPoin } from '../../utils/api';
+import { setItem,getItem } from '../../utils/khukhaDBTemp';
 import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
 import { useCart } from '../../components/CartContext';
@@ -48,7 +43,7 @@ const Checkout: React.FC = () => {
     setLoading(true);
     const fetchData = async () => {
       try {
-        const storedUser = JSON.parse(localStorage.getItem('user') || '{}');
+        const storedUser = JSON.parse(await getItem('user') || '{}');
         const storedPoinCashback = await fetchPoin(storedUser.id);
         setPoinCashback(storedPoinCashback);
         const datatempat = await fetchPengambilan();
@@ -211,10 +206,10 @@ const Checkout: React.FC = () => {
         title: 'Pesanan Berhasil!',
         text: 'Pesanan Anda telah dikonfirmasi. Segera lakukan pembayaran',
         confirmButtonText: 'Lanjut ke Pembayaran',
-      }).then(() => {
+      }).then( async () => {
         // Retrieve the current cart (keranjang) from localStorage
         const storedKeranjang = JSON.parse(
-          localStorage.getItem('keranjang') || '[]'
+          await getItem('keranjang') || '[]'
         );
 
         // Create a Set of product IDs from pesananData to remove
@@ -229,7 +224,7 @@ const Checkout: React.FC = () => {
           (item: { id: number }) => !productsToRemove.has(item.id)
         );
         // Update localStorage with the new keranjang data
-        localStorage.setItem('keranjang', JSON.stringify(updatedKeranjang));
+        setItem('keranjang', JSON.stringify(updatedKeranjang));
 
         // Update the cart count in the context
         setKeranjangCount(updatedKeranjang.length);

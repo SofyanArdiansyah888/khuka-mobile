@@ -3,6 +3,7 @@ import { IonContent, IonFooter, IonPage, IonToast } from '@ionic/react';
 import { useHistory } from 'react-router-dom';
 import { baseImgURL } from '../../utils/axios';
 import { pesananData,PesananProduk,updatePesananData } from '../../utils/pesananData';
+import { setItem,getItem } from '../../utils/khukhaDBTemp';
 import { useCart } from '../../components/CartContext';
 import Swal from 'sweetalert2';
 import keranjangkosong from '../../assets/keranjang-kosong.svg';
@@ -17,10 +18,14 @@ const KeranjangScreen: React.FC = () => {
   const history = useHistory();
 
   useEffect(() => {
-    const storedKeranjang = JSON.parse(
-      localStorage.getItem('keranjang') || '[]'
-    );
-    setKeranjangData(storedKeranjang.reverse()); // Reverse to show newest items first
+     const loadKeranjang = async () => {
+          const storedKeranjang = JSON.parse((await getItem('keranjang')) || '[]');
+          setKeranjangCount(storedKeranjang.length);
+          setKeranjangData(storedKeranjang.reverse()); 
+        };    
+        loadKeranjang();
+    
+   // Reverse to show newest items first
   }, []);
  
   const updateQuantity = (index: number, newQuantity: number) => {
@@ -28,7 +33,7 @@ const KeranjangScreen: React.FC = () => {
       const updatedData = [...prevData];
       updatedData[index].quantity = newQuantity;
       updatedData[index].total_harga = updatedData[index].harga * newQuantity;
-      localStorage.setItem('keranjang', JSON.stringify(updatedData));
+      setItem('keranjang', JSON.stringify(updatedData));
       return updatedData;
     });
   };
@@ -66,7 +71,7 @@ const KeranjangScreen: React.FC = () => {
           (item) => !selectedItems.includes(item.id)
         );
         setKeranjangData(updatedKeranjang);
-        localStorage.setItem('keranjang', JSON.stringify(updatedKeranjang));
+        setItem('keranjang', JSON.stringify(updatedKeranjang));
         setSelectedItems([]);
         setKeranjangCount(updatedKeranjang.length); 
       }

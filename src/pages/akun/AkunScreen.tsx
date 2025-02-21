@@ -3,6 +3,7 @@ import { IonContent, IonPage } from '@ionic/react';
 import { useHistory } from 'react-router-dom';
 import { calculateMemberDuration } from '../../utils/calculateDuration';
 import { fetchPoin } from '../../utils/api';
+import { getItem, removeItem } from '../../utils/khukhaDBTemp';
 import whitelogo from '../../assets/khukha-white.svg';
 import point from '../../assets/diamond.png';
 import cashback from '../../assets/cashback.png';
@@ -24,7 +25,7 @@ const AkunScreen: React.FC = () => {
   useEffect(() => {
     const fetchData = async () => {
             try {
-              const storedUser = JSON.parse(localStorage.getItem('user') || '{}');
+              const storedUser = JSON.parse(await getItem('user') || '{}');
               setUser(storedUser);
     
               const storedPoinCashback = await fetchPoin(storedUser.id);
@@ -49,12 +50,11 @@ const AkunScreen: React.FC = () => {
    
   }, []);
 
-  const handleLogout = () => {
-    const keranjang = localStorage.getItem('keranjang');
-    localStorage.clear();
-    if (keranjang) {
-      localStorage.setItem('keranjang', keranjang);
-    }
+  const handleLogout = async () => {
+    await removeItem('user');
+    await removeItem('auth_token');
+    await removeItem('isAuthenticated');
+    await removeItem('sessionExpiration');
     history.push('/login');
   };
 

@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-
+import {getItem} from '../utils/khukhaDBTemp'
 // Create a context for cart count
 const CartContext = createContext<{ keranjangCount: number; setKeranjangCount: React.Dispatch<React.SetStateAction<number>> } | undefined>(undefined);
 
@@ -12,9 +12,12 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
   const [keranjangCount, setKeranjangCount] = useState<number>(0);
 
   useEffect(() => {
-    // Load the cart count from localStorage whenever the component mounts
-    const storedKeranjang = JSON.parse(localStorage.getItem('keranjang') || '[]');
-    setKeranjangCount(storedKeranjang.length);
+    const loadKeranjang = async () => {
+      const storedKeranjang = JSON.parse((await getItem('keranjang')) || '[]');
+      setKeranjangCount(storedKeranjang.length);
+    };
+
+    loadKeranjang();
   }, []);
 
   return (

@@ -80,6 +80,17 @@
 .cash-poin-text b {
   color: #707070;
 }
+.produk_detail_keranjang{
+  position: absolute;
+  right: 30px;
+  top: 50px;
+  cursor: pointer;
+}
+.produk_detail_keranjang .keranjang-count{
+  right:0;
+  top:-6px;
+  font-size:10px
+}
 @media(min-width:1024px){
   .main-content.produk-detail-page .ion-page {
     bottom:0;

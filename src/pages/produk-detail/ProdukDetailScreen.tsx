@@ -6,6 +6,7 @@ import { baseImgURL } from '../../utils/axios';
 import { Produk } from '../../entity/ProdukEntity';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { getUserPoints, getUserCashback } from "../../utils/poin";
+import { useCart } from '../../components/CartContext'; 
 import ProdukDetailFooter from '../../components/ProdukDetailFooter';
 import './ProdukDetail.css';
 import logo from '../../assets/logo-khukha.png';
@@ -13,8 +14,10 @@ import point from '../../assets/diamond.png';
 import cashback from '../../assets/cashback.png';
 import arrowIcon from '../../assets/arrow-right.svg';
 import shopicon from '../../assets/shopping-bag-solid.svg';
+import keranjangImage from '../../assets/keranjang.svg';
 
 const ProdukDetail: React.FC = () => {
+    const { keranjangCount } = useCart();
   const history = useHistory();
   const location = useLocation<{ produk: Produk }>();
   const produk = location.state?.produk;
@@ -54,6 +57,9 @@ const ProdukDetail: React.FC = () => {
   const navigateToProdukDetail = (produk: any) => {
     history.push(`/produk-detail/${produk.id}`, { produk });
   };
+  const keranjangPage = () => {
+    history.push('/keranjang')
+  }
   const navigateToProduk = () => {
     history.push('/produk');
   };
@@ -101,6 +107,14 @@ const ProdukDetail: React.FC = () => {
                   : '' // No class if kategori !== 'paket'
               }`}
             >
+              <div className='produk_detail_keranjang' onClick={keranjangPage}>
+              {keranjangCount > 0 && <div className="keranjang-count">{keranjangCount}</div>}
+              <img
+            src={keranjangImage}
+            alt="Keranjang"
+          />
+              </div>
+            
               <div className="produk-logo">
                 <img src={logo} alt="" />
                 <span>

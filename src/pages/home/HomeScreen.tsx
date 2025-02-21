@@ -4,7 +4,7 @@ import { useHistory } from 'react-router-dom';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import {Autoplay,Keyboard,Pagination,Scrollbar,Zoom} from 'swiper/modules';
 import { calculateMemberDuration } from '../../utils/calculateDuration';
-import { fetchPromo, fetchProduk } from '../../utils/api';
+import { fetchPromo, fetchProduk, fetchPoin } from '../../utils/api';
 import { getUserCashback } from "../../utils/poin";
 import { baseImgURL } from '../../utils/axios';
 import 'swiper/css';
@@ -41,7 +41,7 @@ const Home: React.FC = () => {
           const storedUser = JSON.parse(localStorage.getItem('user') || '{}');
           setUser(storedUser);
 
-          const storedPoinCashback = JSON.parse(localStorage.getItem('poincashback') || '{}');
+          const storedPoinCashback = await fetchPoin(storedUser.id);
           setPoinCashback(storedPoinCashback);
 
           if (storedUser?.tgl_member) {
@@ -51,15 +51,12 @@ const Home: React.FC = () => {
 
           const promos = await fetchPromo('home');
           setPromoData(promos.data);
-          // localStorage.setItem('promoData', JSON.stringify(promos.data));
 
           const pilihan = await fetchProduk('5', 'pilihan');
           setProdukDataPilihan(pilihan.data);
-          // localStorage.setItem('produkDataPilihan',JSON.stringify(pilihan.data));
 
           const bundling = await fetchProduk('5', 'paket');
           setProdukBundling(bundling.data);
-          // localStorage.setItem('produkBundling', JSON.stringify(bundling.data));
         } catch (error) {
           console.error('Error fetching data:', error);
         } finally {
@@ -121,11 +118,11 @@ const Home: React.FC = () => {
                 <div className="points-balance">
                   <div className="points">
                     <img src={point} alt="Points" />
-                    <p>{poinCashback.total_poin} poin</p>
+                    <p>{poinCashback.data.total_poin} poin</p>
                   </div>
                   <div className="cashback">
                     <img src={cashback} alt="Cashback" />
-                    <p>Rp.{new Intl.NumberFormat('id-ID').format(poinCashback.total_cashback)}</p>
+                    <p>Rp.{new Intl.NumberFormat('id-ID').format(poinCashback.data.total_cashback)}</p>
                   </div>
                 </div>
               </div>

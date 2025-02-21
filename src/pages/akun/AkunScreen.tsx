@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { IonContent, IonPage } from '@ionic/react';
 import { useHistory } from 'react-router-dom';
 import { calculateMemberDuration } from '../../utils/calculateDuration';
+import { fetchPoin } from '../../utils/api';
 import whitelogo from '../../assets/khukha-white.svg';
 import point from '../../assets/diamond.png';
 import cashback from '../../assets/cashback.png';
@@ -21,23 +22,31 @@ const AkunScreen: React.FC = () => {
   const history = useHistory();
 
   useEffect(() => {
-    const storedUser = JSON.parse(localStorage.getItem('user') || '{}');
-    setUser(storedUser);
+    const fetchData = async () => {
+            try {
+              const storedUser = JSON.parse(localStorage.getItem('user') || '{}');
+              setUser(storedUser);
+    
+              const storedPoinCashback = await fetchPoin(storedUser.id);
+              setPoinCashback(storedPoinCashback);
+    
+              if (storedUser?.tgl_member) {
+                const durationText = calculateMemberDuration(storedUser.tgl_member);
+                setMemberDuration(durationText);
+              }
+    
+            
+            } catch (error) {
+              console.error('Error fetching data:', error);
+            } finally {
+             
+            }
+          };
+    
+          fetchData();
+   
 
-    if (storedUser?.tgl_member) {
-      const durationText = calculateMemberDuration(storedUser.tgl_member);
-      setMemberDuration(durationText);
-    }
-
-    const storedPoinCashback = localStorage.getItem('poincashback');
-    if (storedPoinCashback) {
-      try {
-        const parsedPoinCashback = JSON.parse(storedPoinCashback);
-        setPoinCashback(parsedPoinCashback);
-      } catch (error) {
-        console.error('Error parsing poincashback:', error);
-      }
-    }
+   
   }, []);
 
   const handleLogout = () => {

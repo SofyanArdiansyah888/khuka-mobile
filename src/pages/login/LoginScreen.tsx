@@ -33,19 +33,7 @@
         // Save the token to localStorage
         localStorage.setItem('auth_token', response.data.token);
         localStorage.setItem('user', JSON.stringify(response.data.user));
-        localStorage.setItem(
-          'kabupaten',
-          JSON.stringify(response.data.kabupaten)
-        );
-        localStorage.setItem('metode', JSON.stringify(response.data.metode));
-        localStorage.setItem(
-          'pengambilan',
-          JSON.stringify(response.data.pengambilan)
-        );
-        localStorage.setItem(
-          'poincashback',
-          JSON.stringify(response.data.poincashback)
-        );
+       
 
         onLogin();
         history.push('/home');

@@ -34,4 +34,15 @@ export const fetchRewards = async () => {
     throw error;
   }
 };
+// ambil data poin dan cashback
+export const fetchPoin = async (userId: number | string) => {
+  try {
+    const response = await api.get(`/poincashback/${userId}`);
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching rewards data:', error);
+    throw error;
+  }
+};
+
 

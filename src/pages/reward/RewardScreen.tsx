@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { IonContent, IonPage } from '@ionic/react';
-import { fetchRewards } from '../../utils/api';
+import { fetchRewards,fetchPoin } from '../../utils/api';
 import { baseImgURL } from '../../utils/axios';
 import { calculateMemberDuration } from '../../utils/calculateDuration';
 import { useHistory } from 'react-router-dom';
@@ -20,34 +20,14 @@ const RewardScreen: React.FC = () => {
   const [memberDuration, setMemberDuration] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(true);
 
-  useEffect(() => {
-    // Check if data is already present in localStorage (to avoid re-fetching)
-    const storedRewards = JSON.parse(
-      localStorage.getItem('allRewards') || '[]'
-    );
-    const storedUser = JSON.parse(localStorage.getItem('user') || '{}');
-    
-
-    if (Object.keys(storedUser).length > 0 && storedRewards.length) {
-      setRewards(storedRewards);
-      setUser(storedUser);
-
-      if (storedUser?.tgl_member) {
-        const durationText = calculateMemberDuration(storedUser.tgl_member);
-        setMemberDuration(durationText);
-      }
-      const storedPoinCashback = JSON.parse(localStorage.getItem('poincashback') || '{}');
-      setPoinCashback(storedPoinCashback);
-
-      setLoading(false);
-    } else {
+  useEffect(() => {  
       setLoading(true);
       const fetchData = async () => {
         try {
           const storedUser = JSON.parse(localStorage.getItem('user') || '{}');
           setUser(storedUser);
 
-          const storedPoinCashback = JSON.parse(localStorage.getItem('poincashback') || '{}');
+          const storedPoinCashback = await fetchPoin(storedUser.id);
           setPoinCashback(storedPoinCashback);
 
           if (storedUser?.tgl_member) {
@@ -57,7 +37,6 @@ const RewardScreen: React.FC = () => {
 
           const dataReward = await fetchRewards();
           setRewards(dataReward.data);
-          localStorage.setItem('allRewards', JSON.stringify(dataReward.data));
         } catch (error) {
           console.error('Error fetching data:', error);
         } finally {
@@ -66,7 +45,7 @@ const RewardScreen: React.FC = () => {
       };
 
       fetchData();
-    }
+    
   }, []);
   const navigateToRewardDetail = (reward: any) => {
     console.log(reward.id);
@@ -110,14 +89,14 @@ const RewardScreen: React.FC = () => {
             <div className="points-balance">
               <div className="points">
                 <img src={point} alt="Points" />
-                <p>{poinCashback.total_poin} poin</p>
+                <p>{poinCashback.data.total_poin} poin</p>
               </div>
               <div className="cashback">
                 <img src={cashback} alt="Cashback" />
                 <p>
                   Rp.
                   {new Intl.NumberFormat('id-ID').format(
-                    poinCashback.total_cashback
+                    poinCashback.data.total_cashback
                   )}
                 </p>
               </div>

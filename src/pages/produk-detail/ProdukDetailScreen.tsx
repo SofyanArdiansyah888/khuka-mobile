@@ -5,8 +5,9 @@ import { useLocation } from 'react-router-dom';
 import { baseImgURL } from '../../utils/axios';
 import { Produk } from '../../entity/ProdukEntity';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { getUserPoints, getUserCashback } from "../../utils/poin";
-import { useCart } from '../../components/CartContext'; 
+import { getUserPoints, getUserCashback } from '../../utils/poin';
+import { fetchProduk } from '../../utils/api';
+import { useCart } from '../../components/CartContext';
 import ProdukDetailFooter from '../../components/ProdukDetailFooter';
 import './ProdukDetail.css';
 import logo from '../../assets/logo-khukha.png';
@@ -17,7 +18,7 @@ import shopicon from '../../assets/shopping-bag-solid.svg';
 import keranjangImage from '../../assets/keranjang.svg';
 
 const ProdukDetail: React.FC = () => {
-    const { keranjangCount } = useCart();
+  const { keranjangCount } = useCart();
   const history = useHistory();
   const location = useLocation<{ produk: Produk }>();
   const produk = location.state?.produk;
@@ -27,39 +28,44 @@ const ProdukDetail: React.FC = () => {
   const [actionType, setActionType] = useState<'keranjang' | 'beli' | null>(
     null
   );
+  const [loading, setLoading] = useState<boolean>(true);
 
-  useEffect(() => {
-    const storedUser = JSON.parse(localStorage.getItem('user') || '{}');
-    setUser(storedUser);
-  }, []);
+
 
   // get produk lainnya except current id from localstorage
   useEffect(() => {
-    if (produk) {
-      const kategoriKey =
-        produk.kategori === 'paket'
-          ? 'produkBundling'
-          : produk.kategori === 'pilihan'
-          ? 'produkDataPilihan'
-          : null;
-
-      if (kategoriKey) {
-        const storedData = JSON.parse(
-          localStorage.getItem(kategoriKey) || '[]'
-        );
-        const filteredData = storedData.filter(
-          (item: Produk) => item.id !== produk.id
-        );
+    setLoading(true);
+    const fetchData = async () => {
+      try {
+        const storedUser = JSON.parse(localStorage.getItem('user') || '{}');
+        setUser(storedUser);
+  
+        const response = await fetchProduk('5', 'null');
+        
+        // filter produk lainnya
+        const filteredData = response?.data && Array.isArray(response.data) 
+          ? response.data.filter((item: Produk) => item.id !== produk?.id) 
+          : [];
+  
         setProdukLainnya(filteredData);
+        
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      } finally {
+        setLoading(false);
       }
-    }
-  }, [produk]);
+    };
+  
+    fetchData();
+  }, [produk]); // Added `produk` as a dependency
+  
+
   const navigateToProdukDetail = (produk: any) => {
     history.push(`/produk-detail/${produk.id}`, { produk });
   };
   const keranjangPage = () => {
-    history.push('/keranjang')
-  }
+    history.push('/keranjang');
+  };
   const navigateToProduk = () => {
     history.push('/produk');
   };
@@ -107,14 +113,13 @@ const ProdukDetail: React.FC = () => {
                   : '' // No class if kategori !== 'paket'
               }`}
             >
-              <div className='produk_detail_keranjang' onClick={keranjangPage}>
-              {keranjangCount > 0 && <div className="keranjang-count">{keranjangCount}</div>}
-              <img
-            src={keranjangImage}
-            alt="Keranjang"
-          />
+              <div className="produk_detail_keranjang" onClick={keranjangPage}>
+                {keranjangCount > 0 && (
+                  <div className="keranjang-count">{keranjangCount}</div>
+                )}
+                <img src={keranjangImage} alt="Keranjang" />
               </div>
-            
+
               <div className="produk-logo">
                 <img src={logo} alt="" />
                 <span>
@@ -265,7 +270,7 @@ const ProdukDetail: React.FC = () => {
                       <span className="cashback">
                         Rp.{' '}
                         {new Intl.NumberFormat('id-ID').format(
-                         getUserCashback(user, item)
+                          getUserCashback(user, item)
                         )}
                       </span>
                     </p>
@@ -284,10 +289,9 @@ const ProdukDetail: React.FC = () => {
             ))}
           </Swiper>
         </div>
-        
       </IonContent>
       <IonFooter>
-      <ProdukDetailFooter
+        <ProdukDetailFooter
           actionType={actionType}
           isKeranjang={keranjangClick}
           isBeli={beliClick}
@@ -297,7 +301,7 @@ const ProdukDetail: React.FC = () => {
           userPoints={userPoints}
           userCashback={userCashback}
         />
-        </IonFooter>
+      </IonFooter>
     </IonPage>
   );
 };

@@ -192,7 +192,7 @@ const ProdukScreen: React.FC = () => {
                         <div>
                           <img src={shopicon} />
                         </div>
-                        <div>5 terjual</div>
+                        <div>{featuredProduk.penjualan_detail_count} terjual</div>
                       </div>
                       <div className="produk-link">
                         <span>Lihat</span>
@@ -280,7 +280,7 @@ const ProdukScreen: React.FC = () => {
                       <div>
                         <img src={shopicon} />
                       </div>
-                      <div>5 terjual</div>
+                      <div>{item.penjualan_detail_count} terjual</div>
                     </div>
                     <div className="produk-link">
                       <span>Lihat</span>

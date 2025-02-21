@@ -36,6 +36,10 @@ const DaftarMember: React.FC = () => {
               try {
                 const storedUser = JSON.parse(await getItem('user') || '{}');
                 setUser(storedUser);
+                // console.log(storedUser)
+                if (storedUser.kode_ref) {
+                  setKodeRef(storedUser.kode_ref);
+                }
       
                 const storedKabupaten = await fetchKabupaten();
                 setDataKab(storedKabupaten.data);    

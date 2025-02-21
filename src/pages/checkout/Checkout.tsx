@@ -24,7 +24,7 @@ const Checkout: React.FC = () => {
   const history = useHistory();
   const { keranjangCount, setKeranjangCount } = useCart();
   const [tempat, setTempat] = useState<any[]>([]);
-  const [metode, setMetode] = useState<any[]>([]);
+  const [dataMetode, setMetode] = useState<any[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [poinCashback, setPoinCashback] = useState<any>({
     total_poin: 0,
@@ -54,8 +54,8 @@ const Checkout: React.FC = () => {
         const datatempat = await fetchPengambilan();
         setTempat(datatempat.data);
 
-        const datametode = await fetchMetode();
-        setMetode(datametode.data);
+        const metodedata = await fetchMetode();
+        setMetode(metodedata.data);
       } catch (error) {
         console.error('Error fetching data:', error);
       } finally {
@@ -204,6 +204,8 @@ const Checkout: React.FC = () => {
       const response = await api.post('/pesanan', pesananData);
 
       // If successful, show success alert
+      if (response.data.success) {
+        const nomorOrder = response.data.nomor_order; 
       Swal.fire({
         icon: 'success',
         title: 'Pesanan Berhasil!',
@@ -226,7 +228,6 @@ const Checkout: React.FC = () => {
         const updatedKeranjang = storedKeranjang.filter(
           (item: { id: number }) => !productsToRemove.has(item.id)
         );
-        console.log(updatedKeranjang);
         // Update localStorage with the new keranjang data
         localStorage.setItem('keranjang', JSON.stringify(updatedKeranjang));
 
@@ -234,8 +235,12 @@ const Checkout: React.FC = () => {
         setKeranjangCount(updatedKeranjang.length);
 
         // Redirect to pembayaran page
-        history.push('/pembayaran');
+        history.push({
+          pathname: '/pembayaran',
+          state: { nomor_order: nomorOrder, metode: dataMetode },
+        });
       });
+    }
     } catch (error) {
       console.error('Error submitting order:', error);
 
@@ -321,7 +326,7 @@ const Checkout: React.FC = () => {
               </div>
             </div>
             <div className="items_wraps">
-              {metode.map((item, index) => (
+              {dataMetode.map((item, index) => (
                 <div className="item with_bottom_border" key={index}>
                   <div className="padding-lr-20">
                     <div className="checkout_metode">

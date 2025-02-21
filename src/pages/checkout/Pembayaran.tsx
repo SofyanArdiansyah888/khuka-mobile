@@ -24,12 +24,20 @@ const Pembayaran: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    if (selectedMetode) {
-      let metodeArray = Array.isArray(selectedMetode) ? selectedMetode : [selectedMetode];
-      const matchedMetode = metodeArray.find((item: any) => item.id === pesananData.id_metode);
+    if (selectedMetode?.data?.length) {
+      console.log(selectedMetode);
+  
+      // Ensure selectedMetode.data is an array
+      const metodeArray = Array.isArray(selectedMetode.data) ? selectedMetode.data : [];
+  
+      // Find the matching metode
+      const matchedMetode = metodeArray.find((item: { id: string; }) => item.id === pesananData.id_metode);
+  
+      // Update state with the matched metode or an empty array
       setFilteredMetode(matchedMetode ? [matchedMetode] : []);
     }
   }, [selectedMetode, pesananData.id_metode]);
+  
 
   useEffect(() => {
     const timer = setInterval(() => {

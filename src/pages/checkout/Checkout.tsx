@@ -2,25 +2,26 @@ import React, { useEffect, useState } from 'react';
 import { IonContent, IonToast, IonPage, IonSelect, IonSelectOption } from '@ionic/react';
 import { useHistory } from 'react-router-dom';
 import { baseImgURL } from '../../utils/axios';
-import { pesananData, updatePesananData } from '../../utils/pesananData';
-import { fetchMetode, fetchPengambilan, fetchPoin } from '../../utils/api';
+import { PesananData, pesananData, updatePesananData } from '../../utils/pesananData';
+import { fetchPoin } from '../../utils/api';
 import { setItem,getItem } from '../../utils/khukhaDBTemp';
-import Skeleton from 'react-loading-skeleton';
-import 'react-loading-skeleton/dist/skeleton.css';
+import { useGetList, usePost } from '../../common/hooks/useApi';
+import { ResponseListType } from '../../common/interface/response-type';
 import { useCart } from '../../components/CartContext';
 import api from '../../utils/axios';
 import Swal from 'sweetalert2';
 import shoppingIcon from '../../assets/shopping-bag.svg';
 import cardIcon from '../../assets/credit-card.svg';
 import fileIcon from '../../assets/file-text.svg';
+import Skeleton from 'react-loading-skeleton';
+import useAuth from '../../common/hooks/useAuth';
 import './Checkout.css';
+import 'react-loading-skeleton/dist/skeleton.css';
 
 const Checkout: React.FC = () => {
   const history = useHistory();
+  const { getUser } = useAuth();
   const { keranjangCount, setKeranjangCount } = useCart();
-  const [tempat, setTempat] = useState<any[]>([]);
-  const [dataMetode, setMetode] = useState<any[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
   const [poinCashback, setPoinCashback] = useState<any>({
     total_poin: 0,
     total_cashback: 0,
@@ -39,27 +40,36 @@ const Checkout: React.FC = () => {
   const totalHarga = pesananData.total_harga || 0;
   const grandTotal = totalHarga - cashbackUsed;
 
-  useEffect(() => {
-    setLoading(true);
-    const fetchData = async () => {
-      try {
-        const storedUser = JSON.parse(await getItem('user') || '{}');
-        const storedPoinCashback = await fetchPoin(storedUser.id);
-        setPoinCashback(storedPoinCashback);
-        const datatempat = await fetchPengambilan();
-        setTempat(datatempat.data);
-
-        const metodedata = await fetchMetode();
-        setMetode(metodedata.data);
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchData();
-  }, []);
+   useEffect(() => {
+      const fetchUserData = async () => {
+        const storedUser = await getUser(); // Fetch user from IndexedDB
+        if (storedUser) {         
+          const storedPoinCashback = await fetchPoin(storedUser.id);
+          setPoinCashback(storedPoinCashback.data);
+        }
+      };
+  
+      fetchUserData();
+    }, []);
+ 
+ const {
+    data: dataMetode,
+    isLoading,
+    refetch: refetchDataMetode,
+  } = useGetList<ResponseListType<any[]>>({
+    name: 'metode',
+    endpoint: '/metode',
+    params: {},
+  });
+  const {
+    data: tempat,
+    isLoading : isTempat,
+    refetch: refetchTempat,
+  } = useGetList<ResponseListType<any[]>>({
+    name: 'pengambilan',
+    endpoint: '/pengambilan-barang',
+    params: {},
+  });
 
   const historyBack = () => {
     updatePesananData({
@@ -83,7 +93,7 @@ const Checkout: React.FC = () => {
 
   const handleCashbackChange = (value: string) => {
     if (value === 'ya') {
-      const maxCashback = poinCashback.data.total_cashback || 0;
+      const maxCashback = poinCashback.total_cashback || 0;
 
       if (maxCashback > 0) {
         Swal.fire({
@@ -183,6 +193,15 @@ const Checkout: React.FC = () => {
 
     return !(allFieldsFilled && hasProducts);
   };
+  interface PesananResponse {
+    success: boolean;
+    nomor_order: string;
+  }
+  
+ const { mutateAsync: postPesanan } = usePost<PesananResponse, PesananData>({
+  name: 'createPesanan',
+  endpoint: '/pesanan',
+});
   const onClickBayar = async () => {
     try {
       // Show loading SweetAlert
@@ -196,11 +215,11 @@ const Checkout: React.FC = () => {
       });
 
       // Send pesananData to Laravel backend
-      const response = await api.post('/pesanan', pesananData);
+      const response = await postPesanan(pesananData);
 
       // If successful, show success alert
-      if (response.data.success) {
-        const nomorOrder = response.data.nomor_order; 
+      if (response.success) {
+        const nomorOrder = response.nomor_order; 
       Swal.fire({
         icon: 'success',
         title: 'Pesanan Berhasil!',
@@ -248,7 +267,7 @@ const Checkout: React.FC = () => {
     }
   };
 
-  // console.log('Updated Pesanan Data:', JSON.stringify(pesananData, null, 2));
+  console.log('Updated Pesanan Data:', JSON.stringify(pesananData, null, 2));
   return (
     <IonPage>
       <IonContent fullscreen>
@@ -259,7 +278,7 @@ const Checkout: React.FC = () => {
           ></div>
           <h4 className="header_title">Checkout</h4>
         </div>
-        {loading ? (
+        {isLoading ? (
           // Skeleton container
           <>
             <div style={{ padding: '20px', display: 'flex', gap: '20px' }}>
@@ -292,7 +311,7 @@ const Checkout: React.FC = () => {
                 value={selectedTempat}
                 onIonChange={(e) => handleTempatChange(e.detail.value)}
               >
-                {tempat.map((item) => (
+                {tempat?.data.map((item) => (
                   <IonSelectOption key={item.id} value={item.id}>
                     {item.nama_tempat}
                   </IonSelectOption>
@@ -300,8 +319,7 @@ const Checkout: React.FC = () => {
               </IonSelect>
               {selectedTempat && (
                 <div className="selected_tempat_detail">
-                  {tempat
-                    .filter((item) => item.id === selectedTempat)
+                  {tempat?.data.filter((item) => item.id === selectedTempat)
                     .map((item) => (
                       <div key={item.id} className="selected_tempat_card">
                         <h4 className='nama_tempat'>{item.nama_tempat}</h4>
@@ -321,7 +339,7 @@ const Checkout: React.FC = () => {
               </div>
             </div>
             <div className="items_wraps">
-              {dataMetode.map((item, index) => (
+              {dataMetode?.data.map((item, index) => (
                 <div className="item with_bottom_border" key={index}>
                   <div className="padding-lr-20">
                     <div className="checkout_metode">

@@ -26,28 +26,7 @@ const ProdukScreen: React.FC = () => {
   const [remainingProduk, setRemainingProduk] = useState<any[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
 
-  useEffect(() => {
-    // Check if data is already present in localStorage (to avoid re-fetching)
-    const storedUser = JSON.parse(localStorage.getItem('user') || '{}');
-
-    const storedPromoVertical = JSON.parse(
-      localStorage.getItem('promoVertical') || '[]'
-    );
-    const storedAllProduk = JSON.parse(
-      localStorage.getItem('allProduk') || '[]'
-    );
-
-    if (
-      Object.keys(storedUser).length > 0 &&
-      storedPromoVertical.length &&
-      storedAllProduk.length
-    ) {
-      setPromoVertical(storedPromoVertical);
-      setFeaturedProduk(storedAllProduk[0] || null);
-      setRemainingProduk(storedAllProduk.slice(1));
-      setUser(storedUser);
-      setLoading(false);
-    } else {
+  useEffect(() => {   
       setLoading(true);
       const fetchData = async () => {
         try {
@@ -56,10 +35,8 @@ const ProdukScreen: React.FC = () => {
 
           const promos = await fetchPromo('produk');
           setPromoVertical(promos.data);
-          localStorage.setItem('promoVertical', JSON.stringify(promos.data));
 
           const produk = await fetchProduk('null', 'null');
-          localStorage.setItem('allProduk', JSON.stringify(produk.data));
 
           setFeaturedProduk(produk.data[0] || null); // First product
           setRemainingProduk(produk.data.slice(1));
@@ -71,7 +48,7 @@ const ProdukScreen: React.FC = () => {
       };
 
       fetchData();
-    }
+    
   }, []);
   const navigateToProdukDetail = (produk: any) => {
     history.push(`/produk-detail/${produk.id}`, { produk });

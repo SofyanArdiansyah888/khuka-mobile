@@ -1,12 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import { IonContent, IonPage } from '@ionic/react';
-import { useHistory } from 'react-router-dom';
-import { calculateMemberDuration } from '../../utils/calculateDuration';
-import { fetchPoin } from '../../utils/api';
-import { getItem, removeItem } from '../../utils/khukhaDBTemp';
-import whitelogo from '../../assets/khukha-white.svg';
-import point from '../../assets/diamond.png';
-import cashback from '../../assets/cashback.png';
+import React from 'react';
+import {IonContent, IonPage} from '@ionic/react';
+import {useHistory} from 'react-router-dom';
+import {removeItem} from '../../utils/khukhaDBTemp';
 import profilIcon from '../../assets/profil.svg';
 import passIcon from '../../assets/password.svg';
 import termIcon from '../../assets/terms.svg';
@@ -15,41 +10,10 @@ import logOutIcon from '../../assets/logout.svg';
 import chatIcon from '../../assets/hubungi.svg';
 import leftArrow from '../../assets/chevron-left.svg';
 import './Akun.css';
+import HeaderPoint from "../../components/HeaderPoint";
 
 const AkunScreen: React.FC = () => {
-  const [user, setUser] = useState<any>(null);
-  const [memberDuration, setMemberDuration] = useState<string>('');
-  const [poinCashback, setPoinCashback] = useState<any>({ total_poin: 0, total_cashback: 0 });
   const history = useHistory();
-
-  useEffect(() => {
-    const fetchData = async () => {
-            try {
-              const storedUser = JSON.parse(await getItem('user') || '{}');
-              setUser(storedUser);
-    
-              const storedPoinCashback = await fetchPoin(storedUser.id);
-              setPoinCashback(storedPoinCashback.data);
-    
-              if (storedUser?.tgl_member) {
-                const durationText = calculateMemberDuration(storedUser.tgl_member);
-                setMemberDuration(durationText);
-              }
-    
-            
-            } catch (error) {
-              console.error('Error fetching data:', error);
-            } finally {
-             
-            }
-          };
-    
-          fetchData();
-   
-
-   
-  }, []);
-
   const handleLogout = async () => {
     await removeItem('user');
     await removeItem('auth_token');
@@ -98,32 +62,7 @@ const AkunScreen: React.FC = () => {
   return (
     <IonPage>
       <IonContent fullscreen>
-        <div className="user-info-wrap akun-wrap">
-          <div className="user-info">
-            <div className="user-details">
-              <div className="user-avatar">
-                <img src={whitelogo} alt="User Logo" />
-              </div>
-              <div className="user-data">
-                <h2>{user?.nama}</h2>
-                <p>Member sejak {memberDuration}</p>
-              </div>
-            </div>
-            <div className="points-balance">
-              <div className="points">
-                <img src={point} alt="Points" />
-                <p>{poinCashback?.total_poin ?? 0} poin</p>
-              </div>
-              <div className="cashback">
-                <img src={cashback} alt="Cashback" />
-                <p>
-                  Rp.{new Intl.NumberFormat('id-ID').format(poinCashback?.total_cashback ?? 0)}
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-
+        <HeaderPoint ukuran={'besar'} />
         {sections.map((section, sectionIndex) => (
           <React.Fragment key={sectionIndex}>
             {sectionIndex > 0 && <div className="bn-divider"></div>}

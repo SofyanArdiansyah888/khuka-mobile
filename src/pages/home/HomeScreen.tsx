@@ -1,49 +1,32 @@
-import React, { useEffect, useState } from 'react';
-import { IonContent, IonPage, IonRefresher,IonRefresherContent} from '@ionic/react';
-import { useHistory } from 'react-router-dom';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { Autoplay, Keyboard,Pagination,Scrollbar, Zoom} from 'swiper/modules';
-import { calculateMemberDuration } from '../../utils/calculateDuration';
-import { getUserCashback } from '../../utils/poin';
-import { baseImgURL } from '../../utils/axios';
-import { useGetList } from '../../common/hooks/useApi';
-import { Promo } from '../../entity/PromoEntity';
-import { ResponseListType } from '../../common/interface/response-type';
-import { Produk } from '../../entity/ProdukEntity';
-import useAuth from '../../common/hooks/useAuth';
+import React, {useEffect, useState} from 'react';
+import {IonContent, IonPage, IonRefresher, IonRefresherContent} from '@ionic/react';
+import {useHistory} from 'react-router-dom';
+import {Swiper, SwiperSlide} from 'swiper/react';
+import {Autoplay, Keyboard, Pagination, Scrollbar, Zoom} from 'swiper/modules';
+import {getUserCashback} from '../../utils/poin';
+import {baseImgURL} from '../../utils/axios';
+import {useGetList} from '../../common/hooks/useApi';
+import {Promo} from '../../entity/PromoEntity';
+import {ResponseListType} from '../../common/interface/response-type';
+import {Produk} from '../../entity/ProdukEntity';
 import logo from '../../assets/logo-khukha.png';
-import whitelogo from '../../assets/khukha-white.svg';
-import cashback from '../../assets/cashback.png';
-import point from '../../assets/diamond.png';
 import arrowIcon from '../../assets/arrow-right.svg';
 import shopicon from '../../assets/shopping-bag-solid.svg';
 import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
 import './Home.css';
-import { fetchPoin } from '../../utils/api';
+import HeaderPoint from "../../components/HeaderPoint";
+import useAuth from "../../common/hooks/useAuth";
 
 const Home: React.FC = () => {
   const history = useHistory();
-  const { getUser } = useAuth();
+
+  const {getUser} = useAuth()
   const [user, setUser] = useState<any>(null);
-  const [poinCashback, setPoinCashback] = useState<any>(null);
-  const [memberDuration, setMemberDuration] = useState<string>('');
-
   useEffect(() => {
-    const fetchUserData = async () => {
-      const storedUser = await getUser(); // Fetch user from IndexedDB
-      if (storedUser) {
-        setUser(storedUser);
-        if (storedUser.tgl_member) {
-          const durationText = calculateMemberDuration(storedUser.tgl_member);
-          setMemberDuration(durationText);
-        }
-        const storedPoinCashback = await fetchPoin(storedUser.id);
-        setPoinCashback(storedPoinCashback.data);
-      }
-    };
-
-    fetchUserData();
+    (async() => {
+      setUser(await getUser());
+    })()
   }, []);
 
   const {
@@ -128,35 +111,7 @@ const Home: React.FC = () => {
           </>
         ) : (
           <>
-            <div className="user-info-wrap">
-              <div className="user-info">
-                <div className="user-details">
-                  <div className="user-avatar">
-                    <img src={whitelogo} alt="User Logo" />
-                  </div>
-                  <div className="user-data">
-                    <h2>{user?.nama}</h2>
-                    <p>Member sejak {memberDuration}</p>
-                  </div>
-                </div>
-                <div className="points-balance">
-                  <div className="points">
-                    <img src={point} alt="Points" />
-                    <p>{poinCashback?.total_poin ?? 0} poin</p>
-                  </div>
-                  <div className="cashback">
-                    <img src={cashback} alt="Cashback" />
-                    <p>
-                      Rp.
-                      {new Intl.NumberFormat('id-ID').format(
-                        poinCashback?.total_cashback ?? 0
-                      )}
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-
+            <HeaderPoint/>
             <Swiper
               className="promo-swiper"
               spaceBetween={1}

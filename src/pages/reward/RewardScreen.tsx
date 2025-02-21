@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { IonContent, IonPage } from '@ionic/react';
-import { fetchRewards,fetchPoin } from '../../utils/api';
+import { IonContent, IonPage, IonRefresher, IonRefresherContent } from '@ionic/react';
+import { fetchPoin } from '../../utils/api';
 import { baseImgURL } from '../../utils/axios';
 import { calculateMemberDuration } from '../../utils/calculateDuration';
 import { useHistory } from 'react-router-dom';
@@ -53,9 +53,21 @@ const RewardScreen: React.FC = () => {
   const navigateToRewardDetail = (reward: any) => {
     history.push(`/reward-detail/${reward.id}`, { reward });
   };
+  async function swipeToRefresh() {
+    await refetchReward();
+  }
   return (
     <IonPage>
       <IonContent fullscreen>
+         <IonRefresher
+                  slot="fixed"
+                  onIonRefresh={async (e) => {
+                    await swipeToRefresh();
+                    e.detail.complete();
+                  }}
+                >
+                  <IonRefresherContent></IonRefresherContent>
+                </IonRefresher>
       {isLoading ? (
           // Skeleton container
           <>

@@ -1,17 +1,6 @@
 import api from '../utils/axios';
 
-// ambil data produk
-export const fetchProduk = async (limit: string, kategori: string) => {
-  try {
-    const response = await api.get('/produk', {
-      params: { limit, kategori },
-    });
-    return response.data;
-  } catch (error) {
-    console.error('Error fetching produk data:', error);
-    throw error;
-  }
-};
+
 
 // ambil data rewards
 export const fetchRewards = async () => {

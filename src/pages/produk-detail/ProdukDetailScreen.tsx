@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { IonContent, IonFooter, IonPage, IonToast } from '@ionic/react';
+import { IonContent, IonFooter, IonPage, IonRefresher, IonRefresherContent, IonToast } from '@ionic/react';
 import { useHistory } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
 import { baseImgURL } from '../../utils/axios';
 import { Produk } from '../../entity/ProdukEntity';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { getUserPoints, getUserCashback } from '../../utils/poin';
-import { fetchProduk } from '../../utils/api';
-import { getItem } from '../../utils/khukhaDBTemp';
 import { useCart } from '../../components/CartContext';
+import { useGetList } from '../../common/hooks/useApi';
+import { ResponseListType } from '../../common/interface/response-type';
 import ProdukDetailFooter from '../../components/ProdukDetailFooter';
 import './ProdukDetail.css';
 import logo from '../../assets/logo-khukha.png';
@@ -17,50 +17,44 @@ import cashback from '../../assets/cashback.png';
 import arrowIcon from '../../assets/arrow-right.svg';
 import shopicon from '../../assets/shopping-bag-solid.svg';
 import keranjangImage from '../../assets/keranjang.svg';
+import useAuth from '../../common/hooks/useAuth';
 
 const ProdukDetail: React.FC = () => {
   const { keranjangCount } = useCart();
   const history = useHistory();
+  const { getUser } = useAuth();
   const location = useLocation<{ produk: Produk }>();
   const produk = location.state?.produk;
   const [user, setUser] = useState<any>(null);
-  const [produkLainnya, setProdukLainnya] = useState<Produk[]>([]);
   const [showHiddenDiv, setShowHiddenDiv] = useState<boolean>(false);
   const [actionType, setActionType] = useState<'keranjang' | 'beli' | null>(
     null
   );
-  const [loading, setLoading] = useState<boolean>(true);
 
-
-
-  // get produk lainnya except current id from localstorage
   useEffect(() => {
-    setLoading(true);
-    const fetchData = async () => {
-      try {
-        const storedUser =JSON.parse(await getItem('user') || '{}');
+    const fetchUserData = async () => {
+      const storedUser = await getUser(); // Fetch user from IndexedDB
+      if (storedUser) {
         setUser(storedUser);
-  
-        const response = await fetchProduk('5', 'null');
-        
-        // filter produk lainnya
-        const filteredData = response?.data && Array.isArray(response.data) 
-          ? response.data.filter((item: Produk) => item.id !== produk?.id) 
-          : [];
-  
-        setProdukLainnya(filteredData);
-        
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      } finally {
-        setLoading(false);
       }
     };
-  
-    fetchData();
-  }, [produk]); // Added `produk` as a dependency
-  
 
+    fetchUserData();
+  }, []);
+
+  const {
+    data: produks,
+    isLoading,
+    refetch: refetchProduk,
+  } = useGetList<ResponseListType<Produk[]>>({
+    name: 'produk',
+    endpoint: '/produk',
+    params: {
+      limit: 5,
+    },
+  });
+  const produkLainnya =
+    produks?.data?.filter((item: Produk) => item.id !== produk?.id) || [];
   const navigateToProdukDetail = (produk: any) => {
     history.push(`/produk-detail/${produk.id}`, { produk });
   };
@@ -93,11 +87,24 @@ const ProdukDetail: React.FC = () => {
     );
   }
 
+  async function swipeToRefresh() {
+    await refetchProduk();
+  }
+
   return (
     <IonPage>
       <IonContent>
         <div className={`produk_detail_wrap ${showHiddenDiv ? 'active' : ''}`}>
           <div className="history-back" onClick={historyBack}></div>
+           <IonRefresher
+                    slot="fixed"
+                    onIonRefresh={async (e) => {
+                      await swipeToRefresh();
+                      e.detail.complete();
+                    }}
+                  >
+                    <IonRefresherContent></IonRefresherContent>
+                  </IonRefresher>
           <div className="produk-detail produk-card">
             <div
               className={`produk-list-header ${

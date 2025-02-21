@@ -28,7 +28,7 @@ const AkunScreen: React.FC = () => {
               setUser(storedUser);
     
               const storedPoinCashback = await fetchPoin(storedUser.id);
-              setPoinCashback(storedPoinCashback);
+              setPoinCashback(storedPoinCashback.data);
     
               if (storedUser?.tgl_member) {
                 const durationText = calculateMemberDuration(storedUser.tgl_member);

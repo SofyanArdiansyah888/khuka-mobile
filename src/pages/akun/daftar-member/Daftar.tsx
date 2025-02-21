@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { IonContent, IonPage, IonSelect, IonSelectOption } from '@ionic/react';
+import { fetchKabupaten } from '../../../utils/api';
 import { useHistory } from 'react-router-dom';
 import api from '../../../utils/axios';
 import Swal from 'sweetalert2';
@@ -29,18 +30,29 @@ const DaftarMember: React.FC = () => {
     history.goBack();
   };
 
-  
    useEffect(() => {
-    // Load stored data when component mounts
-    const storedUser = JSON.parse(localStorage.getItem('user') || '{}');
-    setUser(storedUser);
-    setKodeRef(storedUser.kode_ref);
+      const fetchData = async () => {
+              try {
+                const storedUser = JSON.parse(localStorage.getItem('user') || '{}');
+                setUser(storedUser);
+      
+                const storedKabupaten = await fetchKabupaten();
+                setDataKab(storedKabupaten.data);    
+               
+              
+              } catch (error) {
+                console.error('Error fetching data:', error);
+              } finally {
+               
+              }
+            };
+      
+            fetchData();
+     
+            setLevel('Konsumen');
+     
+    }, []);
 
-    const storedDataKab = JSON.parse(localStorage.getItem('kabupaten') || '{}');
-    setDataKab(storedDataKab);
-
-    setLevel('Konsumen');
-  }, []); // Runs only on component mount
 
   const handleDaftar = async (e: React.FormEvent) => {
     e.preventDefault();

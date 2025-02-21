@@ -44,6 +44,16 @@ export const fetchPoin = async (userId: number | string) => {
     throw error;
   }
 };
+// ambil data Kabupaten
+export const fetchKabupaten = async () => {
+  try {
+    const response = await api.get('/kabupaten');
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching kabupaten data:', error);
+    throw error;
+  }
+};
 // ambil data metode
 export const fetchMetode = async () => {
   try {

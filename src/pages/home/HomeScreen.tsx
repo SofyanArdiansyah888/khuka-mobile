@@ -42,7 +42,7 @@ const Home: React.FC = () => {
           setUser(storedUser);
 
           const storedPoinCashback = await fetchPoin(storedUser.id);
-          setPoinCashback(storedPoinCashback);
+          setPoinCashback(storedPoinCashback.data);
 
           if (storedUser?.tgl_member) {
             const durationText = calculateMemberDuration(storedUser.tgl_member);
@@ -118,11 +118,11 @@ const Home: React.FC = () => {
                 <div className="points-balance">
                   <div className="points">
                     <img src={point} alt="Points" />
-                    <p>{poinCashback.data.total_poin} poin</p>
+                    <p>{poinCashback.total_poin} poin</p>
                   </div>
                   <div className="cashback">
                     <img src={cashback} alt="Cashback" />
-                    <p>Rp.{new Intl.NumberFormat('id-ID').format(poinCashback.data.total_cashback)}</p>
+                    <p>Rp.{new Intl.NumberFormat('id-ID').format(poinCashback.total_cashback)}</p>
                   </div>
                 </div>
               </div>

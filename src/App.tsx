@@ -34,6 +34,7 @@ import '@ionic/react/css/text-transformation.css';
 import '@ionic/react/css/flex-utils.css';
 import '@ionic/react/css/display.css';
 import './theme/variables.css';
+import UbahPasswordPage from "./pages/akun/ubah-password/UbahPassword";
 
 setupIonicReact();
 
@@ -97,9 +98,8 @@ const App: React.FC = () => {
               <PrivateRoute isAuthenticated={isAuthenticated} exact path="/akun/daftar-member">
                 <DaftarMember />
               </PrivateRoute>
-              <PrivateRoute isAuthenticated={isAuthenticated} exact path="/akun/profil">
-                <Profil />
-              </PrivateRoute>
+              <PrivateRoute isAuthenticated={isAuthenticated} exact path="/akun/ubah-password"><UbahPasswordPage /></PrivateRoute>
+              <PrivateRoute isAuthenticated={isAuthenticated} exact path="/akun/profil"><Profil /></PrivateRoute>
             </Layout>
 
             {/* Default redirect to /login or /home */}

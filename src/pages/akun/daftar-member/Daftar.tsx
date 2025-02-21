@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { IonContent, IonPage, IonSelect, IonSelectOption } from '@ionic/react';
-import { fetchKabupaten } from '../../../utils/api';
-import { getItem } from '../../../utils/khukhaDBTemp';
+import { useGetList } from '../../../common/hooks/useApi';
+import { ResponseListType } from '../../../common/interface/response-type';
 import { useHistory } from 'react-router-dom';
 import api from '../../../utils/axios';
 import Swal from 'sweetalert2';
+import useAuth from '../../../common/hooks/useAuth';
 import './Daftar.css';
 
 const DaftarMember: React.FC = () => {
+  const { getUser } = useAuth();
   const [user, setUser] = useState<any>(null);
-  const [datakab, setDataKab] = useState<any[]>([]);
   const history = useHistory();
   const [sponsor_ref, setKodeRef] = useState('');
   const [nama, setNama] = useState('');
@@ -29,34 +30,26 @@ const DaftarMember: React.FC = () => {
   const historyBack = () => {
     history.goBack();
   };
+ useEffect(() => {
+    const fetchUserData = async () => {
+      const storedUser = await getUser(); // Fetch user from IndexedDB
+      if (storedUser) {
+        setUser(storedUser);
+        setKodeRef(storedUser.kode_ref);
+      }
+    };
 
-   useEffect(() => {
-      const fetchData = async () => {
-              try {
-                const storedUser = JSON.parse(await getItem('user') || '{}');
-                setUser(storedUser);
-                // console.log(storedUser)
-                if (storedUser.kode_ref) {
-                  setKodeRef(storedUser.kode_ref);
-                }
-      
-                const storedKabupaten = await fetchKabupaten();
-                setDataKab(storedKabupaten.data);    
-               
-              
-              } catch (error) {
-                console.error('Error fetching data:', error);
-              } finally {
-               
-              }
-            };
-      
-            fetchData();
-     
-            setLevel('Konsumen');
-     
-    }, []);
-
+    fetchUserData();
+  }, []);
+ 
+ const {
+    data: datakab,
+    refetch: refetchProduk,
+  } = useGetList<ResponseListType<any[]>>({
+    name: 'kabupaten',
+    endpoint: '/kabupaten',
+    params: {},
+  });
 
   const handleDaftar = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -218,7 +211,7 @@ const DaftarMember: React.FC = () => {
                 onIonChange={(e) => setKabupaten(e.detail.value)}
                 placeholder="Pilih Kabupaten"
               >
-                {datakab.map((kab: any) => (
+                {datakab?.data.map((kab: any) => (
                   <IonSelectOption key={kab.id} value={kab.id}>
                     {kab.nama}
                   </IonSelectOption>

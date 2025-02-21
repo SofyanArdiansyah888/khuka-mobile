@@ -18,7 +18,6 @@ const DaftarMember: React.FC = () => {
   const [nik, setNoKtp] = useState('');
   const [noKtpError, setNoKtpError] = useState(false);
   const [no_hp, setNoHp] = useState('');
-  const [no_hp_lain, setNoHpLain] = useState('');
   const [alamat, setAlamat] = useState('');
   const [id_kab, setKabupaten] = useState('');
   const [kabupatenError, setKabupatenError] = useState(false);
@@ -83,7 +82,6 @@ const DaftarMember: React.FC = () => {
         member_level,
         nik,
         no_hp,
-        no_hp_lain,
         alamat,
         id_kab,
         password,
@@ -201,14 +199,7 @@ const DaftarMember: React.FC = () => {
                 required
               />
             </div>
-            <div className="form-item">
-              <label>No HP Lain (Opsional)</label>
-              <input
-                type="tel"
-                value={no_hp_lain}
-                onChange={(e) => setNoHpLain(e.target.value)}
-              />
-            </div>
+         
             <div className="form-item">
               <label>Alamat</label>
               <textarea

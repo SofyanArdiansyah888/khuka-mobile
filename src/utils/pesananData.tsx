@@ -7,9 +7,9 @@ export interface PesananProduk {
     total_harga: number;
     poin: number;
     cashback: number;
-  }
-  
-  export interface PesananData {
+}
+
+export interface PesananData {
     id_member: string;
     id_metode: string;
     cashback_diskon: number;
@@ -17,28 +17,34 @@ export interface PesananProduk {
     total_harga: number;
     total_pembayaran: number;
     pesananproduk: PesananProduk[];
-  }
-  
-  // Get user ID from localStorage
-  const user =  JSON.parse(await getItem('user') || '{}');
-  
-  export let pesananData: PesananData = {
-    id_member: user.id || '', // Set from localStorage
+}
+
+// Initialize pesananData with default values
+export let pesananData: PesananData = {
+    id_member: '',
     id_metode: '',
-    cashback_diskon:0,
+    cashback_diskon: 0,
     id_ambil: '',
     total_harga: 0,
     total_pembayaran: 0,
     pesananproduk: [],
-  };
-  
-  // Function to update pesananData
-  export const updatePesananData = (newData: Partial<PesananData>) => {
+};
+
+// Function to initialize pesananData
+export const initPesananData = async () => {
+    const user = JSON.parse((await getItem('user')) || '{}');
+    pesananData.id_member = user.id || ''; // Set from IndexedDB
+};
+
+// Function to update pesananData
+export const updatePesananData = (newData: Partial<PesananData>) => {
     pesananData = { ...pesananData, ...newData };
-  };
-  
-  // Function to update pesananproduk
-  export const updatePesananProduk = (produk: PesananProduk[]) => {
+};
+
+// Function to update pesananproduk
+export const updatePesananProduk = (produk: PesananProduk[]) => {
     pesananData.pesananproduk = produk;
-  };
-  
+};
+
+// Call initPesananData at the start of your app
+initPesananData();

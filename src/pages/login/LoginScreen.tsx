@@ -67,7 +67,7 @@
             Login & <br />
             Mulai Belanja.
           </h1>
-          {error && <p style={{ color: 'red' }}>{error}</p>}
+          {error && <p style={{ background: 'rgb(205 21 21 / 60%)', textAlign:'center',padding:'10px 20px',color:'#fff' }}>{error}</p>}
           <form className="login_form" onSubmit={handleLogin}>
             <div className="form-item">
               <input

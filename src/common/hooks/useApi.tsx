@@ -35,29 +35,26 @@ interface IPOST {
   errorMessage?: string;
 }
 
-export function usePost({ name, endpoint, onError, onSuccess }: IPOST) {
+export function usePost<T, D>({ name, endpoint, onError, onSuccess }: IPOST) {
   const queryClient = useQueryClient();
-  return useMutation({
+  return useMutation<T, unknown, D>({
+    mutationFn: async (data: D) => {
+      return create<T, D>(endpoint, data);
+    },
     onSuccess: async (data) => {
-      await queryClient.invalidateQueries({
-        queryKey: [name],
-      });
+      await queryClient.invalidateQueries({ queryKey: [name] });
       if (onSuccess) {
         onSuccess(data);
-        return;
       }
     },
-    onError: async (error) => {
-      if (onError) {
+    onError: async (error: unknown) => {
+      if (onError && error instanceof Error) {
         onError(error);
-        return;
       }
-    },
-    mutationFn: (data) => {
-      return create(endpoint, data);
     },
   });
 }
+
 
 export function usePut({ name, endpoint, onError, onSuccess }: IPOST) {
   const queryClient = useQueryClient();

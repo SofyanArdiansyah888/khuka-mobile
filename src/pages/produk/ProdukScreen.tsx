@@ -1,10 +1,18 @@
 import React, { useEffect, useState } from 'react';
-import { IonContent, IonPage } from '@ionic/react';
-import { fetchPromo, fetchProduk } from '../../utils/api';
+import {IonContent,IonPage,IonRefresher,IonRefresherContent} from '@ionic/react';
 import { baseImgURL } from '../../utils/axios';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { useHistory } from 'react-router-dom';
 import { Autoplay, Keyboard, Pagination, Scrollbar } from 'swiper/modules';
+import { getUserCashback } from '../../utils/poin';
+import { useGetList } from '../../common/hooks/useApi';
+import { ResponseListType } from '../../common/interface/response-type';
+import { Produk } from '../../entity/ProdukEntity';
+import { Promo } from '../../entity/PromoEntity';
+import logo from '../../assets/logo-khukha.png';
+import shopicon from '../../assets/shopping-bag-solid.svg';
+import Skeleton from 'react-loading-skeleton';
+import useAuth from '../../common/hooks/useAuth';
 import 'swiper/css';
 import 'swiper/css/autoplay';
 import 'swiper/css/keyboard';
@@ -12,47 +20,54 @@ import 'swiper/css/pagination';
 import 'swiper/css/scrollbar';
 import 'swiper/css/zoom';
 import '@ionic/react/css/ionic-swiper.css';
-import logo from '../../assets/logo-khukha.png';
-import shopicon from '../../assets/shopping-bag-solid.svg';
-import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
 import './Produk.css';
 
 const ProdukScreen: React.FC = () => {
   const history = useHistory();
+  const { getUser } = useAuth();
   const [user, setUser] = useState<any>(null);
-  const [promoVertical, setPromoVertical] = useState<any[]>([]);
-  const [featuredProduk, setFeaturedProduk] = useState<any>(null);
-  const [remainingProduk, setRemainingProduk] = useState<any[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
 
-  useEffect(() => {   
-      setLoading(true);
-      const fetchData = async () => {
-        try {
-          const storedUser = JSON.parse(localStorage.getItem('user') || '{}');
-          setUser(storedUser);
+  useEffect(() => {
+    const fetchUserData = async () => {
+      const storedUser = await getUser(); // Fetch user from IndexedDB
+      if (storedUser) {
+        setUser(storedUser);
+      }
+    };
 
-          const promos = await fetchPromo('produk');
-          setPromoVertical(promos.data);
-
-          const produk = await fetchProduk('null', 'null');
-
-          setFeaturedProduk(produk.data[0] || null); // First product
-          setRemainingProduk(produk.data.slice(1));
-        } catch (error) {
-          console.error('Error fetching data:', error);
-        } finally {
-          setLoading(false);
-        }
-      };
-
-      fetchData();
-    
+    fetchUserData();
   }, []);
+  const {
+    data: promoVertical,
+    isLoading,
+    refetch: refetchPromo,
+  } = useGetList<ResponseListType<Promo[]>>({
+    name: 'promo',
+    endpoint: '/promo',
+    params: { tipe: 'produk' },
+  });
+  const {
+    data: produks,
+    isLoading: isProdukLoading,
+    refetch: refetchProduk,
+  } = useGetList<ResponseListType<Produk[]>>({
+    name: 'produk',
+    endpoint: '/produk',
+    params: {},
+  });
+  const produkList = produks?.data || []; // Ensure it's always an array
+  const featuredProduk = produkList.length > 0 ? produkList[0] : null;
+  const remainingProduk = produkList.length > 1 ? produkList.slice(1) : [];
+
   const navigateToProdukDetail = (produk: any) => {
     history.push(`/produk-detail/${produk.id}`, { produk });
   };
+  async function swipeToRefresh() {
+    await refetchPromo();
+    await refetchProduk();
+  }
   return (
     <IonPage>
       <IonContent fullscreen>
@@ -62,7 +77,16 @@ const ProdukScreen: React.FC = () => {
             Belanja sekarang dan dapatkan cashbacknya
           </p>
         </div>
-        {loading ? (
+        <IonRefresher
+          slot="fixed"
+          onIonRefresh={async (e) => {
+            await swipeToRefresh();
+            e.detail.complete();
+          }}
+        >
+          <IonRefresherContent></IonRefresherContent>
+        </IonRefresher>
+        {isLoading || isProdukLoading ? (
           // Skeleton container
           <>
             <div style={{ padding: '20px', display: 'flex', gap: '20px' }}>
@@ -96,7 +120,7 @@ const ProdukScreen: React.FC = () => {
                 scrollbar={true}
                 zoom={true}
               >
-                {promoVertical.map((promo, index) => (
+                {promoVertical?.data.map((promo, index) => (
                   <SwiperSlide key={index}>
                     <div className="promo-banner">
                       <img
@@ -180,11 +204,7 @@ const ProdukScreen: React.FC = () => {
                         <span className="cashback">
                           Rp.{' '}
                           {new Intl.NumberFormat('id-ID').format(
-                            user?.member_level === 'AO'
-                              ? featuredProduk.ao_cashback
-                              : user?.member_level === 'Agent'
-                              ? featuredProduk.agen_cashback
-                              : featuredProduk.konsumen_cashback
+                            getUserCashback(user, featuredProduk)
                           )}
                         </span>
                       </p>
@@ -192,7 +212,9 @@ const ProdukScreen: React.FC = () => {
                         <div>
                           <img src={shopicon} />
                         </div>
-                        <div>{featuredProduk.penjualan_detail_count} terjual</div>
+                        <div>
+                          {featuredProduk.penjualan_detail_count} terjual
+                        </div>
                       </div>
                       <div className="produk-link">
                         <span>Lihat</span>
@@ -268,11 +290,7 @@ const ProdukScreen: React.FC = () => {
                       <span className="cashback">
                         Rp.{' '}
                         {new Intl.NumberFormat('id-ID').format(
-                          user?.member_level === 'AO'
-                            ? item.ao_cashback
-                            : user?.member_level === 'Agent'
-                            ? item.agen_cashback
-                            : item.konsumen_cashback
+                          getUserCashback(user, item)
                         )}
                       </span>
                     </p>

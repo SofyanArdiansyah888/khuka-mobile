@@ -4,57 +4,59 @@ import { fetchRewards,fetchPoin } from '../../utils/api';
 import { baseImgURL } from '../../utils/axios';
 import { calculateMemberDuration } from '../../utils/calculateDuration';
 import { useHistory } from 'react-router-dom';
+import { useGetList } from '../../common/hooks/useApi';
+import { ResponseListType } from '../../common/interface/response-type';
+import { Reward } from '../../entity/RewardEntity';
+import useAuth from '../../common/hooks/useAuth';
 import Skeleton from 'react-loading-skeleton';
-import 'react-loading-skeleton/dist/skeleton.css';
 import iconright from '../../assets/chevron-right.svg';
 import whitelogo from '../../assets/khukha-white.svg';
 import cashback from '../../assets/cashback.png';
 import point from '../../assets/diamond.png';
 import './Reward.css';
+import 'react-loading-skeleton/dist/skeleton.css';
 
 const RewardScreen: React.FC = () => {
   const history = useHistory();
-  const [rewards, setRewards] = useState<any[]>([]);
+  const { getUser } = useAuth();
   const [user, setUser] = useState<any>(null);
   const [poinCashback, setPoinCashback] = useState<any>(null);
   const [memberDuration, setMemberDuration] = useState<string>('');
-  const [loading, setLoading] = useState<boolean>(true);
 
-  useEffect(() => {  
-      setLoading(true);
-      const fetchData = async () => {
-        try {
-          const storedUser = JSON.parse(localStorage.getItem('user') || '{}');
-          setUser(storedUser);
+   useEffect(() => {
+     const fetchUserData = async () => {
+       const storedUser = await getUser(); // Fetch user from IndexedDB
+       if (storedUser) {
+         setUser(storedUser);
+         if (storedUser.tgl_member) {
+           const durationText = calculateMemberDuration(storedUser.tgl_member);
+           setMemberDuration(durationText);
+         }
+         const storedPoinCashback = await fetchPoin(storedUser.id);
+         setPoinCashback(storedPoinCashback.data);
+       }
+     };
+ 
+     fetchUserData();
+   }, []);
 
-          const storedPoinCashback = await fetchPoin(storedUser.id);
-          setPoinCashback(storedPoinCashback.data);
+  const {
+      data: rewards,
+      isLoading,
+      refetch: refetchReward,
+    } = useGetList<ResponseListType<Reward[]>>({
+      name: 'rewards',
+      endpoint: '/rewards',
+      params: {},
+    });
 
-          if (storedUser?.tgl_member) {
-            const durationText = calculateMemberDuration(storedUser.tgl_member);
-            setMemberDuration(durationText);
-          }
-
-          const dataReward = await fetchRewards();
-          setRewards(dataReward.data);
-        } catch (error) {
-          console.error('Error fetching data:', error);
-        } finally {
-          setLoading(false);
-        }
-      };
-
-      fetchData();
-    
-  }, []);
   const navigateToRewardDetail = (reward: any) => {
-    console.log(reward.id);
     history.push(`/reward-detail/${reward.id}`, { reward });
   };
   return (
     <IonPage>
       <IonContent fullscreen>
-      {loading ? (
+      {isLoading ? (
           // Skeleton container
           <>
             <div style={{ padding: '20px', display: 'flex', gap: '20px' }}>
@@ -89,14 +91,14 @@ const RewardScreen: React.FC = () => {
             <div className="points-balance">
               <div className="points">
                 <img src={point} alt="Points" />
-                <p>{poinCashback.total_poin} poin</p>
+                <p>{poinCashback?.total_poin ?? 0} poin</p>
               </div>
               <div className="cashback">
                 <img src={cashback} alt="Cashback" />
                 <p>
                   Rp.
                   {new Intl.NumberFormat('id-ID').format(
-                    poinCashback.total_cashback
+                    poinCashback?.total_cashback ?? 0
                   )}
                 </p>
               </div>
@@ -109,7 +111,7 @@ const RewardScreen: React.FC = () => {
         </div>
        
             <div className="all-produk padding-lr-20 rewards-wrap">
-              {rewards.map((item, index) => (
+              {rewards?.data.map((item, index) => (
                 <div
                   key={item.id}
                   className="produk-card"
@@ -126,7 +128,7 @@ const RewardScreen: React.FC = () => {
                     <div className="poin-wrap">
                       <div className="poin-item">
                         <div className="poin">
-                          {new Intl.NumberFormat('id-ID').format(item.poin)}
+                          {new Intl.NumberFormat('id-ID').format(Number(item.poin))}
                         </div>
                         <div className="poin-arrow">
                           <img src={iconright} alt="arrow right" />

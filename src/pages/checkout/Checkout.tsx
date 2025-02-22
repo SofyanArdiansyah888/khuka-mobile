@@ -223,7 +223,7 @@ const Checkout: React.FC = () => {
       Swal.fire({
         icon: 'success',
         title: 'Pesanan Berhasil!',
-        text: 'Pesanan Anda telah dikonfirmasi. Segera lakukan pembayaran',
+        text: 'Pesanan Berhasil di simpan. Segera lakukan pembayaran',
         confirmButtonText: 'Lanjut ke Pembayaran',
       }).then( async () => {
         // Retrieve the current cart (keranjang) from localStorage

@@ -1,4 +1,6 @@
 import React, {ChangeEventHandler, useState} from "react";
+import eye from '../../assets/eye.svg';
+import eyeoff from '../../assets/eye-off.svg';
 
 type InputPasswordType = {
     value: string,
@@ -22,7 +24,12 @@ export default function InputPassword({value, onChange,label = 'Password'}: Inpu
                 className="toggle-password"
                 onClick={() => setShowPassword(!showPassword)}
             >
-                {showPassword ? 'Tutup' : 'Lihat'}
+                <img
+                  src={showPassword ? eye : eyeoff}
+                  alt={showPassword ? 'Hide Password' : 'Show Password'}
+                  width={20}
+                  height={20}
+                />
             </button>
         </div>
     </div>

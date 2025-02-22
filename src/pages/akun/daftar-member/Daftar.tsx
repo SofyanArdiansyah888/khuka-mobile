@@ -87,7 +87,7 @@ const DaftarMember: React.FC = () => {
           confirmButtonText: 'OK'
         }).then(() => {
           // Redirect to "info-pembayaran" page after clicking OK
-          // history.push('/akun');
+          history.push('/akun');
         });
       } else {
         Swal.fire({

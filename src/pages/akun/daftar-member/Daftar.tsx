@@ -15,15 +15,15 @@ const DaftarMember: React.FC = () => {
   const [sponsor_ref, setKodeRef] = useState('');
   const [nama, setNama] = useState('');
   const [member_level, setLevel] = useState('Konsumen');
-  const [email, setEmail] = useState('');
+  // const [email, setEmail] = useState('');
   const [nik, setNoKtp] = useState('');
   const [noKtpError, setNoKtpError] = useState(false);
   const [no_hp, setNoHp] = useState('');
   const [alamat, setAlamat] = useState('');
   const [id_kab, setKabupaten] = useState('');
   const [kabupatenError, setKabupatenError] = useState(false);
-  const [password, setPassword] = useState('');
-  const [showPassword, setShowPassword] = useState(false);
+  // const [password, setPassword] = useState('');
+  // const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState<string[]>([]);
 
@@ -44,7 +44,7 @@ const DaftarMember: React.FC = () => {
  
  const {
     data: datakab,
-    refetch: refetchProduk,
+    refetch: refetchKabupaten,
   } = useGetList<ResponseListType<any[]>>({
     name: 'kabupaten',
     endpoint: '/kabupaten',
@@ -71,13 +71,13 @@ const DaftarMember: React.FC = () => {
       const response = await api.post('/daftar-member', {
         sponsor_ref,
         nama,
-        email,
+        // email,
         member_level,
         nik,
         no_hp,
         alamat,
         id_kab,
-        password,
+        // password,
       });
       if(response.data.success){
         Swal.fire({
@@ -162,15 +162,7 @@ const DaftarMember: React.FC = () => {
                 required
               />
             </div>
-            <div className="form-item">
-              <label>Email</label>
-              <input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-              />
-            </div>
+            
             <div className="form-item">
               <label>No KTP (16 Digits)</label>
               {noKtpError && (
@@ -218,26 +210,7 @@ const DaftarMember: React.FC = () => {
                 ))}
               </IonSelect>
             </div>
-            <div className="form-item">
-              <label>Password</label>
-              <div className="password-input">
-                <input
-                  type={showPassword ? 'text' : 'password'}
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  name="passwordx"
-                  autoComplete="new-password"
-                  required
-                />
-                <button
-                  type="button"
-                  className="toggle-password"
-                  onClick={() => setShowPassword(!showPassword)}
-                >
-                  {showPassword ? 'Tutup' : 'Lihat'}
-                </button>
-              </div>
-            </div>
+         
             <button type="submit" className="loginbtn" disabled={loading}>
               {loading ? 'Mohon tunggu...' : 'SUBMIT'}
             </button>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {IonContent, IonPage} from '@ionic/react';
 import {useHistory} from 'react-router-dom';
 import {removeItem} from '../../utils/khukhaDBTemp';
@@ -11,9 +11,22 @@ import chatIcon from '../../assets/hubungi.svg';
 import leftArrow from '../../assets/chevron-left.svg';
 import './Akun.css';
 import HeaderPoint from "../../components/HeaderPoint";
+import useAuth from '../../common/hooks/useAuth';
 
 const AkunScreen: React.FC = () => {
   const history = useHistory();
+  const { getUser } = useAuth();
+  const [userLevel, setUserLevel] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      const storedUser = await getUser();
+      if (storedUser) {       
+        setUserLevel(storedUser.member_level || null);
+      }
+    };
+    fetchUserData();
+  }, []);
   const handleLogout = async () => {
     await removeItem('user');
     await removeItem('auth_token');
@@ -31,7 +44,7 @@ const AkunScreen: React.FC = () => {
   function ubahPasswordClick(){
     history.push('/akun/ubah-password');
   }
-  
+ 
   const sections = [
     {
       title: 'Akun',
@@ -43,8 +56,8 @@ const AkunScreen: React.FC = () => {
     {
       title: 'Member',
       items: [
-        { icon: profilIcon, label: 'Daftarkan Member', onClick: daftarMember },
-        { icon: passIcon, label: 'List Member Anda', onClick: null },
+        ...(userLevel !== 'Konsumen' ? [{ icon: profilIcon, label: 'Daftarkan Member', onClick: daftarMember }] : []),
+        ...(userLevel !== 'Konsumen' ? [{ icon: passIcon, label: 'List Member Anda', onClick: null }] : []),
         { icon: passIcon, label: 'Request Redeem', onClick: null },
       ],
     },

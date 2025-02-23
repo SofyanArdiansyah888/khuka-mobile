@@ -4,8 +4,6 @@ import React, {Dispatch, SetStateAction} from "react";
 import {useLocation} from "react-router-dom";
 import {Reward} from "../../../entity/RewardEntity";
 import {usePost} from "../../../common/hooks/useApi";
-import {setItem} from "../../../utils/khukhaDBTemp";
-import Swal from "sweetalert2";
 import {handleErrorResponse} from "../../../utils/utils";
 import useAuth from "../../../common/hooks/useAuth";
 

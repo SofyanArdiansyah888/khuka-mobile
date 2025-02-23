@@ -1,3 +1,24 @@
+.riwayat-tabs{
+    padding-left: 20px;
+    display: flex;
+    margin-bottom: 25px;
+    margin-top: 20px;
+    flex-wrap: nowrap;
+    align-items: center;
+    gap:14px;
+    overflow: auto;
+}
+.riwayat-tab{
+    background: #EAEAEA;
+    padding: 11px 19px;
+    font-size: 14px;
+    border-radius: 50px;
+    font-weight: 600;
+}
+.riwayat-tab.active{
+    background:#CD9C22;
+    color:#fff
+}
 .riwayat-items {
   border: 1px solid #eaeaea;
   border-radius: 10px;

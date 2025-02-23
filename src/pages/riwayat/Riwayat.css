@@ -3,6 +3,10 @@
   border-radius: 10px;
   margin-bottom: 15px;
   flex-direction: column;
+  gap:1px
+}
+.riwayat_produk{
+    width:100%
 }
 .riwayat_header,.produk_item {
   display: flex;  
@@ -93,4 +97,10 @@ font-size:12px
 .riwayat_total_bayar span{
     font-size:12px;
     font-weight: 400;
+}
+.lihat_semua_btn{
+    font-size:10px;
+    color:#707070;
+    padding-left:15px;
+    padding-top:15px
 }

@@ -8,10 +8,12 @@ import logo from '../../assets/logo-khukha.png';
 import useAuth from '../../common/hooks/useAuth';
 import shoppingIcon from '../../assets/shopping-bag.svg';
 import './Riwayat.css';
+
 const RiwayatScreen: React.FC = () => {
   const [riwayatData, setriwayatData] = useState<any[]>([]);
   const history = useHistory();
   const { getUser } = useAuth();
+  const [showAll, setShowAll] = useState(false);
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -91,29 +93,53 @@ const RiwayatScreen: React.FC = () => {
                     </div>
                   </div>
                   <div className="riwayat_produk">
-                    {item.detail?.map((detail: any, index: number) => (
-                      <div key={index} className="produk_item">
-                        <div className='produk_thumb'>
-                        <div className="produk-logo">
-                        <img src={logo} alt="" />
-                        <span>
-                          OFFICIAL
-                          <br />
-                          STORE
-                        </span>
-                      </div>
-                      <img className='img_riwayat'
-                        src={`${baseImgURL}produk/${detail.produk.link_gambar}`}
-                        alt=""
-                      />
+                    {item.detail
+                      ?.slice(0, showAll ? item.detail.length : 1)
+                      .map((detail: any, index: number) => (
+                        <div key={index} className="produk_item">
+                          <div className="produk_thumb">
+                            <div className="produk-logo">
+                              <img src={logo} alt="" />
+                              <span>
+                                OFFICIAL
+                                <br />
+                                STORE
+                              </span>
+                            </div>
+                            <img
+                              className="img_riwayat"
+                              src={`${baseImgURL}produk/${detail.produk.link_gambar}`}
+                              alt=""
+                            />
+                          </div>
+                          <div className="produk_judul riwayat_item">
+                            {detail.produk.judul}
+                          </div>
+                          <div className="produk_x_qty">X{detail.qty}</div>
+                          <div className="produk_x_harga">
+                            {' '}
+                            Rp.{' '}
+                            {new Intl.NumberFormat('id-ID').format(
+                              detail.total_harga
+                            )}
+                          </div>
                         </div>
-                        <div className='produk_judul riwayat_item'>{detail.produk.judul}</div>
-                        <div className='produk_x_qty'>X{detail.qty}</div>
-                        <div className='produk_x_harga'> Rp. {new Intl.NumberFormat('id-ID').format(detail.total_harga)}</div>
+                      ))}
+                    {item.detail && item.detail.length > 1 && (
+                      <div
+                        className="lihat_semua_btn"
+                        onClick={() => setShowAll(!showAll)}
+                      >
+                        {showAll ? 'Tutup' : 'Lihat Semua'}
                       </div>
-                    ))}
+                    )}
                   </div>
-                  <div className='riwayat_total_bayar'><span>Total {item.detail.length} produk:</span> Rp. {new Intl.NumberFormat('id-ID').format(item.total_pembayaran)}</div>
+                  <div className="riwayat_total_bayar">
+                    <span>Total {item.detail.length} produk:</span> Rp.{' '}
+                    {new Intl.NumberFormat('id-ID').format(
+                      item.total_pembayaran
+                    )}
+                  </div>
                 </div>
               ))}
             </div>

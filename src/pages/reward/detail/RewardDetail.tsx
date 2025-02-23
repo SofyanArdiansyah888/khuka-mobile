@@ -45,7 +45,7 @@ const RewardDetail: React.FC = () => {
                 </div>
 
                 {/*DESKRIPSI*/}
-                <div className={'padding-lr-20 padding-bottom with_bottom_border'}>
+                <div className={'reward-desc padding-lr-20 padding-bottom with_bottom_border'}>
                     <h5>Deskripsi</h5>
                     <div className="full-desc-content">Reward uang tunai sebesar Rp875.000 bisa kamu dapatkan dan penjelasan lainnya bisa ditulis
                         disini</div>

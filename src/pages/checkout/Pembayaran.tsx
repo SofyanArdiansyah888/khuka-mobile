@@ -8,35 +8,64 @@ import './Checkout.css';
 const Pembayaran: React.FC = () => {
   const history = useHistory();
   const location = useLocation();
-  const state = location.state as { nomor_order?: string; metode?: any } || {};
-
+  // const state = location.state as { nomor_order?: string; metode?: any } || {};
+  const state = location.state as { 
+    nomor_order?: string; 
+    metode?: any; 
+    riwayat_metode?: any; 
+    total_pembayaran?: number; 
+    waktu_akhir_pembayaran?: string; 
+  } || {};
   const [nomorPesanan, setNomorPesanan] = useState<string>(state.nomor_order || '');
   const [selectedMetode, setSelectedMetode] = useState<any>(state.metode || null);
   const [filteredMetode, setFilteredMetode] = useState<any[]>([]);
   const [deadline, setDeadline] = useState<Date>(new Date());
   const [timeLeft, setTimeLeft] = useState<string>('');
   const [showToast, setShowToast] = useState(false);
+  const [totalPembayaran, setTotalPembayaran] = useState<number>(state.total_pembayaran || pesananData.total_pembayaran);
+  const [isExpired, setIsExpired] = useState<boolean>(false);
 
   useEffect(() => {
-    const paymentDeadline = new Date();
-    paymentDeadline.setHours(paymentDeadline.getHours() + 4);
-    setDeadline(paymentDeadline);
+    if (state.waktu_akhir_pembayaran) {
+      // If coming from history, use the provided deadline
+      setDeadline(new Date(state.waktu_akhir_pembayaran));
+    } else {
+      // If coming from checkout, set a new 4-hour deadline
+      const paymentDeadline = new Date();
+      paymentDeadline.setHours(paymentDeadline.getHours() + 4);
+      setDeadline(paymentDeadline);
+    }
   }, []);
-
-  useEffect(() => {
-    if (selectedMetode?.data?.length) {
-      console.log(selectedMetode);
+//  console.log(state.riwayat_metode)
+  // useEffect(() => {
+  //   if (selectedMetode?.data?.length) {
   
-      // Ensure selectedMetode.data is an array
+  //     // Ensure selectedMetode.data is an a rray
+  //     const metodeArray = Array.isArray(selectedMetode.data) ? selectedMetode.data : [];
+  
+  //     // Find the matching metode
+  //     const matchedMetode = metodeArray.find((item: { id: string; }) => item.id === pesananData.id_metode);
+  
+  //     // Update state with the matched metode or an empty array
+  //     setFilteredMetode(matchedMetode ? [matchedMetode] : []);
+  //   }
+  // }, [selectedMetode, pesananData.id_metode]);
+  useEffect(() => {
+    if (state.riwayat_metode) {
+      // If from history, use the method directly
+      setSelectedMetode(state.riwayat_metode);
+      setFilteredMetode([state.riwayat_metode]); // Directly use the metode from history
+    } else if (pesananData.id_metode && selectedMetode?.data?.length) {
+      // If from checkout, find the matching metode
       const metodeArray = Array.isArray(selectedMetode.data) ? selectedMetode.data : [];
   
-      // Find the matching metode
-      const matchedMetode = metodeArray.find((item: { id: string; }) => item.id === pesananData.id_metode);
-  
-      // Update state with the matched metode or an empty array
-      setFilteredMetode(matchedMetode ? [matchedMetode] : []);
+          // Find the matching metode
+          const matchedMetode = metodeArray.find((item: { id: string; }) => item.id === pesananData.id_metode);
+      
+          // Update state with the matched metode or an empty array
+          setFilteredMetode(matchedMetode ? [matchedMetode] : []);
     }
-  }, [selectedMetode, pesananData.id_metode]);
+  }, [state.riwayat_metode,state.metode, pesananData.id_metode]);
   
 
   useEffect(() => {
@@ -47,6 +76,7 @@ const Pembayaran: React.FC = () => {
       if (distance < 0) {
         clearInterval(timer);
         setTimeLeft('Waktu pembayaran telah berakhir');
+        setIsExpired(true);
       } else {
         const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
         const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
@@ -87,7 +117,7 @@ const Pembayaran: React.FC = () => {
         </div>
         <div className="padding-lr-20">
           <p className="transfer_title">Transfer sesuai nominal dibawah ini:</p>
-          <h3 className="transfer_harga">Rp. {new Intl.NumberFormat('id-ID').format(pesananData.total_pembayaran)}</h3>
+          <h3 className="transfer_harga">Rp. {new Intl.NumberFormat('id-ID').format(totalPembayaran)}</h3>
         </div>
         <div className="item with_bottom_border bayar_page">
           <div className="padding-lr-20">
@@ -121,9 +151,13 @@ const Pembayaran: React.FC = () => {
             <div className="copy_nomor">Transfer sebelum <span>batas waktu</span> atau transaksi kamu otomatis dibatalkan oleh sistem.</div>
           </div>
         </div>
+        {!isExpired && (
         <div className="footer footer-detail">
-          <button className="checkout_btn btn_khu" onClick={handleSendWhatsApp}>Kirim Bukti Pembayaran</button>
+          <button className="checkout_btn btn_khu" onClick={handleSendWhatsApp}>
+            Kirim Bukti Pembayaran
+          </button>
         </div>
+      )}
       </IonContent>
       <IonToast isOpen={showToast} onDidDismiss={() => setShowToast(false)} message="Nomor rekening tercopy" duration={2000} position='middle' />
     </IonPage>

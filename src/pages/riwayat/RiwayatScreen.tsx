@@ -1,33 +1,44 @@
 import React, { useEffect, useState } from 'react';
-import { IonContent, IonFooter, IonPage, IonToast } from '@ionic/react';
+import { IonContent, IonPage, IonRefresher, IonRefresherContent } from '@ionic/react';
 import { useHistory } from 'react-router-dom';
 import { baseImgURL } from '../../utils/axios';
 import { fetchRiwayat } from '../../utils/api';
+import Skeleton from 'react-loading-skeleton';
 import keranjangkosong from '../../assets/keranjang-kosong.svg';
 import logo from '../../assets/logo-khukha.png';
 import useAuth from '../../common/hooks/useAuth';
 import shoppingIcon from '../../assets/shopping-bag.svg';
+import 'react-loading-skeleton/dist/skeleton.css';
 import './Riwayat.css';
 
 const RiwayatScreen: React.FC = () => {
-  const [riwayatData, setriwayatData] = useState<any[]>([]);
   const history = useHistory();
+  const [riwayatData, setriwayatData] = useState<any[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const { getUser } = useAuth();
   const [showAll, setShowAll] = useState(false);
   const [activeTab, setActiveTab] = useState<
     'Semua' | 'Belum' | 'Selesai' | 'Kadaluarsa'
   >('Semua');
 
+  const fetchUserData = async () => {
+    setIsLoading(true);
+    const storedUser = await getUser();
+    if (storedUser) {
+      const datas = await fetchRiwayat(storedUser.id);
+      setriwayatData(datas.data);
+    }
+    setIsLoading(false);
+  };
+
   useEffect(() => {
-    const fetchUserData = async () => {
-      const storedUser = await getUser();
-      if (storedUser) {
-        const datas = await fetchRiwayat(storedUser.id);
-        setriwayatData(datas.data);
-      }
-    };
     fetchUserData();
   }, []);
+
+  const handleRefresh = async (event: CustomEvent) => {
+    await fetchUserData();
+    event.detail.complete();
+  };
 
   const filteredData = riwayatData.filter((item) => {
     if (activeTab === 'Belum') return item.status_penjualan === 'Order';
@@ -38,18 +49,23 @@ const RiwayatScreen: React.FC = () => {
   });
   const riwayatClick = (item: any) => {
     if (item.status_penjualan === 'Order') {
-      history.push('/pembayaran');
-    } else if (item.status_penjualan === 'Terbayar') {
-      history.push({
-        pathname: '/detail-riwayat',
-        state: { riwayatItem: item },
+      history.push('/pembayaran', {
+        nomor_order: item.nomor_penjualan,
+        riwayat_metode: item.metode,
+        total_pembayaran: item.total_pembayaran,
+        waktu_akhir_pembayaran: item.waktu_akhir_pembayaran,
       });
+    } else if (item.status_penjualan === 'Terbayar') {
+      history.push('/detailriwayat', { riwayatData: item });
     }
   };
 
   return (
     <IonPage>
       <IonContent fullscreen>
+      <IonRefresher slot="fixed" onIonRefresh={handleRefresh}>
+          <IonRefresherContent />
+        </IonRefresher>
         <div className="keranjang-header padding-lr-20 no-default-header">
           <h4 className="header_title">Pesanan Saya</h4>
           <p className="header_subtitle">
@@ -72,7 +88,46 @@ const RiwayatScreen: React.FC = () => {
             </div>
           ))}
         </div>
-
+        {isLoading ? (
+          <div className="padding-lr-20">
+            {[1, 2, 3].map((index) => (
+              <div key={index} className="keranjang-item riwayat-items">
+                <div className="riwayat_header">
+                  <div className="riwayat_header_icon">
+                    <Skeleton circle width={40} height={40} />
+                  </div>
+                  <div className="riwayat_header_title riwayat_item">
+                    <Skeleton width={200} height={20} />
+                    <Skeleton width={150} height={15} />
+                  </div>
+                  <div className="riwayat_header_status">
+                    <Skeleton width={10} height={20} />
+                  </div>
+                </div>
+                <div className="riwayat_produk">
+                  <div className="produk_item">
+                    <div className="produk_thumb">
+                      <Skeleton width={60} height={60} />
+                    </div>
+                    <div className="produk_judul riwayat_item">
+                      <Skeleton width={180} height={20} />
+                    </div>
+                    <div className="produk_x_qty">
+                      <Skeleton width={30} height={20} />
+                    </div>
+                    <div className="produk_x_harga">
+                      <Skeleton width={80} height={20} />
+                    </div>
+                  </div>
+                </div>
+                <div className="riwayat_total_bayar">
+                  <Skeleton width={200} height={20} />
+                </div>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div>
         {filteredData.length === 0 ? (
           <div className="keranjang-kosong">
             <div className="img-wrap">
@@ -184,6 +239,8 @@ const RiwayatScreen: React.FC = () => {
               </div>
             ))}
           </div>
+        )}
+        </div>
         )}
       </IonContent>
     </IonPage>

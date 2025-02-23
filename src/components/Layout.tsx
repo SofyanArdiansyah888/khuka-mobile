@@ -7,10 +7,11 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 
   // Pages where footer should be hidden
   const excludedPaths = ['/login', '/forgotpassword'];
-  const isProdukDetail = location.pathname.startsWith('/produk-detail/'); 
-  const isCheckout = location.pathname.startsWith('/checkout'); 
+  const isRewardDetail = location.pathname.startsWith('/reward-detail/');
+  const isProdukDetail = location.pathname.startsWith('/produk-detail/');
+  const isCheckout = location.pathname.startsWith('/checkout');
   const isPembayaran = location.pathname.startsWith('/pembayaran'); 
-  const showFooter = !excludedPaths.includes(location.pathname) && !isProdukDetail  && !isCheckout && !isPembayaran;
+  const showFooter = !excludedPaths.includes(location.pathname) && !isProdukDetail  && !isCheckout && !isPembayaran && !isRewardDetail;
 
   return (
     <div className="layout-container">

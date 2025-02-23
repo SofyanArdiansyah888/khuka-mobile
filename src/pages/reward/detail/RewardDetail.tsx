@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {IonContent, IonFooter, IonPage} from '@ionic/react';
 import {useHistory, useLocation} from 'react-router-dom';
 import {Reward} from '../../../entity/RewardEntity';
@@ -10,11 +10,10 @@ import RewardCongratsModal from "./RewardCongratsModal";
 
 const RewardDetail: React.FC = () => {
     const history = useHistory();
+    const [confirmModal,setConfirmModal] = useState(false)
+    const [congratsModal,setCongratsModal] = useState(false)
     const location = useLocation<{ reward: Reward }>();
     const reward = location.state?.reward;
-    const historyBack = () => {
-        history.goBack();
-    };
     return (
         <IonPage>
             <IonContent fullscreen>
@@ -22,7 +21,7 @@ const RewardDetail: React.FC = () => {
                 <div className="header-with-back padding-lr-20 no-default-header">
                     <div
                         className="history-back non-absolute"
-                        onClick={historyBack}
+                        onClick={() =>history.goBack() }
                     ></div>
                     <h4 className="header_title">Detail Reward</h4>
                 </div>
@@ -30,14 +29,11 @@ const RewardDetail: React.FC = () => {
                 {/*THUMBNAIL IMAGE*/}
                 <div className="reward-detail padding-lr-20 with_bottom_border">
                     <img className='reward-img' src={baseImgURL + 'reward/' + reward.link_gambar} alt=""/>
-                    <h2>Uang tunai sebesar Rp875.000</h2>
+                    <h2>{reward?.reward}</h2>
                     <div className="produk-cash-poin reward">
                         <div className="cash-poin-img"><img src={point} alt="Points"/></div>
                         <div className="cash-poin-text">
-                            <p>
-                                175 Point
-                                {/*Dapatkan poin sebesar <b>{userPoints} poin</b>*/}
-                            </p>
+                            <p>{reward?.poin} Point</p>
                         </div>
                     </div>
                 </div>
@@ -65,11 +61,21 @@ const RewardDetail: React.FC = () => {
             </IonContent>
 
             <IonFooter className={'tukar-footer'}>
-                <div className="beli bn-btn tukar-btn" id={"congrats-modal"}>
-                    Tukar Sekarang - 175 Poin
+                <div
+                    className="beli bn-btn tukar-btn"
+                    onClick={() => setConfirmModal(true)}
+                >
+                    Tukar Sekarang - {reward?.poin} Poin
                 </div>
-                <RewardConfirmModal/>
-                <RewardCongratsModal/>
+                <RewardConfirmModal
+                    confirmModal={confirmModal}
+                    setConfirmModal={setConfirmModal}
+                    setCongratsModal={setCongratsModal}
+                />
+                <RewardCongratsModal
+                    congratsModal={congratsModal}
+                    setCongratsModal={setCongratsModal}
+                />
             </IonFooter>
         </IonPage>
     );

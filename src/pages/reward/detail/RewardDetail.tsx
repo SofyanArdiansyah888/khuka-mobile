@@ -52,7 +52,7 @@ const RewardDetail: React.FC = () => {
                 </div>
 
 
-                <div className={'padding-lr-20 padding-bottom with_bottom_border'}>
+                <div className={'reward-desc padding-lr-20 padding-bottom with_bottom_border'}>
                     <h5>Syarat & Ketentuan</h5>
                     <div className="full-desc-content">1. Reward uang tunai hanya berlaku selama periode dari tanggal 9-15 Februari 2025 2. Pastikan poin sudah cukup untuk melakukan penukaran 3. Setelah berhasil melakukan penukaran, laporan reward akan masuk ke dalam akun silahkan cek di halaman Riwayat Reward di halaman akun 4. Penjelasan lainnya bisa ditulis di sini</div>
                 </div>

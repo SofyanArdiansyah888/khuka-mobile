@@ -8,7 +8,7 @@ export default function RewardCongratsModal() {
 
     return <IonModal
         trigger="congrats-modal"
-        initialBreakpoint={0.6}
+        initialBreakpoint={0.55}
         breakpoints={[0, 0.25, 0.5, 0.75]}
         handleBehavior="cycle"
         className={"reward-modal"}

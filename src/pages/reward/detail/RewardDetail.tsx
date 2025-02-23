@@ -1,15 +1,13 @@
 import React from 'react';
-import {IonContent, IonFooter, IonLabel, IonModal, IonPage} from '@ionic/react';
+import {IonContent, IonFooter, IonPage} from '@ionic/react';
 import {useHistory, useLocation} from 'react-router-dom';
 import {Reward} from '../../../entity/RewardEntity';
 import {baseImgURL} from '../../../utils/axios';
 import './RewardDetail.css';
 import point from "../../../assets/diamond.png";
-import logo from "../../../assets/logo-khukha.png";
-import closeBtn from "../../../assets/close.svg";
-import questionIcon from "../../../assets/question.svg"
 import RewardConfirmModal from "./RewardConfirmModal";
 import RewardCongratsModal from "./RewardCongratsModal";
+
 const RewardDetail: React.FC = () => {
     const history = useHistory();
     const location = useLocation<{ reward: Reward }>();
@@ -47,14 +45,20 @@ const RewardDetail: React.FC = () => {
                 {/*DESKRIPSI*/}
                 <div className={'reward-desc padding-lr-20 padding-bottom with_bottom_border'}>
                     <h5>Deskripsi</h5>
-                    <div className="full-desc-content">Reward uang tunai sebesar Rp875.000 bisa kamu dapatkan dan penjelasan lainnya bisa ditulis
-                        disini</div>
+                    <div className="full-desc-content">Reward uang tunai sebesar Rp875.000 bisa kamu dapatkan dan
+                        penjelasan lainnya bisa ditulis
+                        disini
+                    </div>
                 </div>
 
-
+                {/*SYARAT & KETENTUAN*/}
                 <div className={'reward-desc padding-lr-20 padding-bottom with_bottom_border'}>
                     <h5>Syarat & Ketentuan</h5>
-                    <div className="full-desc-content">1. Reward uang tunai hanya berlaku selama periode dari tanggal 9-15 Februari 2025 2. Pastikan poin sudah cukup untuk melakukan penukaran 3. Setelah berhasil melakukan penukaran, laporan reward akan masuk ke dalam akun silahkan cek di halaman Riwayat Reward di halaman akun 4. Penjelasan lainnya bisa ditulis di sini</div>
+                    <div className="full-desc-content">1. Reward uang tunai hanya berlaku selama periode dari tanggal
+                        9-15 Februari 2025 2. Pastikan poin sudah cukup untuk melakukan penukaran 3. Setelah berhasil
+                        melakukan penukaran, laporan reward akan masuk ke dalam akun silahkan cek di halaman Riwayat
+                        Reward di halaman akun 4. Penjelasan lainnya bisa ditulis di sini
+                    </div>
                 </div>
 
 
@@ -64,8 +68,8 @@ const RewardDetail: React.FC = () => {
                 <div className="beli bn-btn tukar-btn" id={"congrats-modal"}>
                     Tukar Sekarang - 175 Poin
                 </div>
-                <RewardConfirmModal />
-                <RewardCongratsModal />
+                <RewardConfirmModal/>
+                <RewardCongratsModal/>
             </IonFooter>
         </IonPage>
     );

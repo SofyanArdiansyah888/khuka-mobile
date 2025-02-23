@@ -1,16 +1,19 @@
-import React, { useEffect, useState } from 'react';
-import { IonContent, IonPage, IonSelect, IonSelectOption } from '@ionic/react';
-import { useHistory } from 'react-router-dom';
+import React, {useEffect, useState} from 'react';
+import {IonContent, IonPage, IonSelect, IonSelectOption} from '@ionic/react';
+import {useHistory} from 'react-router-dom';
 import useAuth from "../../../common/hooks/useAuth";
-import { useGetList, usePost } from "../../../common/hooks/useApi";
-import { ResponseListType } from "../../../common/interface/response-type";
+import {useGetList, usePost} from "../../../common/hooks/useApi";
+import {ResponseListType} from "../../../common/interface/response-type";
 import Swal from "sweetalert2";
 import '../daftar-member/Daftar.css';
+import {setItem} from "../../../utils/khukhaDBTemp";
+import {handleErrorResponse} from "../../../utils/utils";
 
 const ProfilPage: React.FC = () => {
-    const { getUser } = useAuth();
+    const {getUser} = useAuth();
     const history = useHistory();
     const [payload, setPayload] = useState({
+        id: '',
         nama: '',
         nik: '',
         no_ktp: '',
@@ -21,70 +24,52 @@ const ProfilPage: React.FC = () => {
     const [noKtpError, setNoKtpError] = useState(false);
     const [kabupatenError, setKabupatenError] = useState(false);
 
-   
     useEffect(() => {
-        const fetchUserData = async () => {
+        (async () => {
             const user = await getUser();
             if (user) {
                 setPayload({
-                    nama: user.nama || '',
-                    nik: user.nik || '',
-                    no_ktp: user.no_ktp || '',
-                    no_hp: user.no_hp || '',
-                    alamat: user.alamat || '',
-                    id_kab: user.id_kab || '',
+                    id: user.id,
+                    nama: user.nama,
+                    nik: user.nik,
+                    no_ktp: user.no_ktp,
+                    no_hp: user.no_hp,
+                    alamat: user.alamat,
+                    id_kab: user.id_kab,
                 });
             }
-        };
-
-        fetchUserData();
+        })()
     }, [getUser]);
 
-    const { mutate, isPending } = usePost({
-        name: 'profil',
-        endpoint: 'profil',
+    const {mutate, isPending} = usePost({
+        name: 'update-profil',
+        endpoint: '/update-profil',
         onSuccess: async () => {
+            const user = await getUser();
+            // UPDATE INDEX DB JIKA SUKSES
+            await setItem('user', {
+                ...user,
+                ...payload
+            })
             await Swal.fire({
                 icon: 'success',
-                title: 'Berhasil Update',
+                title: 'Berhasil Update Data Profil',
             });
         },
-        onError: (err: any) => {
-            if (err.response?.data?.errors) {
-                const validationErrors = Object.values(err.response.data.errors).flat() as string[];
-                Swal.fire({
-                    icon: 'error',
-                    html: `<ul style="text-align: left; ">${validationErrors
-                        .map(error => `<li style="color:red">${error}</li>`)
-                        .join('')}</ul>`,
-                });
-            } else if (err.response?.data?.message) {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Error',
-                    text: err.response.data.message,
-                });
-            } else {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Unexpected Error',
-                    text: 'An unexpected error occurred. Please try again.',
-                });
-            }
-        }
+        onError: handleErrorResponse
     });
 
-    const { data: datakab } = useGetList<ResponseListType<any[]>>({
+    const {data: datakab} = useGetList<ResponseListType<any[]>>({
         name: 'kabupaten',
         endpoint: '/kabupaten',
         params: {},
     });
 
     const handlePayloadChange = (key: string, value: string) => {
-        setPayload((prev) => ({ ...prev, [key]: value }));
+        setPayload((prev) => ({...prev, [key]: value}));
     };
 
-    const handleDaftar = async (e: React.FormEvent) => {
+    const handleUpdate = async (e: React.FormEvent) => {
         e.preventDefault();
         setNoKtpError(false);
         setKabupatenError(false);
@@ -109,7 +94,7 @@ const ProfilPage: React.FC = () => {
                     <h4 className="header_title">Profil</h4>
                 </div>
                 <div className="padding-lr-20">
-                    <form className="daftar_form" onSubmit={handleDaftar} autoComplete="off">
+                    <form className="daftar_form" onSubmit={handleUpdate} autoComplete="off">
                         <div className="form-item">
                             <label>Nama Lengkap</label>
                             <input
@@ -119,7 +104,7 @@ const ProfilPage: React.FC = () => {
                                 required
                             />
                         </div>
-                    
+
                         <div className="form-item">
                             <label>No KTP (16 Digits)</label>
                             {noKtpError && <p className="error-text">No KTP harus 16 digit!</p>}
@@ -147,7 +132,7 @@ const ProfilPage: React.FC = () => {
                                 required
                             />
                         </div>
-                        <div className="form-item" style={{ marginBottom: '16px' }}>
+                        <div className="form-item" style={{marginBottom: '16px'}}>
                             <label>Kabupaten</label>
                             {kabupatenError && <p className="error-text">Kabupaten wajib dipilih!</p>}
                             <IonSelect

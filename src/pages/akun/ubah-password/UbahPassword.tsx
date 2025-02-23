@@ -5,26 +5,32 @@ import {usePost} from "../../../common/hooks/useApi";
 import Swal from "sweetalert2";
 import {IonContent, IonPage} from "@ionic/react";
 import InputPassword from "../../../components/forms/InputPassword";
+import {handleErrorResponse} from "../../../utils/utils";
+import useAuth from "../../../common/hooks/useAuth";
+import {removeItem} from "../../../utils/khukhaDBTemp";
 
 export default function UbahPasswordPage() {
     const history = useHistory();
-    const initialPayload = {
+    const {getUser} = useAuth();
+    const [payload, setPayload] = useState({
         password_lama: '',
         password: '',
         password_confirmation: '',
-    }
-    const [payload, setPayload] = useState(initialPayload);
+    });
     const {mutate, isPending} = usePost({
         name: 'update-password',
-        endpoint: 'update-password',
+        endpoint: '/update-password',
+        onError: handleErrorResponse,
         onSuccess: async () => {
             await Swal.fire({
                 icon: 'success',
                 title: 'Berhasil Update Password',
             })
-        },
-        onError: () => {
-
+            await removeItem('user');
+            await removeItem('auth_token');
+            await removeItem('isAuthenticated');
+            await removeItem('sessionExpiration');
+            history.push('/login');
         }
     })
 
@@ -39,7 +45,19 @@ export default function UbahPasswordPage() {
 
     const handleDaftar = async (e: React.FormEvent) => {
         e.preventDefault();
-        mutate(payload)
+        const user = await getUser();
+        if(payload.password !== payload.password_confirmation) {
+            await Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Password konfirmasi harus sama dengan password baru',
+            });
+            return;
+        }
+        mutate({
+            ...payload,
+            kode_ref: user?.kode_ref
+        })
     };
 
     return (

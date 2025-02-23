@@ -1,0 +1,96 @@
+.riwayat-items {
+  border: 1px solid #eaeaea;
+  border-radius: 10px;
+  margin-bottom: 15px;
+  flex-direction: column;
+}
+.riwayat_header,.produk_item {
+  display: flex;  
+  gap: 10px;
+  width: 100%;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 15px;
+  border-bottom: 1px solid #eaeaea;
+}
+.produk_item{
+    position:relative
+}
+.riwayat_item {
+  flex: 1;
+}
+.riwayat_header_status {
+  border-radius: 5px;
+  padding: 5px;
+  font-size: 10px;
+}
+.riwayat_ambil_title{
+color:#000000;
+font-weight: 600;
+font-size:12px
+}
+.riwayat_tgl_transaksi{
+    font-size:10px;
+    color:#707070
+}
+.riwayat_header_status.status_menunggu {
+  background: #ffecbe;
+  color: #d19f23;
+}
+.riwayat_header_status.status_selesai{
+    background:#CEFFE6;
+    color:#1DBF6E
+}
+.riwayat_header_status.status_expired{
+    background:#f8cece;
+    color:#ea6565
+}
+.riwayat_produk  .produk_thumb{
+    width:75px;
+    height:60px
+}
+.riwayat_produk  .produk_thumb img{
+    width:15px;
+    margin-top:0
+}
+.riwayat_produk .produk-logo span{
+    font-size:5px
+}
+.riwayat_produk .produk-logo span:before{
+    height:15px;
+}
+.riwayat_produk .produk_thumb .img_riwayat {
+    width: 40px;
+    max-height: 22px;
+}
+.riwayat_produk .produk_judul{
+    font-size:14px;
+    color:#000000
+}
+.riwayat_produk .produk-logo{
+   padding:5px
+}
+.produk_x_qty,.produk_x_harga{
+    text-align: right;
+    width:32px;
+    color:#707070;
+font-size:12px
+}
+.produk_x_harga{
+    position:absolute;
+    right:15px;
+    bottom:8px;
+    width:unset
+}
+.riwayat_total_bayar{
+    padding: 15px;
+    text-align: right;
+    align-self: flex-end;
+    color:#707070;
+    font-size:14px;
+    font-weight: 600;
+}
+.riwayat_total_bayar span{
+    font-size:12px;
+    font-weight: 400;
+}

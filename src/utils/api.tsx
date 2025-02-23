@@ -14,5 +14,16 @@ export const fetchPoin = async (userId: number | string) => {
   }
 };
 
+// ambil riwayat
+export const fetchRiwayat = async (userId: number | string) => {
+  try {
+    const response = await api.get(`/riwayat/${userId}`);
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching riwayat data:', error);
+    throw error;
+  }
+};
+
 
 

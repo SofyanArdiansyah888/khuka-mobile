@@ -5,7 +5,7 @@
     margin-top: 20px;
     flex-wrap: nowrap;
     align-items: center;
-    gap:14px;
+    gap: 14px;
     overflow: auto;
 }
 .riwayat-tab{
@@ -124,4 +124,29 @@ font-size:12px
     color:#707070;
     padding-left:15px;
     padding-top:15px
+}
+.riwayat_detail_header{
+    margin-bottom:30px
+}
+.riwayat_detail_items .checkout_header{
+    margin-bottom:18px;
+    margin-top:25px
+}
+.pengambilan_item .ringkasan_item{
+    justify-content: flex-start;
+    gap:30px
+}
+.riwayat_detail_items .ringkasan_item > div{
+    color:#707070;
+}
+.riwayat_detail_items .itemx{
+    width:40px
+}
+.riwayat_detail_produk .produk_item{
+    border-top:1px solid #eaeaea
+}
+@media(min-width:768px){
+    .riwayat-tabs{
+        gap:30px
+    }
 }

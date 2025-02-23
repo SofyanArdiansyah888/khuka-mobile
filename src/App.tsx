@@ -14,6 +14,7 @@ import ProdukDetail from './pages/produk-detail/ProdukDetailScreen';
 import PromoDetail from './pages/promo-detail/PromoDetailScreen';
 import KeranjangScreen from './pages/keranjang/KeranjangScreen';
 import RiwayatScreen from './pages/riwayat/RiwayatScreen';
+import RiwayatDetail from './pages/riwayat/riwayat-detail/RiwayatDetail';
 import RewardScreen from './pages/reward/RewardScreen';
 import RewardDetail from './pages/reward/detail/RewardDetail';
 import AkunScreen from './pages/akun/AkunScreen';
@@ -85,6 +86,9 @@ const App: React.FC = () => {
               </PrivateRoute>
               <PrivateRoute isAuthenticated={isAuthenticated} exact path="/riwayat">
                 <RiwayatScreen />
+              </PrivateRoute>
+              <PrivateRoute isAuthenticated={isAuthenticated} exact path="/detail-riwayat">
+                <RiwayatDetail />
               </PrivateRoute>
               <PrivateRoute isAuthenticated={isAuthenticated} exact path="/reward">
                 <RewardScreen />

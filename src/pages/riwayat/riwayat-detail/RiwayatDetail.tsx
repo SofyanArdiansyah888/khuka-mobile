@@ -10,13 +10,12 @@ import '../Riwayat.css';
 
 const RiwayatDetail: React.FC = () => {
   const history = useHistory();
-  const location = useLocation<{ riwayatItem: any }>();
+  const location = useLocation<{ riwayatData: any }>();
   const [showAll, setShowAll] = useState(false);
-  const riwayatItem = location.state?.riwayatItem;
+  const riwayatItem = location.state?.riwayatData;
   const historyBack = () => {
     history.goBack();
   };
-  console.log(riwayatItem);
   return (
     <IonPage>
       <IonContent fullscreen>

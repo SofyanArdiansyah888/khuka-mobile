@@ -13,6 +13,8 @@ import HeaderPoint from "../../components/HeaderPoint";
 
 const RewardScreen: React.FC = () => {
     const history = useHistory();
+    const [poin, setPoin] = React.useState(0);
+const [cashback, setCashback] = React.useState(0);
     const {
         data: rewards,
         isLoading,
@@ -24,7 +26,7 @@ const RewardScreen: React.FC = () => {
     });
 
     const navigateToRewardDetail = (reward: any) => {
-        history.push(`/reward-detail/${reward.id}`, {reward});
+        history.push(`/reward-detail/${reward.id}`, {reward,poin,cashback});
     };
 
     async function swipeToRefresh() {
@@ -70,6 +72,10 @@ const RewardScreen: React.FC = () => {
                                 <p>Semakin banyak poin semakin besar rewardnya</p>
                             </div>}
                             ukuran={'kecil'}
+                            onDataReceived={(poin, cashback) => {
+                                setPoin(poin);
+                                setCashback(cashback);
+                            }}
                         />
 
                         <div className="all-produk padding-lr-20 rewards-wrap">

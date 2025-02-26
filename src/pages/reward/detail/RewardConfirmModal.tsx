@@ -1,10 +1,43 @@
 import {IonContent, IonModal} from "@ionic/react";
 import questionIcon from "../../../assets/question.svg";
-import React from "react";
+import React, {Dispatch, SetStateAction} from "react";
+import {useLocation} from "react-router-dom";
+import {Reward} from "../../../entity/RewardEntity";
+import {usePost} from "../../../common/hooks/useApi";
+import {handleErrorResponse} from "../../../utils/utils";
+import useAuth from "../../../common/hooks/useAuth";
 
-export default function RewardConfirmModal(){
-    return   <IonModal
-        trigger="open-modal"
+export default function RewardConfirmModal({confirmModal, setConfirmModal,setCongratsModal}: {
+    confirmModal: boolean,
+    setConfirmModal: Dispatch<SetStateAction<boolean>>,
+    setCongratsModal: Dispatch<SetStateAction<boolean>>,
+}) {
+    const location = useLocation<{ reward: Reward }>();
+    const reward = location.state?.reward;
+    const {getUser} = useAuth()
+
+    const {mutate, isPending} = usePost({
+        name: 'request-redeem',
+        endpoint: '/request-redeem',
+        onSuccess: async () => {
+            setCongratsModal(true)
+            setConfirmModal(false)
+        },
+        onError: handleErrorResponse
+    });
+
+
+    async function handleTukarSekarang(){
+        const user = await getUser()
+        mutate({
+            ...reward,
+            id_member: user?.id,
+            id_reward: reward.id,
+            jumlah_cashback: reward.nilai_uang,
+        })
+    }
+    return <IonModal
+        isOpen={confirmModal}
         initialBreakpoint={0.6}
         breakpoints={[0, 0.25, 0.5, 0.75]}
         handleBehavior="cycle"
@@ -13,7 +46,7 @@ export default function RewardConfirmModal(){
         <IonContent className="ion-padding">
             <div className="reward-confirmation">
                 <div className="reward-confirmation__icon_wrapper">
-                    <img src={questionIcon} className={'reward-confirmation__icon'} />
+                    <img src={questionIcon} className={'reward-confirmation__icon'}/>
                 </div>
                 <div className="reward-confirmation__wrapper">
                     <p className="reward-confirmation__title">
@@ -24,11 +57,11 @@ export default function RewardConfirmModal(){
 
                 <div className="reward-confirmation__details">
                     <div className="reward-confirmation__header">
-                        <span>Uang Tunai Sebesar Rp875.000</span>
+                        <span>{reward?.reward}</span>
                     </div>
                     <div className="reward-confirmation__detail">
                         <span>Poin</span>
-                        <strong>175 Poin</strong>
+                        <strong>{reward?.poin} Poin</strong>
                     </div>
                     <div className="reward-confirmation__detail">
                         <span>Poin yang dimiliki</span>
@@ -37,10 +70,17 @@ export default function RewardConfirmModal(){
                 </div>
 
                 <div className="reward-confirmation__actions">
-                    <button className="reward-confirmation__button reward-confirmation__button--confirm">Tukar
-                        Sekarang
+                    <button
+                        className="reward-confirmation__button reward-confirmation__button--confirm"
+                        onClick={handleTukarSekarang}
+                        disabled={isPending}
+                    >
+                        {isPending ? "Loading..." : "Tukar Sekarang"}
                     </button>
-                    <button className="reward-confirmation__button reward-confirmation__button--cancel">Batal
+                    <button
+                        className="reward-confirmation__button reward-confirmation__button--cancel"
+                        onClick={() => setConfirmModal(false)}
+                    >Batal
                     </button>
                 </div>
             </div>

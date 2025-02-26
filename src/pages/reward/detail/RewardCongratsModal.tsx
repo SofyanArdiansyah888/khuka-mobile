@@ -1,14 +1,13 @@
 import {IonContent, IonModal} from "@ionic/react";
-import React from "react";
+import React, {Dispatch, SetStateAction, useRef} from "react";
 
-export default function RewardCongratsModal() {
-    function onClose() {
-
-    }
-
+export default function RewardCongratsModal({congratsModal, setCongratsModal}: {
+    congratsModal: boolean,
+    setCongratsModal: Dispatch<SetStateAction<boolean>>
+}) {
     return <IonModal
-        trigger="congrats-modal"
-        initialBreakpoint={0.6}
+        isOpen={congratsModal}
+        initialBreakpoint={0.55}
         breakpoints={[0, 0.25, 0.5, 0.75]}
         handleBehavior="cycle"
         className={"reward-modal"}
@@ -48,7 +47,7 @@ export default function RewardCongratsModal() {
                             untuk konfirmasi lanjut
                         </div>
                     </div>
-                    <button className="congrats__button" onClick={onClose}>Oke</button>
+                    <button className="congrats__button" onClick={() => setCongratsModal(false)}>Oke</button>
                 </div>
             </div>
 

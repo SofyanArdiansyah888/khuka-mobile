@@ -39,7 +39,7 @@ const ProfilPage: React.FC = () => {
                 });
             }
         })()
-    }, [getUser]);
+    }, []);
 
     const {mutate, isPending} = usePost({
         name: 'update-profil',
@@ -47,14 +47,17 @@ const ProfilPage: React.FC = () => {
         onSuccess: async () => {
             const user = await getUser();
             // UPDATE INDEX DB JIKA SUKSES
-            await setItem('user', {
+            await setItem('user', JSON.stringify({
                 ...user,
                 ...payload
-            })
+            }));
+            
             await Swal.fire({
                 icon: 'success',
                 title: 'Berhasil Update Data Profil',
+                
             });
+            history.push('/akun');
         },
         onError: handleErrorResponse
     });

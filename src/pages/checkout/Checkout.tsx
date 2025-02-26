@@ -267,7 +267,7 @@ const Checkout: React.FC = () => {
     }
   };
 
-  console.log('Updated Pesanan Data:', JSON.stringify(pesananData, null, 2));
+  // console.log('Updated Pesanan Data:', JSON.stringify(pesananData, null, 2));
   return (
     <IonPage>
       <IonContent fullscreen>

@@ -27,7 +27,9 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
       await setItem('auth_token', data.token);
       await setItem('user', JSON.stringify(data.user));
       onLogin();
-      history.push('/home');
+      setTimeout(() => {
+        history.push('/home');
+      }, 200); 
     },
     onError: (err: any) => {
       if (err.response && err.response.data && err.response.data.message) {

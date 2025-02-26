@@ -9,25 +9,28 @@ const useAuth = () => {
 
     useEffect(() => {
         const checkSession = async () => {
-            const sessionActive = await getItem(SESSION_KEY) === 'true';
-            const sessionExpiration = await getItem(EXPIRATION_KEY);
-            const now = Date.now();
-    
-            if (sessionActive && sessionExpiration) {
-                const expirationTime = parseInt(sessionExpiration, 10);
-    
-                if (now >= expirationTime) {
-                    handleLogout(); // Expire the session if time is up
-                } else {
-                    setIsAuthenticated(true); // Update state to true
-                    const timer = setTimeout(handleLogout, expirationTime - now);
-                    return () => clearTimeout(timer);
-                }
+          const sessionActive = await getItem(SESSION_KEY) === 'true';
+          const sessionExpiration = await getItem(EXPIRATION_KEY);
+          const now = Date.now();
+      
+          if (sessionActive && sessionExpiration) {
+            const expirationTime = parseInt(sessionExpiration, 10);
+      
+            if (now >= expirationTime) {
+              handleLogout();
+            } else {
+              setIsAuthenticated(true);
+              const timer = setTimeout(handleLogout, expirationTime - now);
+              return () => clearTimeout(timer);
             }
+          } else {
+            setIsAuthenticated(false);
+          }
         };
-    
+      
         checkSession();
-    }, []);
+      }, [isAuthenticated]); // Re-check when `isAuthenticated` changes
+      
     
 
     const handleLogin = async () => {

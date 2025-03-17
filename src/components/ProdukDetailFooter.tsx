@@ -8,6 +8,8 @@ import {getItem, setItem} from '../utils/khukhaDBTemp';
 import {useCart} from './CartContext';
 import logo from '../assets/logo-khukha.png';
 import './Footer.css';
+import {updatePesananData} from "../utils/pesananData";
+import {useHistory} from "react-router-dom";
 
 interface ProdukDetailFooterProps {
     isKeranjang: () => void;
@@ -30,13 +32,34 @@ const ProdukDetailFooter: React.FC<ProdukDetailFooterProps> = ({
                                                                    userPoints,
                                                                    userCashback
                                                                }) => {
+    const history = useHistory();
     const [toastMessage, setToastMessage] = useState<string>('');
     const [showToast, setShowToast] = useState<boolean>(false);
     const [isAddingToCart, setIsAddingToCart] = useState<boolean>(false);
     const {keranjangCount, setKeranjangCount} = useCart();
 
     const handleBeliClick = () => {
-        console.log('beli clicked');
+        if (quantity < 1) {
+            setShowToast(true);
+            return;
+        }
+        const newItem = {
+            id_produk: Number(produk.id),
+            link_gambar: produk.link_gambar,
+            harga: produk.harga,
+            total_harga: produk.harga * quantity,
+            quantity: quantity,
+            poin: userPoints,
+            cashback: userCashback,
+            judul: produk.judul
+        };
+        const totalBiaya = produk.harga * quantity
+        updatePesananData({
+            total_harga: totalBiaya,
+            total_pembayaran: totalBiaya,
+            pesananproduk: [newItem], // Add selected products
+        });
+        history.push('/checkout');
     };
     const handleKeranjangClick = async () => {
         if (produk) {

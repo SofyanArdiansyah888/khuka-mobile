@@ -40,6 +40,7 @@ const ProdukDetailFooter: React.FC<ProdukDetailFooterProps> = ({
 
     const handleBeliClick = () => {
         if (quantity < 1) {
+            setToastMessage('Silahkan isi quantity');
             setShowToast(true);
             return;
         }

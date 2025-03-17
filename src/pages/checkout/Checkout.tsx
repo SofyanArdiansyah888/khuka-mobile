@@ -1,14 +1,13 @@
-import React, { useEffect, useState } from 'react';
-import { IonContent, IonToast, IonPage, IonSelect, IonSelectOption } from '@ionic/react';
-import { useHistory } from 'react-router-dom';
-import { baseImgURL } from '../../utils/axios';
-import { PesananData, pesananData, updatePesananData } from '../../utils/pesananData';
-import { fetchPoin } from '../../utils/api';
-import { setItem,getItem } from '../../utils/khukhaDBTemp';
-import { useGetList, usePost } from '../../common/hooks/useApi';
-import { ResponseListType } from '../../common/interface/response-type';
-import { useCart } from '../../components/CartContext';
-import api from '../../utils/axios';
+import React, {useEffect, useState} from 'react';
+import {IonContent, IonPage, IonSelect, IonSelectOption, IonToast} from '@ionic/react';
+import {useHistory} from 'react-router-dom';
+import {baseImgURL} from '../../utils/axios';
+import {initPesananData, pesananData, PesananData, updatePesananData} from '../../utils/pesananData';
+import {fetchPoin} from '../../utils/api';
+import {getItem, setItem} from '../../utils/khukhaDBTemp';
+import {useGetList, usePost} from '../../common/hooks/useApi';
+import {ResponseListType} from '../../common/interface/response-type';
+import {useCart} from '../../components/CartContext';
 import Swal from 'sweetalert2';
 import shoppingIcon from '../../assets/shopping-bag.svg';
 import cardIcon from '../../assets/credit-card.svg';
@@ -41,6 +40,7 @@ const Checkout: React.FC = () => {
   const grandTotal = totalHarga - cashbackUsed;
 
    useEffect(() => {
+     initPesananData()
       const fetchUserData = async () => {
         const storedUser = await getUser(); // Fetch user from IndexedDB
         if (storedUser) {         
@@ -190,7 +190,6 @@ const Checkout: React.FC = () => {
     // Ensure pesananproduk array has at least one product
     const hasProducts =
       Array.isArray(pesananproduk) && pesananproduk.length > 0;
-
     return !(allFieldsFilled && hasProducts);
   };
   interface PesananResponse {

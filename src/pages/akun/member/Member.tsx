@@ -3,9 +3,12 @@ import { IonContent, IonPage, IonRefresher, IonRefresherContent, IonInput } from
 import { useHistory } from 'react-router-dom';
 import { fetchListMember } from '../../../utils/api';
 import useAuth from '../../../common/hooks/useAuth';
-import './Member.css';
 import profilIcon from '../../../assets/profil.svg';
 import searchIcon from '../../../assets/search.svg';
+import Skeleton from 'react-loading-skeleton';
+import './Member.css';
+import 'react-loading-skeleton/dist/skeleton.css';
+
 
 const Member: React.FC = () => {
   const history = useHistory();
@@ -56,10 +59,11 @@ const Member: React.FC = () => {
     if (searchTerm.trim() === '') {
       setFilteredData(memberData);
     } else {
-      const filtered = memberData.filter((item) =>
-        item.nama.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        item.no_hp.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        item.kabupaten.nama.toLowerCase().includes(searchTerm.toLowerCase())
+      const filtered = memberData.filter(
+        (item) =>
+          item.nama.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          item.no_hp.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          item.kabupaten.nama.toLowerCase().includes(searchTerm.toLowerCase())
       );
       setFilteredData(filtered);
     }
@@ -87,16 +91,19 @@ const Member: React.FC = () => {
         <IonRefresher slot="fixed" onIonRefresh={handleRefresh}>
           <IonRefresherContent />
         </IonRefresher>
-        
+
         {/* Header */}
         <div className="header-with-back padding-lr-20 no-default-header">
-          <div className="history-back non-absolute" onClick={() => history.goBack()}></div>
+          <div
+            className="history-back non-absolute"
+            onClick={() => history.goBack()}
+          ></div>
           <h4 className="header_title">List Member Anda</h4>
           <img
             src={searchIcon}
             alt="Search"
             className="search-icon"
-            width={24} 
+            width={24}
             height={24}
             onClick={() => setShowSearch(!showSearch)}
           />
@@ -116,8 +123,20 @@ const Member: React.FC = () => {
         {/* Member List */}
         {isLoading ? (
           <div className="padding-lr-20 listMember">
-            {[1, 2, 3].map((index) => (
-              <div key={index} className="member-item"></div>
+            {[1, 2, 3,4,5,6,7].map((index) => (
+              <div key={index} className="member-item">
+                <div className="member-detail">
+                <div className="user_icon">
+                  <Skeleton circle width={40} height={40} />
+                </div>
+                <div className="user_detail">
+                  <div className="nama_member"> <Skeleton width={200} height={20} /></div>
+                  <div className="hp_member"><Skeleton width={150} height={15} /></div>
+                  <div className="kabupaten"><Skeleton width={150} height={15} /></div>
+                  <div className="tgl_member"><Skeleton width={150} height={15} /></div>
+                </div>
+                </div>
+              </div>
             ))}
           </div>
         ) : (
@@ -126,15 +145,21 @@ const Member: React.FC = () => {
               <div className="padding-lr-20 listMember">
                 {filteredData.map((item, index) => (
                   <div key={index} className="member-item">
-                    <div className='member-detail'>
-                      <div className='user_icon'>
-                        <img src={profilIcon} alt='user icon'/>
+                    <div className="member-detail">
+                      <div className="user_icon">
+                        <img src={profilIcon} alt="user icon" />
                       </div>
-                      <div className='user_detail'>
-                        <div className='nama_member'>{item.nama}</div>
-                        <div className='hp_member'>{item.no_hp}</div>
-                        <div className='kabupaten'>{item.kabupaten.nama}</div>
-                        <div className='tgl_member'>Bergabung: {new Date(item.tgl_member).toLocaleDateString('id-ID', { day: '2-digit', month: 'short', year: 'numeric' })}</div>
+                      <div className="user_detail">
+                        <div className="nama_member">{item.nama}</div>
+                        <div className="hp_member">{item.no_hp}</div>
+                        <div className="kabupaten">{item.kabupaten.nama}</div>
+                        <div className="tgl_member">
+                          Bergabung:{' '}
+                          {new Date(item.tgl_member).toLocaleDateString(
+                            'id-ID',
+                            { day: '2-digit', month: 'short', year: 'numeric' }
+                          )}
+                        </div>
                       </div>
                     </div>
                   </div>

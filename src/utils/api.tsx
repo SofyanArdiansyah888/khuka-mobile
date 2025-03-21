@@ -25,5 +25,17 @@ export const fetchRiwayat = async (userId: number | string) => {
   }
 };
 
+// Fetch paginated list of members
+export const fetchListMember = async (userId: number | string, page: number = 1) => {
+  try {
+    const response = await api.get(`/list-member/${userId}?page=${page}`);
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching list member data:', error);
+    throw error;
+  }
+};
+
+
 
 

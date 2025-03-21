@@ -1,0 +1,72 @@
+.no-member {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 70vh;
+  flex-direction: column;
+}
+.title_no_member {
+  font-size: 18px;
+  color: #707070;
+}
+.addMember {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 77%;
+  background: rgba(209, 159, 35, 0.3);
+  border-radius: 5px;
+  padding: 20px;
+  box-shadow: 5px 5px 4px 1px #d19f2370;
+}
+.plus_icon {
+  background: #d19f23;
+  border-radius: 100px;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 20px;
+}
+.tambah {
+  color: #d19f23;
+  margin-top: 5px;
+  font-weight: 600;
+  font-size: 14px;
+}
+.listMember{
+    margin-top:50px
+}
+.member-item{
+    border:1px solid #eaeaea;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    padding:15px
+}
+.member-detail,.user_detail{
+    display: flex;
+    gap:10px
+}
+.user_detail{
+    flex-direction: column;
+    gap:2px;
+}
+.user_detail > div{
+    color:#707070;
+    font-size:12px
+}
+.nama_member{
+    color:#000 !important;
+    font-size:14px !important;
+    font-weight: 600;
+}
+.bn-btn{
+    text-align:center
+}
+.search-container {
+  margin-top: 10px;
+}
+
+

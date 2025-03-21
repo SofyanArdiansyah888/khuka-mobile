@@ -60,7 +60,7 @@ const RequestRedeemScreen: React.FC = () => {
             <IonContent fullscreen className="daftar_page">
                 <div className="header-with-back padding-lr-20 no-default-header">
                     <div className="history-back non-absolute" onClick={() => history.goBack()}></div>
-                    <h4 className="header_title">Request Redeem</h4>
+                    <h4 className="header_title">Request Redeem Cashback</h4>
                 </div>
                 <div className="padding-lr-20">
                     <form className="daftar_form" onSubmit={handleUpdate} autoComplete="off">

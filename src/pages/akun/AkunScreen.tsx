@@ -9,6 +9,10 @@ import privacyIcon from '../../assets/privacy.svg';
 import logOutIcon from '../../assets/logout.svg';
 import chatIcon from '../../assets/hubungi.svg';
 import leftArrow from '../../assets/chevron-left.svg';
+import cashback from "../../assets/cashback.svg";
+import addMemberIcon from "../../assets/addmember.svg";
+import membersIcon from "../../assets/members.svg";
+import riwayatIcon from '../../assets/riwayat.svg';
 import './Akun.css';
 import HeaderPoint from "../../components/HeaderPoint";
 import useAuth from '../../common/hooks/useAuth';
@@ -41,6 +45,12 @@ const AkunScreen: React.FC = () => {
   const profil = () => {
     history.push('/akun/profil');
   };
+  const handleSendWhatsApp = () => {
+    const message = `Halo Khukha`;
+    const phoneNumber = '+6282292878275';
+    const url = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+    window.open(url, '_blank');
+  };
   function ubahPasswordClick(){
     history.push('/akun/ubah-password');
   }
@@ -56,9 +66,15 @@ const AkunScreen: React.FC = () => {
     {
       title: 'Member',
       items: [
-        ...(userLevel !== 'Konsumen' ? [{ icon: profilIcon, label: 'Daftarkan Member', onClick: daftarMember }] : []),
-        ...(userLevel !== 'Konsumen' ? [{ icon: passIcon, label: 'List Member Anda',onClick: () =>    history.push('/akun/list-member') }] : []),
-        { icon: passIcon, label: 'Request Redeem Cashback', onClick: () =>    history.push('/akun/request-redeem') },
+        ...(userLevel !== 'Konsumen' ? [{ icon: addMemberIcon, label: 'Daftarkan Member', onClick: daftarMember }] : []),
+        ...(userLevel !== 'Konsumen' ? [{ icon: membersIcon, label: 'List Member Anda',onClick: () =>    history.push('/akun/list-member') }] : []),
+      ],
+    },
+    {
+      title: 'Redeem',
+      items: [      
+        { icon: cashback, label: 'Request Redeem Cashback', onClick: () =>    history.push('/akun/request-redeem') },
+        { icon: riwayatIcon, label: 'Riwayat Redeem',  onClick: null },
       ],
     },
     {
@@ -66,7 +82,7 @@ const AkunScreen: React.FC = () => {
       items: [
         { icon: termIcon, label: 'Syarat dan ketentuan', onClick: null },
         { icon: privacyIcon, label: 'Kebijakan Privacy', onClick: null },
-        { icon: chatIcon, label: 'Hubungi Kami', onClick: null },
+        { icon: chatIcon, label: 'Hubungi Kami', onClick: handleSendWhatsApp },
         { icon: logOutIcon, label: 'Logout', onClick: handleLogout },
       ],
     },

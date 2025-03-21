@@ -117,11 +117,17 @@ const ProdukDetailFooter: React.FC<ProdukDetailFooterProps> = ({
             setQuantity((prev) => prev - 1);
         }
     };
+    const handleSendWhatsApp = () => {
+        const message = `Halo Khukha`;
+        const phoneNumber = '+6282292878275';
+        const url = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+        window.open(url, '_blank');
+      };
 
     return (
         <div className="footer footer-detail">
             <div className="footer-detail-wrap">
-                <div className="call-center">
+                <div className="call-center" onClick={handleSendWhatsApp}>
                     <div>
                         <img src={callcenter} alt="Home"/>
                     </div>

@@ -54,6 +54,15 @@ const AkunScreen: React.FC = () => {
   function ubahPasswordClick(){
     history.push('/akun/ubah-password');
   }
+  const handleOpenTerms = () => {
+    const url = "https://khukhaberkah.com/syarat-ketentuan/";
+    window.open(url, "_blank");
+  };
+  const handleOpenPrivacy = () => {
+    const url = "https://khukhaberkah.com/kebijakan-privasi/";
+    window.open(url, "_blank");
+  };
+  
  
   const sections = [
     {
@@ -80,8 +89,8 @@ const AkunScreen: React.FC = () => {
     {
       title: 'Tentang KHU-KHA',
       items: [
-        { icon: termIcon, label: 'Syarat dan ketentuan', onClick: null },
-        { icon: privacyIcon, label: 'Kebijakan Privacy', onClick: null },
+        { icon: termIcon, label: 'Syarat dan ketentuan', onClick: handleOpenTerms },
+        { icon: privacyIcon, label: 'Kebijakan Privacy', onClick: handleOpenPrivacy },
         { icon: chatIcon, label: 'Hubungi Kami', onClick: handleSendWhatsApp },
         { icon: logOutIcon, label: 'Logout', onClick: handleLogout },
       ],

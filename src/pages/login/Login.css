@@ -7,6 +7,9 @@
   align-items: center;
   justify-content: center;
 }
+.login-headerx{
+  margin-top:50px
+}
 .background-video{
   position: absolute;
     top: 0;
@@ -20,8 +23,9 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
   height: 90vh;
+  text-align: center;
 }
 .login_form {
   width: 80%;

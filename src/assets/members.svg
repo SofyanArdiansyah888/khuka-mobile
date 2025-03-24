@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="22.867" viewBox="0 0 24 22.867">
+    <defs>
+        <style>
+            .a { fill: #a3a3a3; }
+            .b { fill: #ebebeb; }
+        </style>
+    </defs>
+    <g transform="translate(0.01 0)">
+        <g transform="translate(-0.01 0)">
+            <!-- Left Person -->
+            <circle class="b" cx="5" cy="7" r="4"/>
+            <path class="a" d="M1 20c0-3 2.5-4.5 5-4.5s5 1.5 5 4.5H1z"/>
+            
+            <!-- Center Person (Main) -->
+            <circle class="b" cx="12" cy="6" r="4"/>
+            <path class="a" d="M6 21c0-3.5 3.5-5 6-5s6 1.5 6 5H6z"/>
+
+            <!-- Right Person -->
+            <circle class="b" cx="19" cy="7" r="4"/>
+            <path class="a" d="M14 20c0-3 2.5-4.5 5-4.5s5 1.5 5 4.5H14z"/>
+        </g>
+    </g>
+</svg>

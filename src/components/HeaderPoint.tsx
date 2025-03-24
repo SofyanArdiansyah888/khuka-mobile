@@ -8,9 +8,10 @@ import {calculateMemberDuration} from "../utils/calculateDuration";
 
 type HeaderPointType = {
     ukuran?: 'besar' | 'kecil',
-    content?: ReactNode
+    content?: ReactNode,
+    onDataReceived?: (poin: number, cashback: number) => void; 
 }
-export default function HeaderPoint({ukuran = 'kecil',content}: HeaderPointType) {
+export default function HeaderPoint({ukuran = 'kecil',content, onDataReceived}: HeaderPointType) {
     const {getUser} = useAuth()
     const [user, setUser] = useState<any>(null)
     const [memberDuration, setMemberDuration] = useState<string>('');
@@ -21,6 +22,10 @@ export default function HeaderPoint({ukuran = 'kecil',content}: HeaderPointType)
             setUser(tempUser)
             const storedPoinCashback = await fetchPoin(tempUser.id);
             setPoinCashback(storedPoinCashback.data);
+            
+            if (onDataReceived) {
+                onDataReceived(storedPoinCashback.data.total_poin, storedPoinCashback.data.total_cashback);
+            }
             if (tempUser?.tgl_member) {
                 const durationText = calculateMemberDuration(tempUser?.tgl_member);
                 setMemberDuration(durationText);

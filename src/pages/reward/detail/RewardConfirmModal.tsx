@@ -7,10 +7,16 @@ import {usePost} from "../../../common/hooks/useApi";
 import {handleErrorResponse} from "../../../utils/utils";
 import useAuth from "../../../common/hooks/useAuth";
 
-export default function RewardConfirmModal({confirmModal, setConfirmModal,setCongratsModal}: {
-    confirmModal: boolean,
-    setConfirmModal: Dispatch<SetStateAction<boolean>>,
-    setCongratsModal: Dispatch<SetStateAction<boolean>>,
+export default function RewardConfirmModal({
+    confirmModal,
+    setConfirmModal,
+    setCongratsModal,
+    poin
+}: {
+    confirmModal: boolean;
+    setConfirmModal: Dispatch<SetStateAction<boolean>>;
+    setCongratsModal: Dispatch<SetStateAction<boolean>>;
+    poin: number;
 }) {
     const location = useLocation<{ reward: Reward }>();
     const reward = location.state?.reward;
@@ -65,7 +71,7 @@ export default function RewardConfirmModal({confirmModal, setConfirmModal,setCon
                     </div>
                     <div className="reward-confirmation__detail">
                         <span>Poin yang dimiliki</span>
-                        <strong>600 Poin</strong>
+                        <strong>{poin} Poin</strong>
                     </div>
                 </div>
 

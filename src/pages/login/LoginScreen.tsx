@@ -64,11 +64,13 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
       </video>
 
       <div className="login-container">
+        <div className='login-headerx'>
         <img src={logo} alt="App Logo" className="logo" />
         <h1 className="login_title">
-          Login & <br />
-          Mulai Belanja.
+          Login & Mulai Belanja.
         </h1>
+        </div>
+        
         {error && (
           <p
             style={{
@@ -81,6 +83,7 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
             {error}
           </p>
         )}
+        
         <form className="login_form" onSubmit={handleLogin}>
           <div className="form-item">
             <input

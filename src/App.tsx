@@ -36,6 +36,8 @@ import '@ionic/react/css/flex-utils.css';
 import '@ionic/react/css/display.css';
 import './theme/variables.css';
 import UbahPasswordPage from "./pages/akun/ubah-password/UbahPassword";
+import RequestRedeemScreen from "./pages/akun/RequestRedeemScreen";
+import MemberScreen from "./pages/akun/member/Member";
 
 setupIonicReact();
 
@@ -101,6 +103,12 @@ const App: React.FC = () => {
               </PrivateRoute>
               <PrivateRoute isAuthenticated={isAuthenticated} exact path="/akun/daftar-member">
                 <DaftarMember />
+              </PrivateRoute>
+              <PrivateRoute isAuthenticated={isAuthenticated} exact path="/akun/request-redeem">
+                <RequestRedeemScreen />
+              </PrivateRoute>
+              <PrivateRoute isAuthenticated={isAuthenticated} exact path="/akun/list-member">
+                <MemberScreen />
               </PrivateRoute>
               <PrivateRoute isAuthenticated={isAuthenticated} exact path="/akun/ubah-password"><UbahPasswordPage /></PrivateRoute>
               <PrivateRoute isAuthenticated={isAuthenticated} exact path="/akun/profil"><Profil /></PrivateRoute>

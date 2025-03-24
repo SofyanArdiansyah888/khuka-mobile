@@ -56,7 +56,7 @@ const RiwayatScreen: React.FC = () => {
         waktu_akhir_pembayaran: item.waktu_akhir_pembayaran,
       });
     } else if (item.status_penjualan === 'Terbayar') {
-      history.push('/detailriwayat', { riwayatData: item });
+      history.push('/detail-riwayat', { riwayatData: item });
     }
   };
 

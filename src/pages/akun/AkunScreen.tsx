@@ -75,15 +75,15 @@ const AkunScreen: React.FC = () => {
     {
       title: 'Member',
       items: [
-        ...(userLevel !== 'Konsumen' ? [{ icon: addMemberIcon, label: 'Daftarkan Member', onClick: daftarMember }] : []),
-        ...(userLevel !== 'Konsumen' ? [{ icon: membersIcon, label: 'List Member Anda',onClick: () =>    history.push('/akun/list-member') }] : []),
+       { icon: addMemberIcon, label: 'Daftarkan Member', onClick: daftarMember },
+       { icon: membersIcon, label: 'List Member Anda',onClick: () =>    history.push('/akun/list-member') }
       ],
     },
     {
       title: 'Redeem',
       items: [      
         { icon: cashback, label: 'Request Redeem Cashback', onClick: () =>    history.push('/akun/request-redeem') },
-        { icon: riwayatIcon, label: 'Riwayat Redeem',  onClick: null },
+        // { icon: riwayatIcon, label: 'Riwayat Redeem',  onClick: () =>    history.push('/akun/riwayat-redeem') },
       ],
     },
     {

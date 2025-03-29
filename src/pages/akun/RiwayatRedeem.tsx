@@ -9,9 +9,8 @@ import logo from '../../assets/logo-khukha.png';
 import useAuth from '../../common/hooks/useAuth';
 import shoppingIcon from '../../assets/shopping-bag.svg';
 import 'react-loading-skeleton/dist/skeleton.css';
-import './Riwayat.css';
 
-const RiwayatScreen: React.FC = () => {
+const RiwayatRedeem: React.FC = () => {
   const history = useHistory();
   const [riwayatData, setriwayatData] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -66,11 +65,13 @@ const RiwayatScreen: React.FC = () => {
       <IonRefresher slot="fixed" onIonRefresh={handleRefresh}>
           <IonRefresherContent />
         </IonRefresher>
-        <div className="keranjang-header padding-lr-20 no-default-header">
-          <h4 className="header_title">Pesanan Saya</h4>
-          <p className="header_subtitle">
-            Kumpulkan poin dan tukarkan dengan uang tunai
-          </p>
+        <div className="keranjang-header padding-lr-20 no-default-header header-with-back">
+        <div
+            className="history-back non-absolute"
+            onClick={() => history.goBack()}
+          ></div>
+          <h4 className="header_title">Riwayat Penukaran Poin & Cashback</h4>
+          
         </div>
 
         <div className="riwayat-tabs">
@@ -157,9 +158,6 @@ const RiwayatScreen: React.FC = () => {
                   </div>
                   <div className="riwayat_header_title riwayat_item">
                     <div className="riwayat_ambil_title">
-                      {item.nomor_penjualan}
-                    </div>
-                    <div className="riwayat_tgl_transaksi" style={{marginTop:'2px',marginBottom:'2px'}}>
                       {item.pengambilan.nama_tempat}
                     </div>
                     <div className="riwayat_tgl_transaksi">
@@ -250,4 +248,4 @@ const RiwayatScreen: React.FC = () => {
   );
 };
 
-export default RiwayatScreen;
+export default RiwayatRedeem;

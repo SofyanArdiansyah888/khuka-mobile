@@ -12,7 +12,7 @@ export function handleErrorResponse(err: any){
     } else if (err.response?.data?.message) {
         Swal.fire({
             icon: 'error',
-            title: 'Error',
+            title: 'Maaf',
             text: err.response.data.message,
         });
     } else {

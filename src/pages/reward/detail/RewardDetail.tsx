@@ -15,6 +15,7 @@ const RewardDetail: React.FC = () => {
     const location = useLocation<{ reward: Reward; poin: number; }>();
     const reward = location.state?.reward;
     const poin = location.state?.poin ?? 0;
+    const [nilaiUang, setNilaiUang] = useState<string>('');
     return (
         <IonPage>
             <IonContent fullscreen>
@@ -72,11 +73,13 @@ const RewardDetail: React.FC = () => {
                     confirmModal={confirmModal}
                     setConfirmModal={setConfirmModal}
                     setCongratsModal={setCongratsModal}
+                    setNilaiUang={setNilaiUang} 
                     poin ={poin}
                 />
                 <RewardCongratsModal
                     congratsModal={congratsModal}
                     setCongratsModal={setCongratsModal}
+                    nilaiUang={nilaiUang} 
                 />
             </IonFooter>
         </IonPage>

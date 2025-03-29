@@ -11,11 +11,13 @@ export default function RewardConfirmModal({
     confirmModal,
     setConfirmModal,
     setCongratsModal,
-    poin
+    setNilaiUang,
+    poin,
 }: {
     confirmModal: boolean;
     setConfirmModal: Dispatch<SetStateAction<boolean>>;
     setCongratsModal: Dispatch<SetStateAction<boolean>>;
+    setNilaiUang: Dispatch<SetStateAction<string | ''>>
     poin: number;
 }) {
     const location = useLocation<{ reward: Reward }>();
@@ -26,8 +28,9 @@ export default function RewardConfirmModal({
         name: 'request-redeem',
         endpoint: '/request-redeem',
         onSuccess: async () => {
-            setCongratsModal(true)
-            setConfirmModal(false)
+            setNilaiUang(reward?.nilai_uang || "Rp.0,-");
+            setCongratsModal(true);
+            setConfirmModal(false);
         },
         onError: handleErrorResponse
     });
@@ -42,55 +45,55 @@ export default function RewardConfirmModal({
             jumlah_cashback: reward.nilai_uang,
         })
     }
-    return <IonModal
-        isOpen={confirmModal}
-        initialBreakpoint={0.6}
-        breakpoints={[0, 0.25, 0.5, 0.75]}
-        handleBehavior="cycle"
-        className={"reward-modal"}
-    >
-        <IonContent className="ion-padding">
-            <div className="reward-confirmation">
-                <div className="reward-confirmation__icon_wrapper">
-                    <img src={questionIcon} className={'reward-confirmation__icon'}/>
-                </div>
-                <div className="reward-confirmation__wrapper">
-                    <p className="reward-confirmation__title">
-                        Apakah kamu yakin ingin menukar reward ini?
-                    </p>
-                </div>
-
-
-                <div className="reward-confirmation__details">
-                    <div className="reward-confirmation__header">
-                        <span>{reward?.reward}</span>
+    return (
+        <IonModal
+            isOpen={confirmModal}
+            initialBreakpoint={0.6}
+            breakpoints={[0, 0.25, 0.5, 0.75]}
+            handleBehavior="cycle"
+            className={"reward-modal"}
+        >
+            <IonContent className="ion-padding">
+                <div className="reward-confirmation">
+                    <div className="reward-confirmation__icon_wrapper">
+                        <img src={questionIcon} className={'reward-confirmation__icon'}/>
                     </div>
-                    <div className="reward-confirmation__detail">
-                        <span>Poin</span>
-                        <strong>{reward?.poin} Poin</strong>
+                    <div className="reward-confirmation__wrapper">
+                        <p className="reward-confirmation__title">
+                            Apakah kamu yakin ingin menukar reward ini?
+                        </p>
                     </div>
-                    <div className="reward-confirmation__detail">
-                        <span>Poin yang dimiliki</span>
-                        <strong>{poin} Poin</strong>
+
+                    <div className="reward-confirmation__details">
+                        <div className="reward-confirmation__header">
+                            <span>{reward?.reward}</span>
+                        </div>
+                        <div className="reward-confirmation__detail">
+                            <span>Poin</span>
+                            <strong>{reward?.poin} Poin</strong>
+                        </div>
+                        <div className="reward-confirmation__detail">
+                            <span>Poin yang dimiliki</span>
+                            <strong>{poin} Poin</strong>
+                        </div>
+                    </div>
+
+                    <div className="reward-confirmation__actions">
+                        <button
+                            className="reward-confirmation__button reward-confirmation__button--confirm"
+                            onClick={handleTukarSekarang}
+                            disabled={isPending}
+                        >
+                            {isPending ? "Loading..." : "Tukar Sekarang"}
+                        </button>
+                        <button
+                            className="reward-confirmation__button reward-confirmation__button--cancel"
+                            onClick={() => setConfirmModal(false)}
+                        >Batal
+                        </button>
                     </div>
                 </div>
-
-                <div className="reward-confirmation__actions">
-                    <button
-                        className="reward-confirmation__button reward-confirmation__button--confirm"
-                        onClick={handleTukarSekarang}
-                        disabled={isPending}
-                    >
-                        {isPending ? "Loading..." : "Tukar Sekarang"}
-                    </button>
-                    <button
-                        className="reward-confirmation__button reward-confirmation__button--cancel"
-                        onClick={() => setConfirmModal(false)}
-                    >Batal
-                    </button>
-                </div>
-            </div>
-
-        </IonContent>
-    </IonModal>
+            </IonContent>
+        </IonModal>
+    )
 }

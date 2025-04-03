@@ -96,7 +96,7 @@ const [cashback, setCashback] = React.useState(0);
                                         <div className="poin-wrap">
                                             <div className="poin-item">
                                                 <div className="poin">
-                                                    {new Intl.NumberFormat('id-ID').format(Number(item.poin))}
+                                                    {new Intl.NumberFormat('id-ID').format(Number(item.poin))} poin
                                                 </div>
                                                 <div className="poin-arrow">
                                                     <img src={iconright} alt="arrow right"/>

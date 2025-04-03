@@ -80,10 +80,10 @@ const AkunScreen: React.FC = () => {
       ],
     },
     {
-      title: 'Redeem',
+      title: 'Penukaran',
       items: [      
-        { icon: cashback, label: 'Request Redeem Cashback', onClick: () =>    history.push('/akun/request-redeem') },
-        // { icon: riwayatIcon, label: 'Riwayat Redeem',  onClick: () =>    history.push('/akun/riwayat-redeem') },
+        { icon: cashback, label: 'Request Penukaran Cashback', onClick: () =>    history.push('/akun/request-redeem') },
+        { icon: riwayatIcon, label: 'Riwayat Penukaran',  onClick: () =>    history.push('/akun/riwayat-redeem') },
       ],
     },
     {

@@ -9,6 +9,7 @@ import { CartProvider } from './components/CartContext'; // Import CartProvider
 
 import HomeScreen from './pages/home/HomeScreen';
 import LoginScreen from './pages/login/LoginScreen';
+import ForgotScreen from './pages/login/Forgot';
 import ProdukScreen from './pages/produk/ProdukScreen';
 import ProdukDetail from './pages/produk-detail/ProdukDetailScreen';
 import PromoDetail from './pages/promo-detail/PromoDetailScreen';
@@ -65,6 +66,9 @@ const App: React.FC = () => {
             {/* Public Route: Login */}
             <Route exact path="/login">
               <LoginScreen onLogin={handleLogin} />
+            </Route>
+            <Route exact path="/forgot-password">
+              <ForgotScreen/>
             </Route>
 
             {/* Layout wraps the protected routes */}

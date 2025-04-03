@@ -94,7 +94,7 @@ const Forgot: React.FC = () => {
       <div className="header-with-back no-default-header">
         <div className="history-back non-absolute" onClick={historyBack}></div>
       </div>
-      <div className="login-container" style={{justifyContent:'center'}}>
+      <div className="login-container" style={{justifyContent:'center',height:'75vh'}}>
         {error && (
           <p style={{ background: 'rgb(205 21 21 / 60%)', textAlign: 'center', padding: '10px 20px', color: '#fff' }}>
             {error}

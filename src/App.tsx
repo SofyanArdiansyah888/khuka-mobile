@@ -9,6 +9,7 @@ import { CartProvider } from './components/CartContext'; // Import CartProvider
 
 import HomeScreen from './pages/home/HomeScreen';
 import LoginScreen from './pages/login/LoginScreen';
+import ForgotScreen from './pages/login/Forgot';
 import ProdukScreen from './pages/produk/ProdukScreen';
 import ProdukDetail from './pages/produk-detail/ProdukDetailScreen';
 import PromoDetail from './pages/promo-detail/PromoDetailScreen';
@@ -18,10 +19,16 @@ import RiwayatDetail from './pages/riwayat/riwayat-detail/RiwayatDetail';
 import RewardScreen from './pages/reward/RewardScreen';
 import RewardDetail from './pages/reward/detail/RewardDetail';
 import AkunScreen from './pages/akun/AkunScreen';
-import Checkout from './pages/checkout/Checkout';
-import Pembayaran from './pages/checkout/Pembayaran';
+import UbahPasswordPage from "./pages/akun/ubah-password/UbahPassword";
+import RequestRedeemScreen from "./pages/akun/RequestRedeemScreen";
+import MemberScreen from "./pages/akun/member/Member";
+import DetailMemberScreen from "./pages/akun/member/Detail-Member";
+import RiwayatRedeem from './pages/akun/RiwayatRedeem';
 import DaftarMember from './pages/akun/daftar-member/Daftar';
 import Profil from './pages/akun/profil/Profil';
+import Checkout from './pages/checkout/Checkout';
+import Pembayaran from './pages/checkout/Pembayaran';
+
 import Layout from './components/Layout';
 
 import '@ionic/react/css/core.css';
@@ -35,9 +42,7 @@ import '@ionic/react/css/text-transformation.css';
 import '@ionic/react/css/flex-utils.css';
 import '@ionic/react/css/display.css';
 import './theme/variables.css';
-import UbahPasswordPage from "./pages/akun/ubah-password/UbahPassword";
-import RequestRedeemScreen from "./pages/akun/RequestRedeemScreen";
-import MemberScreen from "./pages/akun/member/Member";
+
 
 setupIonicReact();
 
@@ -61,6 +66,9 @@ const App: React.FC = () => {
             {/* Public Route: Login */}
             <Route exact path="/login">
               <LoginScreen onLogin={handleLogin} />
+            </Route>
+            <Route exact path="/forgot-password">
+              <ForgotScreen/>
             </Route>
 
             {/* Layout wraps the protected routes */}
@@ -107,8 +115,14 @@ const App: React.FC = () => {
               <PrivateRoute isAuthenticated={isAuthenticated} exact path="/akun/request-redeem">
                 <RequestRedeemScreen />
               </PrivateRoute>
+              <PrivateRoute isAuthenticated={isAuthenticated} exact path="/akun/riwayat-redeem">
+                <RiwayatRedeem />
+              </PrivateRoute>
               <PrivateRoute isAuthenticated={isAuthenticated} exact path="/akun/list-member">
                 <MemberScreen />
+              </PrivateRoute>
+              <PrivateRoute isAuthenticated={isAuthenticated} exact path="/akun/list-member/detail-member">
+                <DetailMemberScreen />
               </PrivateRoute>
               <PrivateRoute isAuthenticated={isAuthenticated} exact path="/akun/ubah-password"><UbahPasswordPage /></PrivateRoute>
               <PrivateRoute isAuthenticated={isAuthenticated} exact path="/akun/profil"><Profil /></PrivateRoute>

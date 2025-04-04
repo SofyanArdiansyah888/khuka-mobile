@@ -8,6 +8,9 @@
 .title_no_member {
   font-size: 18px;
   color: #707070;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .addMember {
   display: flex;
@@ -36,37 +39,105 @@
   font-weight: 600;
   font-size: 14px;
 }
-.listMember{
-    margin-top:50px
+.listMember {
+  margin-top: 50px;
 }
-.member-item{
-    border:1px solid #eaeaea;
-    border-radius: 10px;
-    margin-bottom: 15px;
-    padding:15px
+.listMember.listPembelian {
+  margin-top: 0;
 }
-.member-detail,.user_detail{
-    display: flex;
-    gap:10px
+.member-item {
+  border: 1px solid #eaeaea;
+  border-radius: 10px;
+  margin-bottom: 15px;
+  padding: 15px;
 }
-.user_detail{
-    flex-direction: column;
-    gap:2px;
+.member-detail,
+.user_detail {
+  display: flex;
+  gap: 10px;
 }
-.user_detail > div{
-    color:#707070;
-    font-size:12px
+.user_detail {
+  flex-direction: column;
+  gap: 2px;
 }
-.nama_member{
-    color:#000 !important;
-    font-size:14px !important;
-    font-weight: 600;
+.user_detail > div {
+  color: #707070;
+  font-size: 12px;
 }
-.bn-btn{
-    text-align:center
+.nama_member {
+  color: #000 !important;
+  font-size: 14px !important;
+  font-weight: 600;
+}
+.bn-btn {
+  text-align: center;
 }
 .search-container {
   margin-top: 10px;
 }
 
+.detailx {
+  justify-content: space-between;
+  align-items: center;
+}
+.pembelian_status {
+  border-radius: 5px;
+  padding: 5px;
+  font-size: 10px;
+}
+.pembelian_status.kadaluarsa {
+  background: #f8cece;
+  color: #ea6565;
+}
+.pembelian_status.terbayar {
+  background: #ceffe6;
+  color: #1dbf6e;
+}
+.pembelian_status.order {
+  background: #ffecbe;
+  color: #d19f23;
+}
+.riwayatbeli {
+  font-size: 18px;
+  font-weight: 700;
+}
+.history_title p {
+  margin: 0;
+  margin-bottom: 3px;
+  font-size:14px
+}
+.pagination-container {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  margin-top: 20px;
+  margin-bottom: 50px;
+}
 
+.pagination-container button {
+  padding: 5px 10px;
+  border: none;
+  border-radius: 5px;
+  background-color: #f0f0f0;
+  cursor: pointer;
+}
+
+.pagination-container button.active {
+  background-color: #4caf50;
+  color: #ffffff;
+}
+
+.pagination-container button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+.total_pembelian {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  margin-bottom: 10px;
+}
+.total_pembelian p {
+  margin: 0 0 5px 0;
+  color: #707070;
+  font-size: 12px;
+}

@@ -58,10 +58,10 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
   return (
     <div className="login-content">
       {/* Video Background */}
-      <video autoPlay muted loop className="background-video">
+      {/* <video autoPlay muted loop className="background-video">
         <source src={khukhaVideo} type="video/mp4" />
         Your browser does not support the video tag.
-      </video>
+      </video> */}
 
       <div className="login-container">
         <div className='login-headerx'>

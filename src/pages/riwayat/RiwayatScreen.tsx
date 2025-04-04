@@ -157,6 +157,9 @@ const RiwayatScreen: React.FC = () => {
                   </div>
                   <div className="riwayat_header_title riwayat_item">
                     <div className="riwayat_ambil_title">
+                      {item.nomor_penjualan}
+                    </div>
+                    <div className="riwayat_tgl_transaksi" style={{marginTop:'2px',marginBottom:'2px'}}>
                       {item.pengambilan.nama_tempat}
                     </div>
                     <div className="riwayat_tgl_transaksi">

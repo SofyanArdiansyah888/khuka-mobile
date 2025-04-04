@@ -81,9 +81,7 @@ const Member: React.FC = () => {
     await fetchUserData(nextPage);
   };
 
-  const daftarMember = () => {
-    history.push('/akun/daftar-member');
-  };
+
 
   return (
     <IonPage>
@@ -144,13 +142,23 @@ const Member: React.FC = () => {
             {filteredData.length > 0 ? (
               <div className="padding-lr-20 listMember">
                 {filteredData.map((item, index) => (
-                  <div key={index} className="member-item">
+                  <div
+                  key={index}
+                  className="member-item"
+                  onClick={() =>
+                    history.push('/akun/list-member/detail-member', {
+                      id: item.id,
+                      nama: item.nama,
+                      pembelian: item.pembelian,
+                    })
+                  }
+                >
                     <div className="member-detail">
                       <div className="user_icon">
                         <img src={profilIcon} alt="user icon" />
                       </div>
                       <div className="user_detail">
-                        <div className="nama_member">{item.nama}</div>
+                        <div className="nama_member">{item.nama} ({item.member_level})</div>
                         <div className="hp_member">{item.no_hp}</div>
                         <div className="kabupaten">{item.kabupaten.nama}</div>
                         <div className="tgl_member">

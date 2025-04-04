@@ -1,9 +1,11 @@
 import {IonContent, IonModal} from "@ionic/react";
 import React, {Dispatch, SetStateAction, useRef} from "react";
 
-export default function RewardCongratsModal({congratsModal, setCongratsModal}: {
+export default function RewardCongratsModal({congratsModal, setCongratsModal,nilaiUang}: {
     congratsModal: boolean,
-    setCongratsModal: Dispatch<SetStateAction<boolean>>
+    setCongratsModal: Dispatch<SetStateAction<boolean>>,
+    nilaiUang: string
+    
 }) {
     return <IonModal
         isOpen={congratsModal}
@@ -34,7 +36,7 @@ export default function RewardCongratsModal({congratsModal, setCongratsModal}: {
                     <h2 className="congrats__title">Selamat!</h2>
                     <p className="congrats__text">
                         Penukaran poin kamu untuk <br/>
-                        <strong>Uang Tunai Sebesar Rp875.000</strong> <br/>
+                        <strong>Uang Tunai Sebesar {nilaiUang}</strong> <br/>
                         akan segera diproses
                     </p>
                     <p className="congrats__text congrats__text--small">
